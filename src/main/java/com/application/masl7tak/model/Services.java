@@ -45,6 +45,8 @@ public class Services implements Serializable {
     private double  visit_num;
     @Column(name=" max_usage")
     private int  max_usage;
+    @Column(name="schedule_mode")
+    private int  schedule_mode;
 
 
 

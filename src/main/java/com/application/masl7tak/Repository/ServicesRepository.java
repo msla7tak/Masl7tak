@@ -25,7 +25,7 @@ public interface ServicesRepository extends JpaRepository<Services, Long> {
 
     @Query("SELECT  new com.application.masl7tak.dto.ServicesDTO(S.id, S.discountValue,S.images, S.creationDate, S.validUntil, S.rate, S.category.id, " +
             "S.carModel, S.carBrand, S.business.id, B.name, S.quantity, C.name, S.is_available, P.id, P.name, P.description, P.price, P.image, " +
-            " B.email, B.status, B.subscriptionType, B.description, B.logo, B.start_discount_val,count(R.id),S.readme_num,S.max_usage,B.working_days) " +
+            " B.email, B.status, B.subscriptionType, B.description, B.logo, B.start_discount_val,count(R.id),S.readme_num,S.max_usage,B.working_days,S.schedule_mode) " +
             " FROM Services S " +
             "JOIN S.products P " +
             "JOIN S.business B " +
@@ -40,7 +40,7 @@ public interface ServicesRepository extends JpaRepository<Services, Long> {
             "S.carModel, S.carBrand, S.business.id, B.name, S.quantity, " +
             " C.name, S.is_available, " +
             " P.id, P.name, P.description, P.price, P.image,  B.email, B.status, B.subscriptionType," +
-            " B.description,B.logo , B.start_discount_val,count(R.comment),S.readme_num,S.max_usage,B.working_days)" +
+            " B.description,B.logo , B.start_discount_val,count(R.comment),S.readme_num,S.max_usage,B.working_days,S.schedule_mode)" +
             " FROM Services S JOIN " +
             "S.products P " +
             "JOIN S.business B " +
@@ -53,7 +53,7 @@ public interface ServicesRepository extends JpaRepository<Services, Long> {
             " S.carModel, S.carBrand,S.business.id, B.name, S.quantity, " +
             " C.name, S.is_available, " +
             " P.id, P.name, P.description, P.price, P.image,  B.email, B.status, B.subscriptionType," +
-            " B.description,  B.logo , B.start_discount_val,count(R.comment),S.readme_num,S.max_usage,B.working_days)" +
+            " B.description,  B.logo , B.start_discount_val,count(R.comment),S.readme_num,S.max_usage,B.working_days,S.schedule_mode)" +
             " FROM Services S " +
             "JOIN S.products P " +
             "JOIN S.business B " +
@@ -67,7 +67,7 @@ public interface ServicesRepository extends JpaRepository<Services, Long> {
 
     @Query("SELECT DISTINCT new com.application.masl7tak.dto.ServicesDTO(S.id, S.discountValue,S.images, S.creationDate, S.validUntil, S.rate, S.category.id, " +
             "S.carModel, S.carBrand, S.business.id, B.name, S.quantity, C.name, S.is_available, P.id, P.name, P.description, P.price, P.image, " +
-            " B.email, B.status, B.subscriptionType, B.description, B.logo, B.start_discount_val,count(R.comment),S.readme_num,S.max_usage ,B.working_days) " +
+            " B.email, B.status, B.subscriptionType, B.description, B.logo, B.start_discount_val,count(R.comment),S.readme_num,S.max_usage ,B.working_days,S.schedule_mode) " +
             "FROM Services S " +
             "JOIN S.products P " +
             "JOIN S.business B " +
@@ -76,6 +76,7 @@ public interface ServicesRepository extends JpaRepository<Services, Long> {
             "JOIN S.business.branches Br " +
             "WHERE (:productId is null OR P.id = :productId) " +
             "AND (:searchKey is null OR P.name  LIKE %:searchKey%) " +
+            "AND (:searchKey is null OR C.name  LIKE %:searchKey%) " +
             "AND (:eventOfferId is null OR S.eventOffers.id = :eventOfferId) " +
             "AND (:businessId is null OR B.id = :businessId) " +
             "AND (:categoryId is null OR C.id = :categoryId) " +
