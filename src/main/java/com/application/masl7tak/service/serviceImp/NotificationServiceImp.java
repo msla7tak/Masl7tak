@@ -1,0 +1,106 @@
+package com.application.masl7tak.service.serviceImp;
+
+import com.application.masl7tak.Repository.NotificationRepository;
+import com.application.masl7tak.Repository.UserRepository;
+import com.application.masl7tak.constents.Constants;
+import com.application.masl7tak.dto.NotificationDTO;
+import com.application.masl7tak.dto.UserDTO;
+import com.application.masl7tak.model.Notification;
+import com.application.masl7tak.service.NotificationService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+
+@Slf4j
+@Service
+@Transactional
+public class NotificationServiceImp implements NotificationService {
+    @Autowired
+   private  NotificationRepository notificationRepository;
+    @Autowired
+   private UserRepository userRepository;
+
+
+
+    @Override
+    public ResponseEntity<List<NotificationDTO>> findAll(Long userId) {
+        try {
+            List<NotificationDTO> notificationDTOList=  notificationRepository.getAllNotification(userId);
+      notificationDTOList.addAll( notificationRepository.getAllNotification(0L));
+            return new ResponseEntity<>(notificationDTOList, HttpStatus.OK);
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+
+        return new ResponseEntity<>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @Override
+    public ResponseEntity<Notification> findById(Long id) {
+        try {
+
+            return new ResponseEntity<Notification>(notificationRepository.findById(id).orElse(null), HttpStatus.OK);
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+
+        return new ResponseEntity<>(new Notification(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @Override
+    public ResponseEntity<Notification> save(Notification notification) {
+        try {
+            LocalDateTime now = LocalDateTime.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            notification.setCreationDate(  formatter.format(now));
+            return new ResponseEntity<>(notificationRepository.save(notification), HttpStatus.OK);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+        return new ResponseEntity<>(new Notification(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        notificationRepository.deleteById(id);
+    }
+
+    @Override
+    public ResponseEntity<Object> create(Notification notification) {
+        try {
+            LocalDateTime now = LocalDateTime.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            notification.setCreationDate(  formatter.format(now));
+          List<UserDTO> userDTOS=  userRepository.AllUsers();
+          List<Notification>notifications= new ArrayList<>();
+            for (UserDTO userDTO:userDTOS) {
+                Notification notifi = new Notification();
+                notifi.setTitle(notification.getTitle());
+                notifi.setStatusReviewed("pending");
+                notifi.setCreationDate( formatter.format(now));
+                notifi.setDescription( notification.getDescription());
+                notifi.setUser_id(userDTO.getId());
+                notifications.add(notifi);
+            }
+            notificationRepository.saveAll(notifications);
+
+            return new ResponseEntity<>(Constants.responseMessage("Done",1007), HttpStatus.OK);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(),1006), HttpStatus.BAD_REQUEST);
+
+        }
+    }
+
+
+}
