@@ -162,7 +162,7 @@ public class BusinessServiceImp implements BusinessService {
             return new ResponseEntity<>(new SuccessDTO(business.getId(), Constants.DATA_Inserted), HttpStatus.OK);
         } catch (Exception exception) {
             exception.printStackTrace();
-            return new ResponseEntity<>(new SuccessDTO(0L, exception.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(Constants.responseMessage( exception.getMessage(),105), HttpStatus.BAD_REQUEST);
         }
     }
 
