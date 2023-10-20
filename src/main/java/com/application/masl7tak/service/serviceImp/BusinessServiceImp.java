@@ -87,6 +87,9 @@ public class BusinessServiceImp implements BusinessService {
                 business.setCategory(businessBranch.getCategory());
                 business.setWorking_days(businessBranch.getWorking_days());
 
+                business.setStatus("active");
+                business.setSubscriptionType("junior");
+
                 business = businessRepository.save(business);
                 if (businessBranch.getBranches() != null)
                     for (Branches branch : businessBranch.getBranches()) {

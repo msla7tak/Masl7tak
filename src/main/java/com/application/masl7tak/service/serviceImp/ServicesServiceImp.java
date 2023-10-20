@@ -246,8 +246,10 @@ public class ServicesServiceImp implements ServicesService {
             productRepository.update(productService.getName(), productService.getDescription(), productService.getProducts_id());
 
             String image = null;
-            if (productService.getImages() != null) image=productService.getImages();
-            if (files != null) image = amazonS3Controller.uploadFiles(files);
+            if (productService.getImages() != null&&!productService.getImages().equals( ""))
+                image=productService.getImages();
+//            if (files != null)
+//                image = amazonS3Controller.uploadFiles(files);
 //            Long ID= productService.getCategory().getId();
 //        Category category = categoryRepository.findById(ID).orElseThrow();
             servicesRepository.update(productService.getId(), image, productService.getDiscountValue(), productService.getCarBrand(),
