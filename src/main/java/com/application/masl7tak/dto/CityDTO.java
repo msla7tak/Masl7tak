@@ -11,7 +11,7 @@ public class CityDTO {
 
     public String name_ar;
     public String name_en;
-    public Long region_id;
+
 
 
     public CityDTO(Long id, String name_ar, String name_en) {

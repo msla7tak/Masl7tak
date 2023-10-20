@@ -242,8 +242,9 @@ public class ServicesServiceImp implements ServicesService {
 
     public ResponseEntity<Object> UpdateProductService(ProductService productService, MultipartFile[] files) {
 
-          productRepository.update(productService.getName(), productService.getDescription(), productService.getProducts_id());
         try {
+            productRepository.update(productService.getName(), productService.getDescription(), productService.getProducts_id());
+
             String image = null;
             if (productService.getImages() != null) image=productService.getImages();
             if (files != null) image = amazonS3Controller.uploadFiles(files);
