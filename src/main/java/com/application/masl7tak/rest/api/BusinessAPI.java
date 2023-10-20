@@ -27,12 +27,12 @@ public interface BusinessAPI {
     public ResponseEntity<String> findBusinessTermsConditions(@RequestParam("id") Long id);
 
     @PostMapping("user/businesses")
-    public ResponseEntity<SuccessDTO> save(@RequestBody BusinessBranch business);
+    public ResponseEntity<Object> save(@RequestBody BusinessBranch business);
     @PostMapping("admin/businesses_user/{userId}")
     public ResponseEntity<Object> create(@RequestBody Map<String, String> business, @PathVariable("userId")  Long userId);
 
     @PutMapping("business/businesses/{id}")
-    public ResponseEntity<SuccessDTO> update(@RequestBody BusinessBranch business, @PathVariable Long id);
+    public ResponseEntity<Object> update(@RequestBody BusinessBranch business, @PathVariable Long id);
 
     @GetMapping("business/businesses")
     public ResponseEntity<AnalyticsDTO> findAnalyticsById(@RequestParam("id") Long id);

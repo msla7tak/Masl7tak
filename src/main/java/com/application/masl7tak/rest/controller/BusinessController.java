@@ -48,7 +48,7 @@ public class BusinessController implements BusinessAPI {
     }
 
     @Override
-    public ResponseEntity<SuccessDTO> save(BusinessBranch business) {
+    public ResponseEntity<Object> save(BusinessBranch business) {
         return businessService.save(business);
     }
 
@@ -58,7 +58,7 @@ public class BusinessController implements BusinessAPI {
     }
 
     @Override
-    public ResponseEntity<SuccessDTO> update(BusinessBranch business, Long id) {
+    public ResponseEntity<Object> update(BusinessBranch business, Long id) {
         business.setId(id);
         return businessService.update(business);
     }

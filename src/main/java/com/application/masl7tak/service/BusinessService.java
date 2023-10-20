@@ -14,8 +14,8 @@ import java.util.Map;
 public interface BusinessService {
     public ResponseEntity <List<BusinessDTO>> findAll() ;
     public ResponseEntity<BusinessDTO> findById(Long id);
-    public ResponseEntity<SuccessDTO> save(BusinessBranch business) ;
-    public ResponseEntity<SuccessDTO> update(BusinessBranch business) ;
+    public ResponseEntity<Object> save(BusinessBranch business) ;
+    public ResponseEntity<Object> update(BusinessBranch business) ;
     public void deleteById(Long id) ;
 
     public ResponseEntity<String> findBusinessTermsConditions(Long id);

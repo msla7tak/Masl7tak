@@ -70,7 +70,7 @@ public class BusinessServiceImp implements BusinessService {
 
 
     @Override
-    public ResponseEntity<SuccessDTO> save(BusinessBranch businessBranch) {
+    public ResponseEntity<Object> save(BusinessBranch businessBranch) {
         try {
             Business business = businessRepository.findByEmail(businessBranch.getEmail());
 
@@ -104,12 +104,13 @@ public class BusinessServiceImp implements BusinessService {
 
         } catch (Exception exception) {
             exception.printStackTrace();
+            return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(),105), HttpStatus.BAD_REQUEST);
+
         }
-        return new ResponseEntity<>(new SuccessDTO(0L, "Some Thing Want Wrong"), HttpStatus.INTERNAL_SERVER_ERROR);
 
     }
     @Override
-    public ResponseEntity<SuccessDTO> update(BusinessBranch businessBranch) {
+    public ResponseEntity<Object> update(BusinessBranch businessBranch) {
         try {
             // Fetch the existing Business entity from the repository
             Business business = businessRepository.findById(businessBranch.getId())
