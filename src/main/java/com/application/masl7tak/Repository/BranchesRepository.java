@@ -15,7 +15,7 @@ public interface BranchesRepository extends JpaRepository<Branches, Long> {
             "Br.openTime, Br.closureTime, B.id, R.id, R.name_ar, R.name_en) " +
             "FROM Branches Br " +
             "JOIN Br.business B " +
-            "JOIN Br.region R " +
+            "left JOIN Br.region R " +
             "WHERE B.id = :businessId")
     List<BranchesDTO> findBranchesByBusinessId(@Param("businessId") Long businessId);
 

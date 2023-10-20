@@ -68,7 +68,7 @@ public class UserServiceImpl implements UserService {
         user.setCarModel(Integer.parseInt(requestMap.get("car_model")));
         user.setCarBrand(Integer.parseInt(requestMap.get("car_brand")));
         user.setPassword(passwordEncoder.encode(requestMap.get("password")));
-        user.setStatus("false");
+        user.setStatus("active");
         user.setRole("user");
         user.setInvitation_code(generateInvitationToken());
         user.setInviter_code(requestMap.get("invitation_code"));
