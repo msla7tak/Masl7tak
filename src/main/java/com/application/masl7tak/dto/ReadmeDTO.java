@@ -38,6 +38,7 @@ public class ReadmeDTO {
     private String stateName;
     private Boolean invoiced;
     private String invoiced_path;
+    private String reason;
     private Boolean comment;
     private String total_invoice;
 
@@ -52,7 +53,7 @@ public class ReadmeDTO {
                      String branch_openTime, String branch_closureTime,
                String service_expiration,
                      String readme_date, String stateName, Boolean invoiced, Boolean comment,
-                     String total_invoice,int confirm_date,int confirm_invoice) {
+                     String total_invoice,int confirm_date,int confirm_invoice ,String reason) {
         this.id = id;
         this.services_id = services_id;
         this.user_id = user_id;
@@ -78,6 +79,7 @@ public class ReadmeDTO {
         this.total_invoice =total_invoice;
         this.confirm_date =confirm_date;
         this.confirm_invoice =confirm_invoice;
+        this.reason =reason;
     }
 
     public ReadmeDTO(Long id, Long services_id, Long user_id,String user_name,String user_phone,String user_avatar, String schedule_date, String schedule_time, String service_name, Double service_discount,
@@ -85,7 +87,7 @@ public class ReadmeDTO {
                      String branch_openTime, String branch_closureTime,
                    String service_expiration,
                      String readme_date, String stateName, Boolean invoiced, Boolean comment,
-                     String total_invoice,String invoiced_path, int confirm_date,int confirm_invoice) {
+                     String total_invoice,String invoiced_path, int confirm_date,int confirm_invoice,String reason) {
         this.id = id;
         this.services_id = services_id;
         this.user_id = user_id;
@@ -115,6 +117,7 @@ public class ReadmeDTO {
         this.user_phone = user_phone;
         this.user_avatar = user_avatar;
         this.confirm_invoice = confirm_invoice;
+        this.reason = reason;
     }
 //    public ReadmeServiceDTO(Long id, Long user_id, Long services_id, Long business_id, Long business_branch, String schedule_date, String schedule_time, String readme_date, String documentPath,
 //                            String stateName, float rate, String comment) {

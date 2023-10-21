@@ -102,7 +102,7 @@ public class ReadmeServiceImp implements ReadmeService {
     public ResponseEntity<Object> updateInvoicePath(String path,String total_invoice, Long readmeId) {
         try {
             if (readmeRepository.findReadmeById(readmeId).getConfirm_invoice()==2){
-                readmeRepository.coupons_invoice( 0,readmeId);
+                readmeRepository.coupons_invoice( 0,"",readmeId);
             }
             path= (path.equals(""))? null:path;
             readmeRepository.updateInvoicePath( path,  total_invoice,readmeId);
@@ -156,9 +156,9 @@ public class ReadmeServiceImp implements ReadmeService {
        }
 
     @Override
-    public ResponseEntity<ReadmeDTO> coupons_invoice(int confirmInvoice, Long readmeId) {
+    public ResponseEntity<ReadmeDTO> coupons_invoice(int confirmInvoice,String reason, Long readmeId) {
         try {
-            readmeRepository.coupons_invoice( confirmInvoice, readmeId);
+            readmeRepository.coupons_invoice( confirmInvoice,reason, readmeId);
 
             return new ResponseEntity<ReadmeDTO>(readmeRepository.findReadmeById(readmeId), HttpStatus.OK);
 

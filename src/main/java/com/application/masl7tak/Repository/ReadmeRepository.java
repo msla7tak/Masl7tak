@@ -47,7 +47,7 @@ public interface ReadmeRepository extends JpaRepository<Readme, Long> {
             "    CASE WHEN R.documentPath IS NOT NULL THEN true ELSE false END, " +
             "    CASE WHEN R.comment IS NOT NULL THEN true ELSE false END," +
             "R.total_invoice," +
-            "R.confirm_date, R.confirm_invoice " +
+            "R.confirm_date, R.confirm_invoice,R.reason " +
             ") " +
             "FROM Readme R " +
             "JOIN R.user " +
@@ -76,7 +76,7 @@ public interface ReadmeRepository extends JpaRepository<Readme, Long> {
             "    R.readme_date, " +
             "    R.stateName, " +
             "    CASE WHEN R.documentPath IS NOT NULL THEN true ELSE false END, " +
-            "    CASE WHEN R.comment IS NOT NULL THEN true ELSE false END ,R.total_invoice,R.confirm_date ,R.confirm_invoice" +
+            "    CASE WHEN R.comment IS NOT NULL THEN true ELSE false END ,R.total_invoice,R.confirm_date ,R.confirm_invoice, R.reason" +
             ") " +
             "FROM Readme R " +
             "JOIN R.user " +
@@ -98,8 +98,8 @@ public interface ReadmeRepository extends JpaRepository<Readme, Long> {
     void coupons_date(@Param("schedule_date") String schedule_date,@Param("schedule_time") String schedule_time,
                       @Param("confirm_date") int confirm_date,@Param("readmeId") Long readmeId);
     @Modifying
-    @Query("update Readme r set r.confirm_invoice = :confirmInvoice  where r.id = :readmeId")
-    void coupons_invoice(int confirmInvoice, Long readmeId);
+    @Query("update Readme r set r.confirm_invoice = :confirmInvoice, r.reason= :reason  where r.id = :readmeId")
+    void coupons_invoice(int confirmInvoice,String reason, Long readmeId);
 
 //    (Long id, Long services_id, Long user_id, String schedule_date, String schedule_time, String service_name, Double service_discount,
 //    String business_Logo, Long business_branch_ID, String business_branch_address, String locationLink, String branch_phone_number,
@@ -126,7 +126,7 @@ public interface ReadmeRepository extends JpaRepository<Readme, Long> {
             "    R.readme_date, " +
             "    R.stateName, " +
             "    CASE WHEN R.documentPath IS NOT NULL THEN true ELSE false END, " +
-            "    CASE WHEN R.comment IS NOT NULL THEN true ELSE false END ,R.total_invoice,R.confirm_date,R.confirm_invoice" +
+            "    CASE WHEN R.comment IS NOT NULL THEN true ELSE false END ,R.total_invoice,R.confirm_date,R.confirm_invoice ,R.reason" +
             ") " +
             "FROM Readme R " +
             "JOIN R.user " +
@@ -160,7 +160,7 @@ public interface ReadmeRepository extends JpaRepository<Readme, Long> {
             "    R.stateName, " +
             "    CASE WHEN R.documentPath IS NOT NULL THEN true ELSE false END, " +
             "    CASE WHEN R.comment IS NOT NULL THEN true ELSE false END ,R.total_invoice ," +
-            "    R.documentPath ,R.confirm_date,R.confirm_invoice) " +
+            "    R.documentPath ,R.confirm_date,R.confirm_invoice,R.reason) " +
             "FROM Readme R " +
             "JOIN R.user " +
             "LEFT JOIN Branches Br " +

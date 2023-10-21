@@ -45,8 +45,8 @@ public class ReadmeController implements ReadmeAPI {
     }
 
     @Override
-    public ResponseEntity<ReadmeDTO> coupons_invoice(int confirm_invoice, Long readmeId) {
-        return this.readmeService.coupons_invoice( confirm_invoice, readmeId);
+    public ResponseEntity<ReadmeDTO> coupons_invoice(int confirm_invoice,String reason, Long readmeId) {
+        return this.readmeService.coupons_invoice( confirm_invoice,reason, readmeId);
     }
 
     @Override

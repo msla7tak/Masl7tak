@@ -27,7 +27,7 @@ public interface ReadmeService {
 
     ResponseEntity<Object> coupons_date(String scheduleDate, String scheduleTime, int confirmDate, Long readmeId);
 
-    ResponseEntity<ReadmeDTO> coupons_invoice(int confirmInvoice, Long readmeId);
+    ResponseEntity<ReadmeDTO> coupons_invoice(int confirmInvoice,String reason, Long readmeId);
 
     List<ServicesDTO> most_redeemed(Long business_id);
 

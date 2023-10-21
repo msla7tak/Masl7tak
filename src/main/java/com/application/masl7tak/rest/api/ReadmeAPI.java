@@ -44,6 +44,7 @@ public interface ReadmeAPI {
     @PutMapping("business/coupons_invoice")
     public ResponseEntity<ReadmeDTO> coupons_invoice(
                                          @RequestParam(name = "confirm_invoice") int confirm_date,
+                                         @RequestParam(name = "reason") String reason,
                                          @RequestParam(name = "readmeId" ) Long readmeId);
     @PutMapping("user/readme_invoice")
     public ResponseEntity<Object> updateInvoicePath(@RequestParam(name = "path") String path,

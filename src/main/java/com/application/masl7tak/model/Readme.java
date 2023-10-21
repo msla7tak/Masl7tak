@@ -41,6 +41,8 @@ public class Readme implements Serializable {
     private float rate;
     @Column(name = "comment")
     private String comment;
+    @Column(name = "reason")
+    private String reason;
     @Column(name = "confirm_date")
     private int confirm_date;
     @Column(name = "confirm_invoice")
