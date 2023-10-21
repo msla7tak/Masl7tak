@@ -75,7 +75,7 @@ public interface ServicesRepository extends JpaRepository<Services, Long> {
             "LEFT JOIN S.readme R  " +
             "JOIN S.business.branches Br " +
             "WHERE (:productId is null OR P.id = :productId) " +
-            "AND ((:searchKey is null OR P.name LIKE %:searchKey%) OR (:searchKey is null OR C.name LIKE %:searchKey%)) " +
+            "AND ((:searchKey is null OR P.name LIKE CONCAT('%', :searchKey, '%')) OR (:searchKey is null OR C.name LIKE CONCAT('%', :searchKey, '%'))) " +
             "AND (:eventOfferId is null OR S.eventOffers.id = :eventOfferId) " +
             "AND (:businessId is null OR B.id = :businessId) " +
             "AND (:categoryId is null OR C.id = :categoryId) " +
