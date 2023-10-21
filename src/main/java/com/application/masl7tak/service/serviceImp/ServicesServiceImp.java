@@ -228,6 +228,7 @@ public class ServicesServiceImp implements ServicesService {
             service.setIs_available(productService.getIs_available());
             service.setMax_usage(productService.getMax_usage());
             service.setRate(0);
+            service.setSchedule_mode(productService.getSchedule_mode());
 
             return new ResponseEntity<>(servicesRepository.save(service), HttpStatus.OK);
 
@@ -254,7 +255,7 @@ public class ServicesServiceImp implements ServicesService {
 //        Category category = categoryRepository.findById(ID).orElseThrow();
             servicesRepository.update(productService.getId(), image, productService.getDiscountValue(), productService.getCarBrand(),
                     productService.getCarModel(), productService.getMax_usage(),
-                    productService.getValidUntil(), productService.getIs_available());
+                    productService.getValidUntil(), productService.getIs_available(),productService.schedule_mode);
 
             return new ResponseEntity<>( servicesRepository.findBy_Id(productService.getId()), HttpStatus.OK);
 
@@ -295,6 +296,7 @@ public class ServicesServiceImp implements ServicesService {
             service.setIs_available(productService.getIs_available());
             service.setMax_usage(productService.getMax_usage());
             service.setRate(0);
+            service.setSchedule_mode(productService.getSchedule_mode());
 
             return new ResponseEntity<>(servicesRepository.save(service), HttpStatus.OK);
 

@@ -27,5 +27,6 @@ public class ProductService {
     public Long businessId;
     public Long eventId;
     public Long categoryId;
+    public int schedule_mode;
     private Category category;
 }
