@@ -47,6 +47,8 @@ public class Readme implements Serializable {
     private int confirm_date;
     @Column(name = "confirm_invoice")
     private int confirm_invoice;
+    @Column(name = "schedule_mode")
+    private int schedule_mode;
     @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinColumn(name = "services_id", referencedColumnName = "id")
     private Services services;
