@@ -30,6 +30,7 @@ public class ReadmeController implements ReadmeAPI {
     @Override
     public ResponseEntity<ReadmeDTO>  save(@RequestBody Readme readme) {
 //        log.info("test: "+ readme);
+        readme.setStateName("Active");
         return this.readmeService.save(readme);
     }
 

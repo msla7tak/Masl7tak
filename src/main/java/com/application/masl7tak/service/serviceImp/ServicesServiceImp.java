@@ -269,16 +269,18 @@ public class ServicesServiceImp implements ServicesService {
     @Override
     public ResponseEntity<Object> setService_event(ProductService productService, MultipartFile[] files) {
         try {
-
-
+            if( productService.getBusiness()==null)
+                productService.setBusiness(new Business(productService.getBusinessId()));
 
 
             Products products = new Products();
             products.setName(productService.getName());
             products.setDescription(productService.getDescription());
+            products.setBusiness(productService.getBusiness());
 
 
             Services service = new Services();
+            service.setBusiness(productService.getBusiness());
             service.setEventOffers(new EventOffers(productService.getEventId()));
             LocalDate today = LocalDate.now();
             DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
