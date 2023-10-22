@@ -72,6 +72,7 @@ public class BusinessServiceImp implements BusinessService {
     @Override
     public ResponseEntity<Object> save(BusinessBranch businessBranch) {
         try {
+            log.error(businessBranch+"");
             Business business = businessRepository.findByEmail(businessBranch.getEmail());
 
             if (Objects.isNull(business)) {
@@ -115,6 +116,7 @@ public class BusinessServiceImp implements BusinessService {
     @Override
     public ResponseEntity<Object> update(BusinessBranch businessBranch) {
         try {
+            log.error(businessBranch+"");
             // Fetch the existing Business entity from the repository
             Business business = businessRepository.findById(businessBranch.getId())
                     .orElseThrow(() -> new EntityNotFoundException("Business not found"));
@@ -135,27 +137,11 @@ public class BusinessServiceImp implements BusinessService {
                 // Clear existing branches
                 business.getBranches().clear();
 
-                for (Branches branch : businessBranch.getBranches()) {
-                    // Make sure you fetch the Region entity or use an existing reference
-                    Region region = regionRepository.findById(branch.getRegion().getId()).orElse(null);
-
-                    if (region != null) {
-                        // Associate the same Region entity with the Branch entity
-                        branch.setRegion(region);
+                if (businessBranch.getBranches() != null)
+                    for (Branches branch : businessBranch.getBranches()) {
                         branch.setBusiness(business);
-
-                        // Add the branch to the business
-                        business.getBranches().add(branch);
-                    } else {
-                         region = regionRepository.findById(0L).orElse(null);
-
-                        branch.setRegion(region);
-                        branch.setBusiness(business);
-                        business.getBranches().add(branch);
-                        // Handle the case where the Region entity with the specified ID does not exist
-                        // You might want to log an error or take appropriate action
+                        branchesRepository.save(branch);
                     }
-                }
             }
 
 
