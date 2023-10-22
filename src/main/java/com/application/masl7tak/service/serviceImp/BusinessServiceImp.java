@@ -130,26 +130,33 @@ public class BusinessServiceImp implements BusinessService {
             business.setStart_discount_val(businessBranch.getStart_discount_val());
             business.setCategory(businessBranch.getCategory());
             business.setWorking_days(businessBranch.getWorking_days());
-            if (businessBranch.getBranches() != null)
+            // Update the associated branches
+            if (businessBranch.getBranches() != null) {
+                // Clear existing branches
+                business.getBranches().clear();
+
                 for (Branches branch : businessBranch.getBranches()) {
-                    branch.setBusiness(business);
-                    branchesRepository.save(branch);
+                    // Make sure you fetch the Region entity or use an existing reference
+                    Region region = regionRepository.findById(branch.getRegion().getId()).orElse(null);
+
+                    if (region != null) {
+                        // Associate the same Region entity with the Branch entity
+                        branch.setRegion(region);
+                        branch.setBusiness(business);
+
+                        // Add the branch to the business
+                        business.getBranches().add(branch);
+                    } else {
+                         region = regionRepository.findById(0L).orElse(null);
+
+                        branch.setRegion(region);
+                        branch.setBusiness(business);
+                        business.getBranches().add(branch);
+                        // Handle the case where the Region entity with the specified ID does not exist
+                        // You might want to log an error or take appropriate action
+                    }
                 }
-//            if (businessBranch.getBranches() != null) {
-//
-//
-//
-//                for (Branches branch : businessBranch.getBranches()) {
-//                    // Make sure you fetch the Region entity or use an existing reference
-//                    Region region = regionRepository.findById(branch.getRegion().getId()).orElse(null);
-//
-//                        // Associate the same Region entity with the Branch entity
-//                        branch.setRegion(region);
-//                        branch.setBusiness(business);
-//                        business.getBranches().add(branch);
-//
-//                }
-//            }
+            }
 
 
             // Save the updated Business entity
