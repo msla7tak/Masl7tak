@@ -17,7 +17,7 @@ public interface InsuranceService {
 
     public void deleteById(Long id);
 
-    ResponseEntity<String> AcceptOffer(String insuranceLogo, String insuranceContact, String insuranceType,
+    ResponseEntity<Object> AcceptOffer(String insuranceLogo, String insuranceContact, String insuranceType,
                                        String insurancePrice, String insurancePeriod, String commission,
                                        String insurancePriceAr, Long insuranceId);
 

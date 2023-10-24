@@ -44,7 +44,7 @@ public class InsuranceController implements InsuranceAPI {
     }
 
     @Override
-    public ResponseEntity<String> AcceptOffer(String insurance_logo, String insurance_contact, String insurance_type,
+    public ResponseEntity<Object> AcceptOffer(String insurance_logo, String insurance_contact, String insurance_type,
                                               String insurance_price, String insurance_period, String commission,
                                               String insurance_price_ar, Long insuranceId) {
         return insuranceService.AcceptOffer( insurance_logo,  insurance_contact,  insurance_type,

@@ -9,7 +9,7 @@ import java.util.List;
 
 @RequestMapping("/api/")
 public interface InsuranceAPI {
-    @GetMapping("public/insurances")
+    @GetMapping("admin/insurances")
     public ResponseEntity <List<InsuranceDTO>> findAll();
 
     @GetMapping("public/insurance")
@@ -20,8 +20,8 @@ public interface InsuranceAPI {
 
     @PutMapping("user/{id}")
     public ResponseEntity<InsuranceDTO> update(@RequestBody Insurance insurance, @PathVariable Long id);
-    @PutMapping("/user/insurance/accept_offer")
-    public ResponseEntity<String> AcceptOffer(@RequestParam(name = "insurance_logo") String insurance_logo,
+    @PutMapping("/admin/insurance/accept_offer")
+    public ResponseEntity<Object> AcceptOffer(@RequestParam(name = "insurance_logo") String insurance_logo,
                                          @RequestParam(name = "insurance_contact") String insurance_contact,
                                          @RequestParam(name = "insurance_type") String insurance_type,
                                          @RequestParam(name = "insurance_price") String insurance_price,
@@ -29,6 +29,6 @@ public interface InsuranceAPI {
                                          @RequestParam(name = "commission") String commission,
                                          @RequestParam(name = "insurance_price_ar") String insurance_price_ar,
                                          @RequestParam(name = "insuranceId" ) Long insuranceId);
-    @DeleteMapping("admin/{id}")
+    @DeleteMapping("admin/insurance/{id}")
     public void deleteById(@PathVariable Long id);
 }

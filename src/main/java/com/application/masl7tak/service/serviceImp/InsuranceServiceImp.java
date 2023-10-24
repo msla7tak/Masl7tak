@@ -75,7 +75,7 @@ public class InsuranceServiceImp implements InsuranceService {
     }
 
     @Override
-    public ResponseEntity<String> AcceptOffer(String insuranceLogo, String insuranceContact,
+    public ResponseEntity<Object> AcceptOffer(String insuranceLogo, String insuranceContact,
                                               String insuranceType, String insurancePrice, String insurancePeriod,
                                               String commission, String insurancePriceAr, Long insuranceId) {
         try {
@@ -83,11 +83,12 @@ public class InsuranceServiceImp implements InsuranceService {
                     insurancePrice,  insurancePeriod,  commission,insurancePriceAr,  insuranceId);
 
                     notificationRepository.save(new Notification(insuranceRepository.findById(insuranceId).orElseThrow(),"Reviewed"));
-            return new ResponseEntity<>(Constants.DATA_Inserted, HttpStatus.OK);
+            return new ResponseEntity<>(Constants.responseMessage(Constants.DATA_Inserted,104), HttpStatus.OK);
         } catch (Exception exception) {
             exception.printStackTrace();
-        }
-        return new ResponseEntity<>(Constants.INVALID_DATA, HttpStatus.INTERNAL_SERVER_ERROR);    }
+            return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(),104), HttpStatus.BAD_REQUEST);
+
+        }}
 
 
 }
