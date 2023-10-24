@@ -101,13 +101,14 @@ public class UserController implements UserAPI {
     }
 
     @Override
-    public ResponseEntity<String> changePassword(Map<String, String> requestmap) {
+    public ResponseEntity<Object> changePassword(Map<String, String> requestmap) {
         try {
             return userService.changePassword(requestmap);
         } catch (Exception exception) {
             exception.printStackTrace();
+            return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(),105), HttpStatus.BAD_REQUEST);
+
         }
-        return Utils.getResponseEntity(Constants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @Override

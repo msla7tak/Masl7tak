@@ -187,7 +187,7 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public ResponseEntity<String> changePassword(Map<String, String> requestmap) {
+    public ResponseEntity<Object> changePassword(Map<String, String> requestmap) {
         try {
             log.info("currentUser: " + jwtAuthFilter.getCurrentUser());
             User userOb = userRepository.findByEmail(jwtAuthFilter.getCurrentUser());
@@ -196,16 +196,20 @@ public class UserServiceImpl implements UserService {
                 if (passwordEncoder.matches(requestmap.get("old_password"), userOb.getPassword())) {
                     userOb.setPassword(passwordEncoder.encode(requestmap.get("new_password")));
                     userRepository.save(userOb);
-                    return Utils.getResponseEntity("Password Updated Successfully", HttpStatus.OK);
+                    return new ResponseEntity<>(Constants.responseMessage("Password Updated Successfully",110), HttpStatus.BAD_REQUEST);
+
                 }
 
-                return Utils.getResponseEntity("Incorrect Old Password", HttpStatus.BAD_REQUEST);
 
             }
-        } catch (Exception exception) {
-            exception.printStackTrace();
+            return new ResponseEntity<>(Constants.responseMessage("Incorrect Old Password",110), HttpStatus.BAD_REQUEST);
+
         }
-        return new ResponseEntity<>(Constants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
+        catch (Exception exception) {
+        exception.printStackTrace();
+        return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(),105), HttpStatus.BAD_REQUEST);
+
+    }
 
     }
 

@@ -30,7 +30,7 @@ public interface UserAPI {
     public ResponseEntity<List<UserDTO>> lastRegisteredUsers();
 
     @PostMapping(path = "user/user/changepassword")
-    public ResponseEntity<String> changePassword(@RequestBody Map<String, String> requestmap);
+    public ResponseEntity<Object> changePassword(@RequestBody Map<String, String> requestmap);
 
 
     @PostMapping(path = "user/user/forgetpassword")

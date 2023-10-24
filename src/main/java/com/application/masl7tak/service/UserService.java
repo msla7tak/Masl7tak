@@ -17,7 +17,7 @@ public interface UserService {
     ResponseEntity<List<UserDTO>> getAllUser();
     ResponseEntity<List<UserDTO>> lastRegisteredUsers();
 
-    ResponseEntity<String> changePassword(Map<String, String> requestmap);
+    ResponseEntity<Object> changePassword(Map<String, String> requestmap);
 
     ResponseEntity<String> forgetPassword(Map<String, String> requestmap);
 
