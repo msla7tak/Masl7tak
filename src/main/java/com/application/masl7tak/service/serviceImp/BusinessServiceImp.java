@@ -133,20 +133,37 @@ public class BusinessServiceImp implements BusinessService {
             business.setCategory(businessBranch.getCategory());
             business.setWorking_days(businessBranch.getWorking_days());
             // Update the associated branches
-            if (businessBranch.getBranches() != null) {
-                // Clear existing branches
-                business.getBranches().clear();
+            List<Branches> existingBranches = business.getBranches();
 
-                if (businessBranch.getBranches() != null)
-                    for (Branches branch : businessBranch.getBranches()) {
-                        branch.setBusiness(business);
-                        branchesRepository.save(branch);
+            // Loop through the new branches and update or add them
+            for (Branches newBranch : businessBranch.getBranches()) {
+                if (newBranch.getId() != null) {
+                    // Check if the new branch exists in the existing branches
+                    for (Branches existingBranch : existingBranches) {
+                        if (existingBranch.getId().equals(newBranch.getId())) {
+
+                            existingBranch.setAddress(newBranch.getAddress());
+                            existingBranch.setLocationLink(newBranch.getLocationLink());
+                            existingBranch.setPhone_number(newBranch.getPhone_number());
+                            existingBranch.setOpenTime(newBranch.getOpenTime());
+                            existingBranch.setClosureTime(newBranch.getClosureTime());
+                            existingBranch.setCity_id(newBranch.getCity_id());
+                            existingBranch.setRegion(newBranch.getRegion());
+                        }
                     }
+                } else {
+                    newBranch.setBusiness(business);
+                    existingBranches.add(newBranch);
+                }
             }
 
-
-            // Save the updated Business entity
+            business.setBranches(existingBranches);
             business = businessRepository.save(business);
+
+// Save the individual existing branches
+            for (Branches existingBranch : existingBranches) {
+                branchesRepository.save(existingBranch);
+            }
 
             return new ResponseEntity<>(new SuccessDTO(business.getId(), Constants.DATA_Inserted), HttpStatus.OK);
         } catch (Exception exception) {

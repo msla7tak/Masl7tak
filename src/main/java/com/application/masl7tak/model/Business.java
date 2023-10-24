@@ -59,7 +59,7 @@ public class Business implements Serializable {
 
     @OneToMany(mappedBy = "business", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Products> products;
-    @OneToMany(mappedBy = "business", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "business", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     private List<Branches> branches;
     @OneToMany(mappedBy = "business", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Services> services;

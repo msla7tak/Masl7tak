@@ -34,11 +34,11 @@ public class Branches implements Serializable {
 
 
 
-    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
-    @JoinColumn(name = "business_id", referencedColumnName = "id")
-    public Business business;
+    @ManyToOne
+    @JoinColumn(name = "business_id")
+    private Business business;
 
-    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "region_id", referencedColumnName = "id")
     public Region region;
 

@@ -22,8 +22,7 @@ public class Region implements Serializable {
     private String name_ar;
     @Column(name = "name_en")
     private String name_en;
-
-    @OneToMany(mappedBy = "region", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "region", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     List<Branches> branches;
 
     @OneToMany(mappedBy = "region", cascade = CascadeType.ALL, orphanRemoval = true)
