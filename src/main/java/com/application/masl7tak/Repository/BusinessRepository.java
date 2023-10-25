@@ -58,9 +58,13 @@ public interface BusinessRepository extends JpaRepository<Business, Long> {
     List<Business> getAll(PageRequest of);
     @Query("select  B.termsConditions from Business B where B.id=:id")
     String findBusinessTermsConditions(Long id);
+
     @Modifying
     @Query("update Business b set b.visits_num = (b.visits_num +1)  where b.id = :id")
     void visits_num(Long id);
+    @Modifying
+    @Query("update Business b set b.status = :active  where b.id = :id")
+    void active(Long id,String active);
 
 //    @Query("select new com.application.masl7tak.dto.AnalyticsDTO( COUNT(R.id),COUNT( DISTINCT R.user.id),B.visits_num,COUNT(S.business.id) )" +
 //            "from Business B " +
@@ -79,6 +83,7 @@ public interface BusinessRepository extends JpaRepository<Business, Long> {
             "LEFT JOIN Readme R ON  R.business_id =:id " +
             "WHERE B.id = :id")
     AnalyticsDTO findAnalyticsById(Long id);
+
     @Query("SELECT  new com.application.masl7tak.dto.BusinessDTO(B.id, B.name) FROM Business B")
     List<BusinessDTO> getAll();
 

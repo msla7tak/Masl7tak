@@ -31,4 +31,8 @@ public interface ServicesService {
     ResponseEntity<Object> UpdateProductService(ProductService productService, MultipartFile[] files);
 
     ResponseEntity<Object> setService_event(ProductService productService, MultipartFile[] files);
+
+    ResponseEntity<String> active(long longId);
+
+    ResponseEntity<List<ServicesDTO>> findAllAdmin(ServicesFilter criteria);
 }

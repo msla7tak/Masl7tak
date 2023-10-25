@@ -309,5 +309,42 @@ public class ServicesServiceImp implements ServicesService {
         }
     }
 
+    @Override
+    public ResponseEntity<String> active(long longId) {
+        servicesRepository.active(longId,"true");
+        return new ResponseEntity<>("done", HttpStatus.OK);    }
+
+    @Override
+    public ResponseEntity<List<ServicesDTO>> findAllAdmin(ServicesFilter criteria) {
+        try {
+
+//            if (criteria.get("productId").equals("111")) {
+//            if (criteria.get("productId").equals("111")) {
+//                return new ResponseEntity<>(servicesRepository.getAll_Services(), HttpStatus.OK);
+//            } else {
+            Long productId = criteria.getProductId();
+            Long eventOfferId = criteria.getEventId();
+            Long businessId = criteria.getBusinessId();
+            Long categoryId = criteria.getCategoryId();
+            Long carModel = criteria.getModelId();
+            Long carBrand = criteria.getBrandId();
+            Long regionId = criteria.getRegionId();
+            Float rate = criteria.getRate();
+            String searchKey = criteria.getSearchKey();
+//            Long regionId = criteria.getRegionId() != null ? criteria.getRegionId() : 1;
+            Double minDiscountValue = criteria.getDiscountMinVal();
+            Double maxDiscountValue = criteria.getDiscountMaxVal();
+            int offset = criteria.getOffset();
+
+            return new ResponseEntity<>(servicesRepository.findAllAdmin(productId, eventOfferId, businessId, categoryId, regionId, rate,
+                    carModel, carBrand, minDiscountValue, maxDiscountValue, searchKey, PageRequest.of(offset, 100)), HttpStatus.OK);
+//            }
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+
+        return new ResponseEntity<>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
 
 }

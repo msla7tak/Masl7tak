@@ -33,6 +33,6 @@ public interface ReadmeService {
 
     List<ServicesDTO> most_visited(Long businessId);
 
-    ResponseEntity<Object> findReadmeById(Long readmeId);
 
+    ResponseEntity<Object> findReadmeById(Long readmeId, Long businessId);
 }

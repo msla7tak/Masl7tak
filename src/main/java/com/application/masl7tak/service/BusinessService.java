@@ -30,4 +30,5 @@ public interface BusinessService {
 
     ResponseEntity<List<BusinessDTO>> getAll();
 
+    ResponseEntity<String> active(Long id);
 }

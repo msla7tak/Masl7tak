@@ -204,9 +204,18 @@ public class ReadmeServiceImp implements ReadmeService {
     }
 
     @Override
-    public ResponseEntity<Object> findReadmeById(Long readmeId) {
+    public ResponseEntity<Object> findReadmeById(Long readmeId,Long businessId) {
         try {
-            return new ResponseEntity<>(readmeRepository.findReadme(readmeId), HttpStatus.OK);
+            ReadmeDTO readmeDTO= readmeRepository.findReadme(readmeId);
+            ServicesDTO servicesDTO= servicesRepository.findBy_Id(readmeDTO.getServices_id());
+            if (servicesDTO.getBusiness().getId().equals(businessId))
+            {
+                return new ResponseEntity<>(readmeDTO, HttpStatus.OK);
+
+            }
+            else
+                return new ResponseEntity<>(Constants.responseMessage("This coupon is not available in your store", 106), HttpStatus.BAD_REQUEST);
+
 
         } catch (Exception exception) {
             exception.printStackTrace();

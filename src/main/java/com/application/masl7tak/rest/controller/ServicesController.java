@@ -36,6 +36,11 @@ public class ServicesController implements ServicesAPI {
     }
 
     @Override
+    public ResponseEntity<List<ServicesDTO>> findAllAdmin(ServicesFilter criteria) {
+        return servicesService.findAllAdmin(criteria);
+    }
+
+    @Override
     public ResponseEntity<ServicesDTO> findById(@PathVariable Long id) {
         return servicesService.findById(id);
     }
@@ -43,6 +48,12 @@ public class ServicesController implements ServicesAPI {
     @Override
     public ResponseEntity<Services> save(@RequestBody Services services) {
         return servicesService.save(services);
+    }
+
+    @Override
+    public ResponseEntity<String> active(String id) {
+        long longId = Long.parseLong(id);
+        return servicesService.active(longId);
     }
 
     @Override

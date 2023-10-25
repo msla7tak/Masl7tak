@@ -25,7 +25,8 @@ public interface BusinessAPI {
 
     @GetMapping("public/business/terms_conditions")
     public ResponseEntity<String> findBusinessTermsConditions(@RequestParam("id") Long id);
-
+    @PutMapping("admin/business/active/{id}")
+    public ResponseEntity<String> active(@PathVariable("id") String id);
     @PostMapping("user/businesses")
     public ResponseEntity<Object> save(@RequestBody BusinessBranch business);
     @PostMapping("admin/businesses_user/{userId}")

@@ -22,7 +22,7 @@ public interface ReadmeAPI {
     @GetMapping("user/readme_service")
     public ResponseEntity<ReadmeDTO>   findById(@RequestParam(name = "readmeId") Long readmeId);
     @GetMapping("business/readme")
-    public ResponseEntity<Object>   findReadmeById(@RequestParam(name = "readmeId") Long readmeId);
+    public ResponseEntity<Object>   findReadmeById(@RequestParam(name = "readmeId") Long readmeId,@RequestParam(name = "business_id") Long business_id);
 
     @GetMapping("user/my_coupons")
     public ResponseEntity<Object> findUserCoupons(@RequestParam(name = "userId") Long userId);

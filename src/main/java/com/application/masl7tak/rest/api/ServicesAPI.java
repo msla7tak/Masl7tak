@@ -18,7 +18,8 @@ public interface ServicesAPI {
 
     @GetMapping("public/services")
     public ResponseEntity<List<ServicesDTO> >  findAll(@ModelAttribute ServicesFilter criteria);
-
+    @GetMapping("admin/services")
+    public ResponseEntity<List<ServicesDTO> >  findAllAdmin(@ModelAttribute ServicesFilter criteria);
 
     @GetMapping("public/services/{id}")
     public ResponseEntity<ServicesDTO> findById(@PathVariable Long id);
@@ -26,6 +27,8 @@ public interface ServicesAPI {
 
     @PostMapping("business/services")
     public ResponseEntity<Services>  save(@RequestBody Services services);
+    @PutMapping("admin/services/active/{id}")
+    public ResponseEntity<String> active(@PathVariable("id") String id);
     @CrossOrigin(origins = "http://127.0.0.1:5500")
     @PostMapping("business/service/save")
     public ResponseEntity<Object>  setProductService(@ModelAttribute ProductService productService,@RequestParam(value = "files", required = false) MultipartFile[] files) ;

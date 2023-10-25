@@ -48,6 +48,13 @@ public class BusinessController implements BusinessAPI {
     }
 
     @Override
+    public ResponseEntity<String> active(String id) {
+        long longId = Long.parseLong(id);
+
+        return businessService.active(longId) ;
+    }
+
+    @Override
     public ResponseEntity<Object> save(BusinessBranch business) {
         return businessService.save(business);
     }

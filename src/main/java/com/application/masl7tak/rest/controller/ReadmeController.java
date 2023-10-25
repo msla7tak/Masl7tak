@@ -79,8 +79,9 @@ public class ReadmeController implements ReadmeAPI {
     }
 
     @Override
-    public ResponseEntity<Object> findReadmeById(Long readmeId) {
-        return readmeService.findReadmeById(readmeId);    }
+    public ResponseEntity<Object> findReadmeById(Long readmeId, Long business_id) {
+        return readmeService.findReadmeById(readmeId,business_id);     }
+
 
     @Override
     public ResponseEntity<Object> findUserCoupons(Long userId) {

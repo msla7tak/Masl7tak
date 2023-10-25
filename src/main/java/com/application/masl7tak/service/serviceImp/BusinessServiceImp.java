@@ -312,6 +312,12 @@ public class BusinessServiceImp implements BusinessService {
         return new ResponseEntity<>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @Override
+    public ResponseEntity<String> active(Long id) {
+        businessRepository.active(id,"active");
+        return new ResponseEntity<>("done", HttpStatus.OK);
+    }
+
 
     @Override
     public void deleteById(Long id) {

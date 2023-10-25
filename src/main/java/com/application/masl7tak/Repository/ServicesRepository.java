@@ -99,6 +99,38 @@ public interface ServicesRepository extends JpaRepository<Services, Long> {
                                              @Param("maxDiscountValue") Double maxDiscountValue,
                                              @Param("searchKey") String searchKey, LocalDate currentDate,
                                              PageRequest offset);
+    @Query("SELECT DISTINCT new com.application.masl7tak.dto.ServicesDTO(S.id, S.discountValue,S.images, S.creationDate, S.validUntil, S.rate, S.category.id, " +
+            "S.carModel, S.carBrand, S.business.id, B.name, S.quantity, C.name, S.is_available, P.id, P.name, P.description, P.price, P.image, " +
+            " B.email, B.status, B.subscriptionType, B.description, B.logo, B.start_discount_val,count(R.comment),S.readme_num,S.max_usage ,B.working_days,S.schedule_mode) " +
+            "FROM Services S " +
+            "JOIN S.products P " +
+            "JOIN S.business B " +
+            "JOIN S.category C " +
+            "LEFT JOIN S.readme R  " +
+            "JOIN S.business.branches Br " +
+            "WHERE (:productId is null OR P.id = :productId) " +
+            "AND ((:searchKey is null OR P.name LIKE CONCAT('%', :searchKey, '%')) OR (:searchKey is null OR C.name LIKE CONCAT('%', :searchKey, '%'))) " +
+            "AND (:eventOfferId is null OR S.eventOffers.id = :eventOfferId) " +
+            "AND (:businessId is null OR B.id = :businessId) " +
+            "AND (:categoryId is null OR C.id = :categoryId) " +
+            "AND (:regionId is null OR Br.region.id = :regionId)  " +
+            "AND (:rate is null OR S.rate >= :rate)  " +
+            "AND (:carModel is null OR S.carModel = :carModel) " +
+            "AND (:carBrand is null OR S.carBrand = :carBrand) " +
+            "AND (:minDiscountValue is null OR S.discountValue >= :minDiscountValue) " +
+            "AND (:maxDiscountValue is null OR S.discountValue <= :maxDiscountValue)group by S.id")
+    List<ServicesDTO> findAllAdmin(@Param("productId") Long productId,
+                                             @Param("eventOfferId") Long eventOfferId,
+                                             @Param("businessId") Long businessId,
+                                             @Param("categoryId") Long categoryId,
+                                             @Param("regionId") Long regionId,
+                                             @Param("rate") Float rate,
+                                             @Param("carModel") Long carModel,
+                                             @Param("carBrand") Long carBrand,
+                                             @Param("minDiscountValue") Double minDiscountValue,
+                                             @Param("maxDiscountValue") Double maxDiscountValue,
+                                             @Param("searchKey") String searchKey,
+                                             PageRequest offset);
 
     @Modifying
     @Query("UPDATE Services s SET " +
@@ -121,6 +153,9 @@ public interface ServicesRepository extends JpaRepository<Services, Long> {
     @Modifying
     @Query("update Services s set s.is_available = 'false'  where s.id = :id and s.readme_num=s.max_usage")
     void isAvailable(Long id);
+    @Modifying
+    @Query("update Services b set b.is_available = :active  where b.id = :longId")
+    void active(long longId, String active);
 
 
 //            "JOIN Branches Br " +
