@@ -135,7 +135,7 @@ public class ReadmeServiceImp implements ReadmeService {
 
         } catch (Exception exception) {
             exception.printStackTrace();
-            return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(), 106), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(), 106), HttpStatus.BAD_REQUEST);
         }
 
 
@@ -210,7 +210,7 @@ public class ReadmeServiceImp implements ReadmeService {
 
         } catch (Exception exception) {
             exception.printStackTrace();
-            return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(), 106), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(), 106), HttpStatus.BAD_REQUEST);
         }
     }
 
