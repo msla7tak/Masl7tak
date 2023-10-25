@@ -32,4 +32,7 @@ public interface ReadmeService {
     List<ServicesDTO> most_redeemed(Long business_id);
 
     List<ServicesDTO> most_visited(Long businessId);
+
+    ResponseEntity<Object> findReadmeById(Long readmeId);
+
 }

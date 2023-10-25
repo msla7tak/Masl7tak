@@ -24,6 +24,7 @@ import java.util.List;
 public class ReadmeServiceImp implements ReadmeService {
     private final ReadmeRepository readmeRepository;
     private final ServicesRepository servicesRepository;
+
     @Autowired
     public ReadmeServiceImp(ReadmeRepository readmeRepository,
                             ServicesRepository servicesRepository) {
@@ -62,7 +63,7 @@ public class ReadmeServiceImp implements ReadmeService {
     public ResponseEntity<ReadmeDTO> save(Readme readme) {
         try {
             ServicesDTO servicesDTO = servicesRepository.findBy_Id(readme.getServices().getId());
-            if (servicesDTO.getReadme_num()<servicesDTO.getMax_usage()) {
+            if (servicesDTO.getReadme_num() < servicesDTO.getMax_usage()) {
                 LocalDate today = LocalDate.now();
                 readme.setDate(today);
                 servicesRepository.readme_num(servicesDTO.getId());
@@ -70,15 +71,14 @@ public class ReadmeServiceImp implements ReadmeService {
 
                 return new ResponseEntity<>(readmeRepository.findReadmeById(readmeRepository.save(readme).getId()), HttpStatus.CREATED);
                 //return new ResponseEntity<>(Constants.DATA_Inserted, HttpStatus.OK);
-            }
-            else
-                return  new ResponseEntity<>(new ReadmeDTO(), HttpStatus.BAD_REQUEST);
+            } else
+                return new ResponseEntity<>(new ReadmeDTO(), HttpStatus.BAD_REQUEST);
 
 
         } catch (Exception exception) {
             exception.printStackTrace();
         }
-        return  new ResponseEntity<>(new ReadmeDTO(), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(new ReadmeDTO(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @Override
@@ -89,27 +89,27 @@ public class ReadmeServiceImp implements ReadmeService {
     @Override
     public ResponseEntity<String> update(String comment, Float rate, Long readmeId) {
         try {
-            comment= (comment.equals(""))? null:comment;
-             readmeRepository.update( comment,  rate,  readmeId);
-            return new ResponseEntity<>(Constants.DATA_Inserted,HttpStatus.OK);
-        }catch (Exception exception){
+            comment = (comment.equals("")) ? null : comment;
+            readmeRepository.update(comment, rate, readmeId);
+            return new ResponseEntity<>(Constants.DATA_Inserted, HttpStatus.OK);
+        } catch (Exception exception) {
 
-            return  new ResponseEntity<>(exception.getMessage(),HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
     @Override
-    public ResponseEntity<Object> updateInvoicePath(String path,String total_invoice, Long readmeId) {
+    public ResponseEntity<Object> updateInvoicePath(String path, String total_invoice, Long readmeId) {
         try {
-            if (readmeRepository.findReadmeById(readmeId).getConfirm_invoice()==2){
-                readmeRepository.coupons_invoice( 0,"",readmeId);
+            if (readmeRepository.findReadmeById(readmeId).getConfirm_invoice() == 2) {
+                readmeRepository.coupons_invoice(0, "", readmeId);
             }
-            path= (path.equals(""))? null:path;
-            readmeRepository.updateInvoicePath( path,  total_invoice,readmeId);
-            return new ResponseEntity<>(Constants.DATA_Inserted,HttpStatus.OK);
-        }catch (Exception exception){
+            path = (path.equals("")) ? null : path;
+            readmeRepository.updateInvoicePath(path, total_invoice, readmeId);
+            return new ResponseEntity<>(Constants.DATA_Inserted, HttpStatus.OK);
+        } catch (Exception exception) {
 
-            return  new ResponseEntity<>(exception.getMessage(),HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -122,7 +122,7 @@ public class ReadmeServiceImp implements ReadmeService {
         } catch (Exception exception) {
             exception.printStackTrace();
 
-            return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(),109), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(), 109), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
     }
@@ -131,11 +131,11 @@ public class ReadmeServiceImp implements ReadmeService {
     public ResponseEntity<Object> findBusinessCoupons(Long businessId, String date) {
         try {
 
-            return new ResponseEntity<>(readmeRepository.findBusinessCoupons(businessId,date), HttpStatus.OK);
+            return new ResponseEntity<>(readmeRepository.findBusinessCoupons(businessId, date), HttpStatus.OK);
 
         } catch (Exception exception) {
             exception.printStackTrace();
-            return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(),106), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(), 106), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
 
@@ -144,21 +144,21 @@ public class ReadmeServiceImp implements ReadmeService {
     @Override
     public ResponseEntity<Object> coupons_date(String scheduleDate, String scheduleTime, int confirmDate, Long readmeId) {
         try {
-            readmeRepository.coupons_date( scheduleDate,  scheduleTime, confirmDate, readmeId);
+            readmeRepository.coupons_date(scheduleDate, scheduleTime, confirmDate, readmeId);
 
             return new ResponseEntity<Object>(readmeRepository.findReadmeById(readmeId), HttpStatus.OK);
 
         } catch (Exception exception) {
             exception.printStackTrace();
-            return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(),107), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(), 107), HttpStatus.BAD_REQUEST);
         }
 
-       }
+    }
 
     @Override
-    public ResponseEntity<ReadmeDTO> coupons_invoice(int confirmInvoice,String reason, Long readmeId) {
+    public ResponseEntity<ReadmeDTO> coupons_invoice(int confirmInvoice, String reason, Long readmeId) {
         try {
-            readmeRepository.coupons_invoice( confirmInvoice,reason, readmeId);
+            readmeRepository.coupons_invoice(confirmInvoice, reason, readmeId);
 
             return new ResponseEntity<ReadmeDTO>(readmeRepository.findReadmeById(readmeId), HttpStatus.OK);
 
@@ -166,7 +166,8 @@ public class ReadmeServiceImp implements ReadmeService {
             exception.printStackTrace();
         }
 
-        return new ResponseEntity<>(new ReadmeDTO(), HttpStatus.INTERNAL_SERVER_ERROR);       }
+        return new ResponseEntity<>(new ReadmeDTO(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
     @Override
     public List<ServicesDTO> most_redeemed(Long business_id) {
@@ -176,13 +177,14 @@ public class ReadmeServiceImp implements ReadmeService {
         List<ServicesDTO> maxCouponUsageMap = new ArrayList<>();
         for (Long couponId : maxCouponUsage) {
 
-            ServicesDTO servicesDTO =   servicesRepository.findBy_Id(couponId);
-            log.info("test:"+ servicesDTO);
+            ServicesDTO servicesDTO = servicesRepository.findBy_Id(couponId);
+            log.info("test:" + servicesDTO);
 
             maxCouponUsageMap.add(servicesDTO);
         }
 
-        return maxCouponUsageMap;    }
+        return maxCouponUsageMap;
+    }
 
     @Override
     public List<ServicesDTO> most_visited(Long business_id) {
@@ -192,13 +194,24 @@ public class ReadmeServiceImp implements ReadmeService {
         List<ServicesDTO> maxCouponUsageMap = new ArrayList<>();
         for (Long couponId : maxCouponUsage) {
 
-            ServicesDTO servicesDTO =   servicesRepository.findBy_Id(couponId);
-            log.info("test:"+ servicesDTO);
+            ServicesDTO servicesDTO = servicesRepository.findBy_Id(couponId);
+            log.info("test:" + servicesDTO);
 
             maxCouponUsageMap.add(servicesDTO);
         }
 
         return maxCouponUsageMap;
+    }
+
+    @Override
+    public ResponseEntity<Object> findReadmeById(Long readmeId) {
+        try {
+            return new ResponseEntity<>(readmeRepository.findReadme(readmeId), HttpStatus.OK);
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(), 106), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @Override
@@ -210,15 +223,14 @@ public class ReadmeServiceImp implements ReadmeService {
         List<ServicesDTO> maxCouponUsageMap = new ArrayList<>();
         for (Long couponId : maxCouponUsage) {
 
-            ServicesDTO servicesDTO =   servicesRepository.findBy_Id(couponId);
-            log.info("test:"+ servicesDTO);
+            ServicesDTO servicesDTO = servicesRepository.findBy_Id(couponId);
+            log.info("test:" + servicesDTO);
 
             maxCouponUsageMap.add(servicesDTO);
         }
 
         return maxCouponUsageMap;
     }
-
 
 
 }

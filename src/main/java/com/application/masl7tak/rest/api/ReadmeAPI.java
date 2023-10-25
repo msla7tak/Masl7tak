@@ -21,6 +21,8 @@ public interface ReadmeAPI {
 
     @GetMapping("user/readme_service")
     public ResponseEntity<ReadmeDTO>   findById(@RequestParam(name = "readmeId") Long readmeId);
+    @GetMapping("business/readme")
+    public ResponseEntity<Object>   findReadmeById(@RequestParam(name = "readmeId") Long readmeId);
 
     @GetMapping("user/my_coupons")
     public ResponseEntity<Object> findUserCoupons(@RequestParam(name = "userId") Long userId);
