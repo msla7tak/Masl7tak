@@ -21,6 +21,8 @@ public interface NotificationAPI {
     public ResponseEntity<Notification>  save(@RequestBody Notification notification);
     @PostMapping("admin/notification/all")
     public ResponseEntity<Object>  create(@RequestBody Notification notification);
+    @PostMapping("admin/notification/all_business")
+    public ResponseEntity<Object>  createBusiness(@RequestBody Notification notification);
 
     @PutMapping("admin/notification/{id}")
     public ResponseEntity<Notification>  update(@RequestBody Notification notification, @PathVariable Long id);

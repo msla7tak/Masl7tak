@@ -19,6 +19,8 @@ public interface BusinessAPI {
     public ResponseEntity<List<BusinessDTO>> findAll(@ModelAttribute BusinessFilter criteria);
     @GetMapping("admin/businesses")
     public ResponseEntity<List<BusinessDTO>> getAll();
+    @GetMapping("public/find_most_visited")
+    public ResponseEntity<Object> findMostVisited();
 
     @GetMapping("public/business")
     public ResponseEntity<BusinessDTO> findById(@RequestParam("id") Long id);

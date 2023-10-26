@@ -87,5 +87,9 @@ void updateProfile(@Param("id") Long id, @Param("imagePath") String imagePath, @
     @Query("SELECT new com.application.masl7tak.dto.UserDTO(U.id,U.name) " +
             "FROM User U " ) // Order by id in descending order to get the latest records first
     List<UserDTO> AllUsers();
+    @Query("SELECT new com.application.masl7tak.dto.UserDTO(U.id, U.name) " +
+            "FROM User U " +
+            "WHERE U.business_id IS NOT NULL")
+    List<UserDTO> AllBusiness();
 
 }

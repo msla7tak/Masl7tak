@@ -16,4 +16,7 @@ public interface NotificationService {
     void deleteById(Long id);
 
     ResponseEntity<Object> create(Notification notification);
+
+    ResponseEntity<Object> createBusiness(Notification notification);
+
 }

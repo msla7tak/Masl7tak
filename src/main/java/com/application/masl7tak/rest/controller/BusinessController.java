@@ -38,6 +38,11 @@ public class BusinessController implements BusinessAPI {
     }
 
     @Override
+    public ResponseEntity<Object> findMostVisited() {
+        return businessService.findMostVisited();
+    }
+
+    @Override
     public ResponseEntity<BusinessDTO> findById(Long id) {
         return businessService.findById(id);
     }

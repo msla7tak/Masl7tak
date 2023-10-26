@@ -1,11 +1,14 @@
 package com.application.masl7tak.service.serviceImp;
 
+import com.application.masl7tak.Repository.ReplacementRepository;
+import com.application.masl7tak.Repository.UserRepository;
 import com.application.masl7tak.constents.Constants;
 import com.application.masl7tak.Repository.ServicesRepository;
 import com.application.masl7tak.Repository.ReadmeRepository;
 import com.application.masl7tak.dto.ReadmeDTO;
 import com.application.masl7tak.dto.ServicesDTO;
 import com.application.masl7tak.model.Readme;
+import com.application.masl7tak.model.User;
 import com.application.masl7tak.service.ReadmeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,15 +25,15 @@ import java.util.List;
 @Service
 @Transactional
 public class ReadmeServiceImp implements ReadmeService {
-    private final ReadmeRepository readmeRepository;
-    private final ServicesRepository servicesRepository;
-
     @Autowired
-    public ReadmeServiceImp(ReadmeRepository readmeRepository,
-                            ServicesRepository servicesRepository) {
-        this.readmeRepository = readmeRepository;
-        this.servicesRepository = servicesRepository;
-    }
+    private ReadmeRepository readmeRepository;
+    @Autowired
+    private ServicesRepository servicesRepository;
+    @Autowired
+    private ReplacementRepository replacementRepository;
+    @Autowired
+    private UserRepository userRepository;
+
 
     @Override
     public ResponseEntity<List<ReadmeDTO>> findAll() {
@@ -104,6 +107,7 @@ public class ReadmeServiceImp implements ReadmeService {
             if (readmeRepository.findReadmeById(readmeId).getConfirm_invoice() == 2) {
                 readmeRepository.coupons_invoice(0, "", readmeId);
             }
+
             path = (path.equals("")) ? null : path;
             readmeRepository.updateInvoicePath(path, total_invoice, readmeId);
             return new ResponseEntity<>(Constants.DATA_Inserted, HttpStatus.OK);
@@ -159,8 +163,13 @@ public class ReadmeServiceImp implements ReadmeService {
     public ResponseEntity<ReadmeDTO> coupons_invoice(int confirmInvoice, String reason, Long readmeId) {
         try {
             readmeRepository.coupons_invoice(confirmInvoice, reason, readmeId);
-
-            return new ResponseEntity<ReadmeDTO>(readmeRepository.findReadmeById(readmeId), HttpStatus.OK);
+            ReadmeDTO readmeDTO = readmeRepository.findReadmeById(readmeId);
+            if (confirmInvoice == 1) {
+                User user = userRepository.findById(readmeDTO.getUser_id()).get();
+                Integer point = replacementRepository.getReferenceById(1L).getRedeemed_points();
+                userRepository.updatePoints(user.getPoints() + point, user.getId());
+            }
+            return new ResponseEntity<ReadmeDTO>(readmeDTO, HttpStatus.OK);
 
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -204,16 +213,14 @@ public class ReadmeServiceImp implements ReadmeService {
     }
 
     @Override
-    public ResponseEntity<Object> findReadmeById(Long readmeId,Long businessId) {
+    public ResponseEntity<Object> findReadmeById(Long readmeId, Long businessId) {
         try {
-            ReadmeDTO readmeDTO= readmeRepository.findReadme(readmeId);
-            ServicesDTO servicesDTO= servicesRepository.findBy_Id(readmeDTO.getServices_id());
-            if (servicesDTO.getBusiness().getId().equals(businessId))
-            {
+            ReadmeDTO readmeDTO = readmeRepository.findReadme(readmeId);
+            ServicesDTO servicesDTO = servicesRepository.findBy_Id(readmeDTO.getServices_id());
+            if (servicesDTO.getBusiness().getId().equals(businessId)) {
                 return new ResponseEntity<>(readmeDTO, HttpStatus.OK);
 
-            }
-            else
+            } else
                 return new ResponseEntity<>(Constants.responseMessage("This coupon is not available in your store", 106), HttpStatus.BAD_REQUEST);
 
 

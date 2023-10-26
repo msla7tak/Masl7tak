@@ -102,5 +102,32 @@ public class NotificationServiceImp implements NotificationService {
         }
     }
 
+    @Override
+    public ResponseEntity<Object> createBusiness(Notification notification) {
+        try {
+            LocalDateTime now = LocalDateTime.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            notification.setCreationDate(  formatter.format(now));
+            List<UserDTO> userDTOS=  userRepository.AllBusiness();
+            List<Notification>notifications= new ArrayList<>();
+            for (UserDTO userDTO:userDTOS) {
+                Notification notifi = new Notification();
+                notifi.setTitle(notification.getTitle());
+                notifi.setStatusReviewed("pending");
+                notifi.setCreationDate( formatter.format(now));
+                notifi.setDescription( notification.getDescription());
+                notifi.setUser_id(userDTO.getId());
+                notifications.add(notifi);
+            }
+            notificationRepository.saveAll(notifications);
+
+            return new ResponseEntity<>(Constants.responseMessage("Done",1007), HttpStatus.OK);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(),1006), HttpStatus.BAD_REQUEST);
+
+        }
+    }
+
 
 }

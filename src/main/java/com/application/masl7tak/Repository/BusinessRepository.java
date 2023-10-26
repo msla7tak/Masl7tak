@@ -86,7 +86,14 @@ public interface BusinessRepository extends JpaRepository<Business, Long> {
 
     @Query("SELECT  new com.application.masl7tak.dto.BusinessDTO(B.id, B.name) FROM Business B")
     List<BusinessDTO> getAll();
-
+    @Query("SELECT DISTINCT new com.application.masl7tak.dto.BusinessDTO(B.id, B.name,  B.email, B.status, B.subscriptionType, " +
+            "B.description, B.logo, COUNT(S.id), B.start_discount_val, B.rate, B.category.id, " +
+            "MIN(Br.id), B.visits_num ,B.working_days) " +
+            "FROM Business B " +
+            "JOIN Branches Br ON B.id = Br.business.id " +
+            "LEFT JOIN B.services S ON  B.id = S.business.id and S.is_available ='true' " + // Use LEFT JOIN here
+            "GROUP BY B.id ORDER BY B.visits_num DESC ")
+    List<BusinessDTO> findMostVisited();
 
 //    @Modifying
 //    @Query("UPDATE Business b SET b.start_discount_val =: discount_val WHERE b.id = :id AND b.start_discount_val < :discount_val")

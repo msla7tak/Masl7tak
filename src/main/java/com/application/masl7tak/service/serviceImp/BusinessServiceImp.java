@@ -5,6 +5,7 @@ import com.application.masl7tak.configs.JwtAuthFilter;
 import com.application.masl7tak.constents.Constants;
 import com.application.masl7tak.dto.AnalyticsDTO;
 import com.application.masl7tak.dto.BusinessDTO;
+import com.application.masl7tak.dto.ServicesDTO;
 import com.application.masl7tak.dto.SuccessDTO;
 import com.application.masl7tak.model.*;
 import com.application.masl7tak.model.filter.BusinessFilter;
@@ -27,19 +28,17 @@ import java.util.*;
 @Transactional
 public class BusinessServiceImp implements BusinessService {
     @Autowired
-    private  UserRepository userRepository;
+    private UserRepository userRepository;
     @Autowired
     private RegionRepository regionRepository;
     @Autowired
-    private  ReadmeRepository readmeRepository;
+    private ReadmeRepository readmeRepository;
     @Autowired
-    private  BusinessRepository businessRepository;
+    private BusinessRepository businessRepository;
     @Autowired
-    private  BranchesRepository branchesRepository;
+    private BranchesRepository branchesRepository;
     @Autowired
-    private  JwtAuthFilter JwtAuthFilter;
-
-
+    private JwtAuthFilter JwtAuthFilter;
 
 
     @Override
@@ -60,8 +59,7 @@ public class BusinessServiceImp implements BusinessService {
             businessRepository.visits_num(id);
             return new ResponseEntity<>(businessRepository.getBusinessDTOByBusinessId(id), HttpStatus.OK);
 
-                }
-        catch (Exception exception) {
+        } catch (Exception exception) {
             exception.printStackTrace();
 
         }
@@ -72,7 +70,7 @@ public class BusinessServiceImp implements BusinessService {
     @Override
     public ResponseEntity<Object> save(BusinessBranch businessBranch) {
         try {
-            log.error(businessBranch+"");
+            log.error(businessBranch + "");
             Business business = businessRepository.findByEmail(businessBranch.getEmail());
 
             if (Objects.isNull(business)) {
@@ -108,15 +106,16 @@ public class BusinessServiceImp implements BusinessService {
 
         } catch (Exception exception) {
             exception.printStackTrace();
-            return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(),105), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(), 105), HttpStatus.BAD_REQUEST);
 
         }
 
     }
+
     @Override
     public ResponseEntity<Object> update(BusinessBranch businessBranch) {
         try {
-            log.error(businessBranch+"");
+            log.error(businessBranch + "");
             // Fetch the existing Business entity from the repository
             Business business = businessRepository.findById(businessBranch.getId())
                     .orElseThrow(() -> new EntityNotFoundException("Business not found"));
@@ -168,7 +167,7 @@ public class BusinessServiceImp implements BusinessService {
             return new ResponseEntity<>(new SuccessDTO(business.getId(), Constants.DATA_Inserted), HttpStatus.OK);
         } catch (Exception exception) {
             exception.printStackTrace();
-            return new ResponseEntity<>(Constants.responseMessage( exception.getMessage(),105), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(), 105), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -205,7 +204,8 @@ public class BusinessServiceImp implements BusinessService {
         return new ResponseEntity<>(new SuccessDTO(0L, "Some Thing Want Wrong"), HttpStatus.INTERNAL_SERVER_ERROR);
 
     }
-    public  Business createBusinessFromMap(Map<String, String> businessMap) {
+
+    public Business createBusinessFromMap(Map<String, String> businessMap) {
         Business business = new Business();
         business.setStatus("active");
         business.setSubscriptionType("junior");
@@ -238,7 +238,8 @@ public class BusinessServiceImp implements BusinessService {
 
         return business;
     }
-    public  void createBranchesFromMap(Map<String, String> businessMap,Business business) {
+
+    public void createBranchesFromMap(Map<String, String> businessMap, Business business) {
         Branches branch = new Branches();
 
         if (businessMap.containsKey("address")) {
@@ -274,24 +275,25 @@ public class BusinessServiceImp implements BusinessService {
         branchesRepository.save(branch);
 
     }
+
     @Override
-    public ResponseEntity<Object> create(Map<String, String> business_map, Long userId)  {
+    public ResponseEntity<Object> create(Map<String, String> business_map, Long userId) {
         try {
-           Business business=  createBusinessFromMap(business_map);
+            Business business = createBusinessFromMap(business_map);
             Business businessRepositoryByEmail = businessRepository.findByEmail(business.getEmail());
 
             if (Objects.isNull(businessRepositoryByEmail)) {
                 businessRepositoryByEmail = businessRepository.save(business);
-                createBranchesFromMap(business_map,businessRepositoryByEmail);
+                createBranchesFromMap(business_map, businessRepositoryByEmail);
                 userRepository.updateRoleByEmail(userRepository.findById(userId).get().getEmail(), businessRepositoryByEmail.getId());
                 return new ResponseEntity<>(new SuccessDTO(businessRepositoryByEmail.getId(), Constants.DATA_Inserted), HttpStatus.OK);
             } else {
-                return new ResponseEntity<>(Constants.responseMessage( "Email  already exits",108), HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(Constants.responseMessage("Email  already exits", 108), HttpStatus.BAD_REQUEST);
             }
 
         } catch (Exception exception) {
             exception.printStackTrace();
-            return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(),108), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(), 108), HttpStatus.BAD_REQUEST);
         }
 
 
@@ -302,10 +304,9 @@ public class BusinessServiceImp implements BusinessService {
         try {
 
 
-            return new ResponseEntity<List<BusinessDTO>>( businessRepository.getAll(), HttpStatus.OK);
+            return new ResponseEntity<List<BusinessDTO>>(businessRepository.getAll(), HttpStatus.OK);
 
-        }
-        catch (Exception exception) {
+        } catch (Exception exception) {
             exception.printStackTrace();
 
         }
@@ -314,7 +315,7 @@ public class BusinessServiceImp implements BusinessService {
 
     @Override
     public ResponseEntity<String> active(Long id) {
-        businessRepository.active(id,"active");
+        businessRepository.active(id, "active");
         return new ResponseEntity<>("done", HttpStatus.OK);
     }
 
@@ -350,6 +351,7 @@ public class BusinessServiceImp implements BusinessService {
 
         return new ResponseEntity<>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
     public Map<LocalDate, Long> countReadmesForLastSixDays() {
         Map<LocalDate, Long> result = new HashMap<>();
         LocalDate endDate = LocalDate.now();
@@ -363,20 +365,35 @@ public class BusinessServiceImp implements BusinessService {
 
         return result;
     }
+
     @Override
     public ResponseEntity<AnalyticsDTO> findAnalyticsById(Long id) {
         try {
-            AnalyticsDTO analyticsDTO= businessRepository.findAnalyticsById(id);
-           analyticsDTO.setLastSixDays(countReadmesForLastSixDays());
+            AnalyticsDTO analyticsDTO = businessRepository.findAnalyticsById(id);
+            analyticsDTO.setLastSixDays(countReadmesForLastSixDays());
 //            businessRepository.findById(id).get().getServices().size();
             return new ResponseEntity<>(analyticsDTO, HttpStatus.OK);
 
-        }
-        catch (Exception exception) {
+        } catch (Exception exception) {
             exception.printStackTrace();
 
         }
-        return new ResponseEntity<>(new AnalyticsDTO(), HttpStatus.INTERNAL_SERVER_ERROR);    }
+        return new ResponseEntity<>(new AnalyticsDTO(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
 
+    @Override
+    public ResponseEntity<Object> findMostVisited() {
+        try {
+
+            List<BusinessDTO> mostVisited = businessRepository.findMostVisited();
+            log.info("test " + mostVisited);
+
+            return new ResponseEntity<>(mostVisited, HttpStatus.OK);
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(), 108), HttpStatus.BAD_REQUEST);
+        }
+    }
 }

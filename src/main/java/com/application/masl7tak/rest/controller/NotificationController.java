@@ -44,6 +44,11 @@ import java.util.List;
     }
 
     @Override
+    public ResponseEntity<Object> createBusiness(Notification notification) {
+        return notificationService.createBusiness(notification);
+    }
+
+    @Override
     public ResponseEntity<Notification> update(@RequestBody Notification notification, @PathVariable Long id) {
         notification.setId(id);
         return notificationService.save(notification);
