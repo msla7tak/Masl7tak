@@ -12,8 +12,7 @@ import java.util.List;
 @Repository
 public interface InsuranceRepository extends JpaRepository<Insurance, Long> {
 
-    @Query("SELECT COUNT(I.id) FROM Insurance I")
-    int countInsurances();
+
     @Query("SELECT new com.application.masl7tak.dto.InsuranceDTO( " +
             "    I.id,  " +
             "    I.car_type,  " +

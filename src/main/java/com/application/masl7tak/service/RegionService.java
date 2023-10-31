@@ -11,7 +11,7 @@ import java.util.List;
 public interface RegionService {
 
 
-    public ResponseEntity<List<RegionDTO>> findAll();
+    public ResponseEntity<List<RegionDTO>> findAll(String lang);
 
     public ResponseEntity<RegionDTO> findById(Long id);
 

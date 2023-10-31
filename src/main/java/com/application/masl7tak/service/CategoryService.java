@@ -9,7 +9,7 @@ import java.util.List;
 public interface CategoryService {
 
 
-    public ResponseEntity<List<CategoryDTO>> findAll();
+    public ResponseEntity<List<CategoryDTO>> findAll(String lang);
 
     public ResponseEntity<Object> findById(Long id);
 

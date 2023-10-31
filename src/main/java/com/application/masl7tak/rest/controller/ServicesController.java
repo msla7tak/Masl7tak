@@ -36,6 +36,11 @@ public class ServicesController implements ServicesAPI {
     }
 
     @Override
+    public ResponseEntity<Object> findMaxAmount() {
+          return servicesService.findMaxAmount();
+    }
+
+    @Override
     public ResponseEntity<List<ServicesDTO>> findAllAdmin(ServicesFilter criteria) {
         return servicesService.findAllAdmin(criteria);
     }

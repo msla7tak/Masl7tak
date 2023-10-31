@@ -35,4 +35,6 @@ public interface ServicesService {
     ResponseEntity<String> active(long longId);
 
     ResponseEntity<List<ServicesDTO>> findAllAdmin(ServicesFilter criteria);
+
+    ResponseEntity<Object> findMaxAmount();
 }

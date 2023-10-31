@@ -79,7 +79,7 @@ public class AdminServiceImp implements AdminService {
                     (int) businessRepository.count(),
                     (int) userRepository.count(),
                     (int) servicesRepository.count(),
-                    insuranceRepository.count()), HttpStatus.OK);
+                    (int)insuranceRepository.count()), HttpStatus.OK);
 
         }
         catch (Exception exception) {

@@ -1,10 +1,7 @@
 package com.application.masl7tak.service.serviceImp;
 
 import com.application.masl7tak.Repository.RegionRepository;
-import com.application.masl7tak.dto.CarBrandDTO;
-import com.application.masl7tak.dto.CarModelDTO;
-import com.application.masl7tak.dto.CityDTO;
-import com.application.masl7tak.dto.RegionDTO;
+import com.application.masl7tak.dto.*;
 import com.application.masl7tak.model.CarBrand;
 import com.application.masl7tak.model.Region;
 import com.application.masl7tak.service.RegionService;
@@ -31,15 +28,25 @@ public class RegionServiceImp implements RegionService {
 
     private RegionDTO regionToDTO(Region region) {
         List<CityDTO> cityIds = region.getCityList().stream()
-                .map(city -> new CityDTO(city.getId(), city.getName_ar(),city.getName_en()))
+                .map(city -> new CityDTO(city.getId(), city.getName_ar(),city.getName_ar()))
                 .collect(Collectors.toList());
-        return new RegionDTO(region.getId(), region.getName_ar(), region.getName_en(), cityIds);
+        return new RegionDTO(region.getId(), region.getName_ar(), region.getName_ar(), cityIds);
+    }    private RegionDTO regionToDTO_en(Region region) {
+        List<CityDTO> cityIds = region.getCityList().stream()
+                .map(city -> new CityDTO(city.getId(), city.getName_en(),city.getName_en()))
+                .collect(Collectors.toList());
+        return new RegionDTO(region.getId(), region.getName_en(), region.getName_en(), cityIds);
     }
     @Override
-    public ResponseEntity<List<RegionDTO>> findAll() {
+    public ResponseEntity<List<RegionDTO>> findAll(String lang) {
         try {
 
             List<Region> regions = regionRepository.findAll();
+            if (lang.equals("en")){
+                List<RegionDTO> regionDTOs = regions.stream().map(this::regionToDTO_en)
+                        .collect(Collectors.toList());
+                return ResponseEntity.ok(regionDTOs);
+            }
             List<RegionDTO> regionDTOs = regions.stream().map(this::regionToDTO)
                     .collect(Collectors.toList());
             return ResponseEntity.ok(regionDTOs);

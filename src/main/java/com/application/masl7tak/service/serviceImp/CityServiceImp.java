@@ -1,6 +1,7 @@
 package com.application.masl7tak.service.serviceImp;
 
 import com.application.masl7tak.Repository.CityRepository;
+import com.application.masl7tak.dto.CategoryDTO;
 import com.application.masl7tak.model.City;
 import com.application.masl7tak.service.CityService;
 import lombok.extern.slf4j.Slf4j;
@@ -17,16 +18,16 @@ import java.util.List;
 @Service
 @Transactional
 public class CityServiceImp implements CityService {
-    private final CityRepository  cityRepository;
     @Autowired
-    public CityServiceImp(CityRepository cityRepository) {
-        this.cityRepository = cityRepository;
-    }
+    private  CityRepository  cityRepository;
 
     @Override
-    public ResponseEntity<List<City>> findAll() {
+    public ResponseEntity<List<City>> findAll(String lang) {
         try {
+            if (lang.equals("en")){
+                return new ResponseEntity<List<City>>(cityRepository.findAll_en(), HttpStatus.OK);
 
+            }
             return new ResponseEntity<List<City>>(cityRepository.findAll(), HttpStatus.OK);
 
         } catch (Exception exception) {

@@ -22,8 +22,8 @@ public class CityController implements CityAPI {
     }
 
     @Override
-    public ResponseEntity<List<City>> findAll() {
-        return cityService.findAll();
+    public ResponseEntity<List<City>> findAll(String lang) {
+        return cityService.findAll( lang);
     }
 
     @Override

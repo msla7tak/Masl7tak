@@ -10,7 +10,7 @@ import java.util.List;
 @RequestMapping("/api/")
 public interface CityAPI {
     @GetMapping("public/city")
-    public ResponseEntity <List<City>> findAll();
+    public ResponseEntity <List<City>> findAll(@RequestParam(value = "lang", required = false) String lang);
     @GetMapping("public/city/{id}")
     public ResponseEntity<City> findById(@PathVariable Long id);
 

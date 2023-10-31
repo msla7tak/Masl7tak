@@ -134,7 +134,9 @@ public class ReadmeServiceImp implements ReadmeService {
     @Override
     public ResponseEntity<Object> findBusinessCoupons(Long businessId, String date) {
         try {
-
+            if (date.equals("")){
+                return new ResponseEntity<>(readmeRepository.findBusinessCouponsIDs(businessId), HttpStatus.OK);
+            }
             return new ResponseEntity<>(readmeRepository.findBusinessCoupons(businessId, date), HttpStatus.OK);
 
         } catch (Exception exception) {

@@ -14,7 +14,7 @@ import java.util.List;
 @RequestMapping( path = "/api/")
 public interface RegionAPI {
     @GetMapping("public/region")
-    public ResponseEntity<List<RegionDTO>> findAll();
+    public ResponseEntity<List<RegionDTO>> findAll(@RequestParam(value = "lang", required = false) String lang);
 
     @GetMapping("public/region/{id}")
     public ResponseEntity<RegionDTO> findById(@PathVariable Long id);

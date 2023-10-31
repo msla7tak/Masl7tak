@@ -26,9 +26,12 @@ public class CategoryServiceImp implements CategoryService {
     }
 
     @Override
-    public ResponseEntity<List<CategoryDTO>> findAll() {
+    public ResponseEntity<List<CategoryDTO>> findAll(String lang) {
         try {
+        if (lang.equals("en")){
+            return new ResponseEntity<List<CategoryDTO>>(categoryRepository.getAllCategory_en(), HttpStatus.OK);
 
+            }
             return new ResponseEntity<List<CategoryDTO>>(categoryRepository.getAllCategory(), HttpStatus.OK);
 
         } catch (Exception exception) {

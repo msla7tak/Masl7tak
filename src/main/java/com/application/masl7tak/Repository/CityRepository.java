@@ -12,6 +12,8 @@ import java.util.List;
 
 @Repository
 public interface CityRepository extends JpaRepository<City, Long> {
+        @Query("select C from CarModel C where C.id=:id")
+         List<City> findAll_en();
 
 //    @Query("select C from CarModel C where C.id=:id")
 //    CarModelDTO findBy_Id(@Param("id") Long id);

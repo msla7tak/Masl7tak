@@ -169,7 +169,38 @@ public interface ReadmeRepository extends JpaRepository<Readme, Long> {
             "AND Br.id = R.business_branch " +
             "GROUP BY R.id ")
     List<ReadmeDTO> findBusinessCoupons(Long businessId,String date);
-
+    @Query("SELECT new com.application.masl7tak.dto.ReadmeDTO ( " +
+            "    R.id, " +
+            "    R.services.id, " +
+            "    R.user.id, " +
+            "    R.user.name, " +
+            "    R.user.contactNumber, " +
+            "    R.user.image, " +
+            "    R.schedule_date, " +
+            "    R.schedule_time, " +
+            "    R.services.products.name, " +
+            "    R.services.discountValue, " +
+            "    R.services.business.logo, " +
+            "    R.services.business.name, " +
+            "    R.business_branch, " +
+            "    Br.address, " +
+            "    Br.locationLink, " +
+            "    Br.phone_number, " +
+            "    Br.openTime, " +
+            "    Br.closureTime, " +
+            "    R.services.validUntil, " +
+            "    R.readme_date, " +
+            "    R.stateName, " +
+            "    CASE WHEN R.documentPath IS NOT NULL THEN true ELSE false END, " +
+            "    CASE WHEN R.comment IS NOT NULL THEN true ELSE false END ,R.total_invoice ," +
+            "    R.documentPath ,R.confirm_date,R.confirm_invoice,R.reason,R.schedule_mode ,R.comment) " +
+            "FROM Readme R " +
+            "JOIN R.user " +
+            "LEFT JOIN Branches Br " +
+            "WHERE R.business_id = :businessId " +
+            "AND Br.id = R.business_branch " +
+            "GROUP BY R.id ")
+    List<ReadmeDTO> findBusinessCouponsIDs(Long businessId);
     @Query("SELECT c.services.id FROM Readme c WHERE c.business_id = :businessId GROUP BY c.services.id ORDER BY COUNT(c.services.visit_num) DESC")
 
     List<Long> most_visited(Long businessId);

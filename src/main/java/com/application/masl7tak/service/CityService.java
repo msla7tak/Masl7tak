@@ -8,7 +8,7 @@ import java.util.List;
 public interface CityService {
 
 
-    public ResponseEntity<List<City>> findAll();
+    public ResponseEntity<List<City>> findAll(String lang);
 
     public ResponseEntity<City> findById(Long id);
 

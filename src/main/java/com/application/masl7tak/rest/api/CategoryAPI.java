@@ -5,6 +5,7 @@ import com.application.masl7tak.dto.CategoryDTO;
 import com.application.masl7tak.model.Category;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -12,7 +13,7 @@ import java.util.List;
 @RequestMapping( path = "/api/")
 public interface CategoryAPI {
     @GetMapping("public/category")
-    public ResponseEntity<List<CategoryDTO> > findAll();
+    public ResponseEntity<List<CategoryDTO> > findAll(@RequestParam(value = "lang", required = false) String lang);
 
     @GetMapping("public/category/{id}")
     public ResponseEntity<Object> findById(@PathVariable Long id);

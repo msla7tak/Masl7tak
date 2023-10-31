@@ -17,7 +17,9 @@ public interface ServicesAPI {
 
 
     @GetMapping("public/services")
-    public ResponseEntity<List<ServicesDTO> >  findAll(@ModelAttribute ServicesFilter criteria);
+    public ResponseEntity<List<ServicesDTO>>  findAll(@ModelAttribute ServicesFilter criteria);
+    @GetMapping("public/max_amount")
+    public ResponseEntity<Object>  findMaxAmount();
     @GetMapping("admin/services")
     public ResponseEntity<List<ServicesDTO> >  findAllAdmin(@ModelAttribute ServicesFilter criteria);
 

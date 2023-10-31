@@ -48,7 +48,7 @@ public class Notification implements Serializable {
 
         this.title = "نقوم حالياً بمراجعة طلب التأمين";
         this.creationDate = formatter.format(now);
-        this.description = "يقوم فريقنا في الوقت الحالي بمراجعة طلب التمويل وسنقوم بالرد عليك بعرض السعر في أقرب فرصة";
+        this.description = "يقوم فريقنا في الوقت الحالي بمراجعة طلب التأمين وسنقوم بالرد عليك بعرض السعر في أقرب فرصة";
         this.statusReviewed = "pending";
         this.insurance = insurance;
         this.user_id = insurance.getUser().getId();

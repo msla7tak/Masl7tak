@@ -20,4 +20,7 @@ public interface CategoryRepository extends JpaRepository<Category,Long> {
     @Modifying
     @Query("update Category c set c.name =:name  where c.id = :id")
     void UpdateCategory(Long id,String name);
+    @Query(value = "SELECT new com.application.masl7tak.dto.CategoryDTO(C.id, C.name_en, C.image) FROM Category C")
+    List<CategoryDTO> getAllCategory_en();
+
 }

@@ -23,8 +23,8 @@ import java.util.List;
 
 
     @Override
-    public ResponseEntity<List<RegionDTO>> findAll() {
-        return regionService.findAll();
+    public ResponseEntity<List<RegionDTO>> findAll(String lang) {
+        return regionService.findAll( lang);
     }
 
     @Override

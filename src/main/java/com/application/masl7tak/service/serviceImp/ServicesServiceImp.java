@@ -251,11 +251,12 @@ public class ServicesServiceImp implements ServicesService {
                 image=productService.getImages();
 //            if (files != null)
 //                image = amazonS3Controller.uploadFiles(files);
-//            Long ID= productService.getCategory().getId();
-//        Category category = categoryRepository.findById(ID).orElseThrow();
+        Long ID= productService.getCategory().getId()==null?productService.getCategory().getId():productService.getCategoryId();
+
+            Category category = categoryRepository.findById(ID).orElse(null);
             servicesRepository.update(productService.getId(), image, productService.getDiscountValue(), productService.getCarBrand(),
                     productService.getCarModel(), productService.getMax_usage(),
-                    productService.getValidUntil(), productService.getIs_available(),productService.schedule_mode);
+                    productService.getValidUntil(), productService.getIs_available(),productService.schedule_mode,category);
 
             return new ResponseEntity<>( servicesRepository.findBy_Id(productService.getId()), HttpStatus.OK);
 
@@ -344,6 +345,19 @@ public class ServicesServiceImp implements ServicesService {
         }
 
         return new ResponseEntity<>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @Override
+    public ResponseEntity<Object> findMaxAmount() {
+        try {
+
+            return new ResponseEntity<>(servicesRepository.findMaxValueField(), HttpStatus.OK);
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(),105), HttpStatus.BAD_REQUEST);
+
+        }
     }
 
 

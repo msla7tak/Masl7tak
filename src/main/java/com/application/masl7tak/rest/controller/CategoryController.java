@@ -25,8 +25,8 @@ import java.util.List;
 
 
     @Override
-    public ResponseEntity<List<CategoryDTO>> findAll() {
-        return categoryService.findAll();
+    public ResponseEntity<List<CategoryDTO>> findAll(String lang) {
+        return categoryService.findAll( lang);
     }
 
     @Override
