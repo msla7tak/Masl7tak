@@ -42,7 +42,7 @@ public class RegionServiceImp implements RegionService {
         try {
 
             List<Region> regions = regionRepository.findAll();
-            if (lang.equals("en")){
+            if (lang!=null&&lang.equals("en")){
                 List<RegionDTO> regionDTOs = regions.stream().map(this::regionToDTO_en)
                         .collect(Collectors.toList());
                 return ResponseEntity.ok(regionDTOs);

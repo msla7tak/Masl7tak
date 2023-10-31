@@ -24,7 +24,7 @@ public class CityServiceImp implements CityService {
     @Override
     public ResponseEntity<List<City>> findAll(String lang) {
         try {
-            if (lang.equals("en")){
+            if (lang!=null&&lang.equals("en")){
                 return new ResponseEntity<List<City>>(cityRepository.findAll_en(), HttpStatus.OK);
 
             }
