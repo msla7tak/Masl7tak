@@ -95,6 +95,7 @@ public class ReadmeServiceImp implements ReadmeService {
          Readme readme=   readmeRepository.findById(readmeId).get();
             comment = (comment.equals("")) ? null : comment;
             readmeRepository.update(comment, rate, readmeId);
+            readmeRepository.updateRate( rate, readmeId);
             businessRepository.updateRate(rate,readme.getBusiness_id());
             return new ResponseEntity<>(Constants.DATA_Inserted, HttpStatus.OK);
         } catch (Exception exception) {
