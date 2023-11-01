@@ -1,10 +1,7 @@
 package com.application.masl7tak.service.serviceImp;
 
-import com.application.masl7tak.Repository.ReplacementRepository;
-import com.application.masl7tak.Repository.UserRepository;
+import com.application.masl7tak.Repository.*;
 import com.application.masl7tak.constents.Constants;
-import com.application.masl7tak.Repository.ServicesRepository;
-import com.application.masl7tak.Repository.ReadmeRepository;
 import com.application.masl7tak.dto.ReadmeDTO;
 import com.application.masl7tak.dto.ServicesDTO;
 import com.application.masl7tak.model.Readme;
@@ -31,6 +28,9 @@ public class ReadmeServiceImp implements ReadmeService {
     private ServicesRepository servicesRepository;
     @Autowired
     private ReplacementRepository replacementRepository;
+
+    @Autowired
+    private BusinessRepository businessRepository;
     @Autowired
     private UserRepository userRepository;
 
@@ -92,8 +92,10 @@ public class ReadmeServiceImp implements ReadmeService {
     @Override
     public ResponseEntity<String> update(String comment, Float rate, Long readmeId) {
         try {
+         Readme readme=   readmeRepository.findById(readmeId).get();
             comment = (comment.equals("")) ? null : comment;
             readmeRepository.update(comment, rate, readmeId);
+            businessRepository.updateRate(rate,readme.getBusiness_id());
             return new ResponseEntity<>(Constants.DATA_Inserted, HttpStatus.OK);
         } catch (Exception exception) {
 
