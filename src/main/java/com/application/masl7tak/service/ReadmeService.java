@@ -14,7 +14,7 @@ public interface ReadmeService {
 
     public ResponseEntity<ReadmeDTO>   findById(Long readmeId);
 
-    public ResponseEntity<ReadmeDTO> save(Readme readme);
+    public ResponseEntity<Object> save(Readme readme);
     public List<ServicesDTO>   getMaxCouponUsage();
     public void deleteById(Long id);
 

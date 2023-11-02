@@ -35,6 +35,10 @@ public class PromoCodeController implements PromoCodeAPI {
     }
 
     @Override
+    public ResponseEntity<Object> expired(String code) {
+        return promoCodeService.expired(code);    }
+
+    @Override
     public ResponseEntity<PromoCode> update(@RequestBody PromoCode promo_code, @PathVariable Long id) {
         promo_code.setId(id);
         return promoCodeService.save(promo_code);

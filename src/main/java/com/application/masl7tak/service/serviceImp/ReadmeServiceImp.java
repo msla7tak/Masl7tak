@@ -4,6 +4,7 @@ import com.application.masl7tak.Repository.*;
 import com.application.masl7tak.constents.Constants;
 import com.application.masl7tak.dto.ReadmeDTO;
 import com.application.masl7tak.dto.ServicesDTO;
+import com.application.masl7tak.model.PromoCode;
 import com.application.masl7tak.model.Readme;
 import com.application.masl7tak.model.User;
 import com.application.masl7tak.service.ReadmeService;
@@ -33,6 +34,8 @@ public class ReadmeServiceImp implements ReadmeService {
     private BusinessRepository businessRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private PromoCodeRepository promoCodeRepository;
 
 
     @Override
@@ -63,25 +66,40 @@ public class ReadmeServiceImp implements ReadmeService {
 
 
     @Override
-    public ResponseEntity<ReadmeDTO> save(Readme readme) {
+    public ResponseEntity<Object> save(Readme readme) {
         try {
             ServicesDTO servicesDTO = servicesRepository.findBy_Id(readme.getServices().getId());
+            PromoCode promoCode = promoCodeRepository.findByCode(readme.getPromo_code()).orElse(null);
             if (servicesDTO.getReadme_num() < servicesDTO.getMax_usage()) {
                 LocalDate today = LocalDate.now();
                 readme.setDate(today);
                 servicesRepository.readme_num(servicesDTO.getId());
                 servicesRepository.isAvailable(servicesDTO.getId());
+                if (promoCode!=null){
+                if (promoCode.getReadme_num() < promoCode.getMax_usage()) {
+                    promoCodeRepository.readme_num(promoCode.getId());
+                    promoCodeRepository.isAvailable(promoCode.getId());
+//                    promoCode.getDiscountValue();
+                }
+                else {
+                    return new ResponseEntity<>(Constants.responseMessage("Promo Code expired ", 144), HttpStatus.BAD_REQUEST);
+                }
+                }
+
+
+
 
                 return new ResponseEntity<>(readmeRepository.findReadmeById(readmeRepository.save(readme).getId()), HttpStatus.CREATED);
                 //return new ResponseEntity<>(Constants.DATA_Inserted, HttpStatus.OK);
             } else
-                return new ResponseEntity<>(new ReadmeDTO(), HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(Constants.responseMessage("Coupon expired ",144), HttpStatus.BAD_REQUEST);
 
 
         } catch (Exception exception) {
             exception.printStackTrace();
+            return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(),150), HttpStatus.BAD_REQUEST);
+
         }
-        return new ResponseEntity<>(new ReadmeDTO(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @Override

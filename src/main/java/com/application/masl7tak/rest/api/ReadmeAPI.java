@@ -31,7 +31,7 @@ public interface ReadmeAPI {
     public ResponseEntity<Object> findBusinessCoupons(@RequestParam(name = "business_id") Long business_id,@RequestParam(name = "schedule_date", required = false) String date);
 
     @PostMapping("user/readme_service")
-    public ResponseEntity<ReadmeDTO> save(@RequestBody Readme readme);
+    public ResponseEntity<Object> save(@RequestBody Readme readme);
 
     @PutMapping("user/readme_service")
     public ResponseEntity<String> update(@RequestParam(name = "comment") String comment,

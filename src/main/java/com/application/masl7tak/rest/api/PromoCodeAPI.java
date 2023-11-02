@@ -15,6 +15,8 @@ public interface PromoCodeAPI {
 
     @PostMapping("admin/promo_code")
     public ResponseEntity<PromoCode> save(@RequestBody PromoCode promo_code);
+    @GetMapping("user/expired")
+    public ResponseEntity<Object> expired(@RequestParam (value = "code") String code);
 
     @PutMapping("admin/promo_code/{id}")
     public ResponseEntity<PromoCode> update(@RequestBody PromoCode promo_code, @PathVariable Long id);

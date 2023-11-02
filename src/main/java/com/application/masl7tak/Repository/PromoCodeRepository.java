@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface PromoCodeRepository extends JpaRepository<PromoCode, Long> {
@@ -25,7 +26,8 @@ public interface PromoCodeRepository extends JpaRepository<PromoCode, Long> {
     @Query("update PromoCode s set s.is_available = 'false'  where s.id = :id and s.readme_num=s.max_usage")
     void isAvailable(Long id);
 
-
+  @Query("select  P from PromoCode P where P.code= :promoCode")
+  Optional< PromoCode> findByCode(String promoCode);
 
 }
 

@@ -16,4 +16,5 @@ public interface PromoCodeService {
 
     public void deleteById(Long id);
 
+    ResponseEntity<Object> expired(String code);
 }
