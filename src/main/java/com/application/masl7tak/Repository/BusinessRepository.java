@@ -116,6 +116,10 @@ public interface BusinessRepository extends JpaRepository<Business, Long> {
                                                 @Param("rate") Float rate,
                                                 @Param("searchKey")  String searchKey,
                                                 PageRequest of);
+    @Modifying
+    @Query("update Business b set b.top_rate = :topRate  where b.id = :longId")
+    void topRate(long longId, int topRate);
+
 
 //    @Modifying
 //    @Query("UPDATE Business b SET b.start_discount_val =: discount_val WHERE b.id = :id AND b.start_discount_val < :discount_val")

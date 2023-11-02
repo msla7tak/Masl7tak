@@ -36,4 +36,5 @@ public interface BusinessService {
 
     ResponseEntity<List<BusinessDTO>> findBusinessByTopRated(BusinessFilter criteria);
 
+    ResponseEntity<String> topRate(long longId, Business business);
 }

@@ -5,6 +5,7 @@ import com.application.masl7tak.dto.SuccessDTO;
 import com.application.masl7tak.model.Business;
 import com.application.masl7tak.dto.BusinessDTO;
 import com.application.masl7tak.model.BusinessBranch;
+import com.application.masl7tak.model.City;
 import com.application.masl7tak.model.filter.BusinessFilter;
 import com.application.masl7tak.model.filter.ServicesFilter;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,8 @@ import java.util.Map;
 public interface BusinessAPI {
     @GetMapping("public/businesses")
     public ResponseEntity<List<BusinessDTO>> findAll(@ModelAttribute BusinessFilter criteria);
+    @GetMapping("public/all_businesses")
+    public ResponseEntity<List<BusinessDTO>> findAllBusinesses( BusinessFilter criteria);
     @GetMapping("admin/businesses")
     public ResponseEntity<List<BusinessDTO>> getAll();
     @GetMapping("public/find_most_visited")
@@ -29,6 +32,8 @@ public interface BusinessAPI {
     public ResponseEntity<String> findBusinessTermsConditions(@RequestParam("id") Long id);
     @PutMapping("admin/business/active/{id}")
     public ResponseEntity<String> active(@PathVariable("id") String id);
+    @PutMapping("admin/business/top_rate/{id}")
+    public ResponseEntity<String> topRate(@PathVariable("id") String id,@RequestBody Business business);
     @PostMapping("user/businesses")
     public ResponseEntity<Object> save(@RequestBody BusinessBranch business);
     @PostMapping("admin/businesses_user/{userId}")

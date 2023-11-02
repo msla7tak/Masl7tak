@@ -33,6 +33,11 @@ public class BusinessController implements BusinessAPI {
     }
 
     @Override
+    public ResponseEntity<List<BusinessDTO>> findAllBusinesses(BusinessFilter criteria) {
+        return businessService.findBusinessByCriteria(criteria);
+    }
+
+    @Override
     public ResponseEntity<List<BusinessDTO>> getAll() {
         return businessService.getAll();
     }
@@ -58,6 +63,14 @@ public class BusinessController implements BusinessAPI {
 
         return businessService.active(longId) ;
     }
+
+    @Override
+    public ResponseEntity<String> topRate(String id, Business business) {
+        long longId = Long.parseLong(id);
+
+        return businessService.topRate(longId,business) ;
+    }
+
 
     @Override
     public ResponseEntity<Object> save(BusinessBranch business) {

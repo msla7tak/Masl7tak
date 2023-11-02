@@ -417,4 +417,10 @@ public class BusinessServiceImp implements BusinessService {
 
         return new ResponseEntity<>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @Override
+    public ResponseEntity<String> topRate(long longId, Business business) {
+        businessRepository.topRate(longId,business.getTop_rate());
+        return new ResponseEntity<>("done", HttpStatus.OK);
+    }
 }
