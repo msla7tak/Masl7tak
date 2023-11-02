@@ -396,4 +396,25 @@ public class BusinessServiceImp implements BusinessService {
             return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(), 108), HttpStatus.BAD_REQUEST);
         }
     }
+
+    @Override
+    public ResponseEntity<List<BusinessDTO>> findBusinessByTopRated(BusinessFilter criteria) {
+        try {
+
+            Long categoryId = criteria.getCategoryId();
+            Long regionId = criteria.getRegionId();
+            Float rate = criteria.getRate();
+            String searchKey = criteria.getSearchKey();
+
+            int offset = criteria.getOffset();
+
+            return new ResponseEntity<>(businessRepository.findBusinessTopRated(categoryId, regionId, rate
+                    , searchKey, PageRequest.of(offset, 100)), HttpStatus.OK);
+//            }
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+
+        return new ResponseEntity<>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }

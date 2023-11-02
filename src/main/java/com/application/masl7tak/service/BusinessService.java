@@ -33,4 +33,7 @@ public interface BusinessService {
     ResponseEntity<String> active(Long id);
 
     ResponseEntity<Object> findMostVisited();
+
+    ResponseEntity<List<BusinessDTO>> findBusinessByTopRated(BusinessFilter criteria);
+
 }

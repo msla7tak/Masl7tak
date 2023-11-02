@@ -27,7 +27,7 @@ public class HomeScreenController implements HomeScreenAPI {
     @Override
     public ResponseEntity<List<BusinessDTO>>  findBusinessByCriteria(BusinessFilter criteria) {
 
-            return businessService.findBusinessByCriteria(criteria);
+            return businessService.findBusinessByTopRated(criteria);
 
 
     }

@@ -49,6 +49,8 @@ public class Business implements Serializable {
 
     @Column(name = "rate")
     private float rate;
+    @Column(name = "top_rate")
+    private int top_rate;
     @Column(name = "working_days")
     private String working_days;
     @Column(name = "terms_conditions",length = 30000)

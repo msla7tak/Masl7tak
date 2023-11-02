@@ -98,6 +98,25 @@ public interface BusinessRepository extends JpaRepository<Business, Long> {
     @Query("update Business b set b.rate = ((b.rate+ :rate)/2)  where b.id = :businessId")
     void updateRate(Float rate, Long businessId);
 
+    @Query("SELECT DISTINCT new com.application.masl7tak.dto.BusinessDTO(B.id, B.name,  B.email, B.status, B.subscriptionType," +
+            "B.description, B.logo,COUNT(S.id),B.start_discount_val,B.rate," +
+            "(SELECT C.id from Category C where B.category.id= C.id ), " +
+            " MIN(Br.id) ,B.visits_num ,B.working_days)" +
+            "FROM Business B " +
+            "JOIN Branches Br ON B.id = Br.business.id " +
+            "LEFT JOIN B.services S " +
+            "WHERE (:searchKey is null OR B.name  LIKE %:searchKey%) " +
+            "AND  B.top_rate=1 " +
+            "AND (:categoryId is null OR B.category.id = :categoryId) " +
+            "AND (:regionId is null OR Br.region.id = :regionId)  " +
+            "AND (:rate is null OR B.rate >= :rate)  " +
+            "GROUP BY B.id")
+    List<BusinessDTO> findBusinessTopRated(   @Param("categoryId") Long categoryId,
+                                                @Param("regionId") Long regionId,
+                                                @Param("rate") Float rate,
+                                                @Param("searchKey")  String searchKey,
+                                                PageRequest of);
+
 //    @Modifying
 //    @Query("UPDATE Business b SET b.start_discount_val =: discount_val WHERE b.id = :id AND b.start_discount_val < :discount_val")
 //    void updateStartDiscountVal(@Param("id") Long id, @Param("discount_val") double discountVal);
