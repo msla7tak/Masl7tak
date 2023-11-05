@@ -16,25 +16,27 @@ import java.util.List;
 @RequestMapping( path = "/api/")
 public interface FaqAPI {
     @GetMapping("public/faq")
-    public ResponseEntity<List<Faq>> findAll();
+    public ResponseEntity<Object> findAll();
     @GetMapping("public/faq/support")
-    public ResponseEntity<List<Faq>> findAllSupport();
+    public ResponseEntity<Object> findAllSupport();
 
     @GetMapping("public/faq/{id}")
-    public ResponseEntity<Faq> findById(@PathVariable Long id);
+    public ResponseEntity<Object> findById(@PathVariable Long id);
 
     @PostMapping("user/faq")
-    public ResponseEntity<Faq>  save(@ModelAttribute Faq faq);
+    public ResponseEntity<Object>  save(@ModelAttribute Faq faq);
+    @PostMapping("user/points")
+    public ResponseEntity<Object>  points(@RequestParam Long user_id);
     @PostMapping("user/faq/support")
 
-    public ResponseEntity<Faq> support(@RequestParam(name = "name", required = false) String name,
+    public ResponseEntity<Object> support(@RequestParam(name = "name", required = false) String name,
                                                     @RequestParam(name = "email", required = false) String email,
                                                     @RequestParam(name = "question_en", required = false) String question_en,
                                                     @RequestParam(name = "status", required = false) int status);
 
 
     @PutMapping("user/faq/{id}")
-    public ResponseEntity<Faq>  update(@RequestBody Faq faq, @PathVariable Long id);
+    public ResponseEntity<Object>  update(@RequestBody Faq faq, @PathVariable Long id);
 
     @DeleteMapping("admin/faq/{id}")
     public void deleteById(@PathVariable Long id);

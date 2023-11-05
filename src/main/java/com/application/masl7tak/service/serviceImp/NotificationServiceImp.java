@@ -61,8 +61,10 @@ public class NotificationServiceImp implements NotificationService {
     public ResponseEntity<Notification> save(Notification notification) {
         try {
             LocalDateTime now = LocalDateTime.now();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
             notification.setCreationDate(  formatter.format(now));
+            notification.setStatusReviewed("pending");
+
             return new ResponseEntity<>(notificationRepository.save(notification), HttpStatus.OK);
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -79,7 +81,7 @@ public class NotificationServiceImp implements NotificationService {
     public ResponseEntity<Object> create(Notification notification) {
         try {
             LocalDateTime now = LocalDateTime.now();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
             notification.setCreationDate(  formatter.format(now));
           List<UserDTO> userDTOS=  userRepository.AllUsers();
           List<Notification>notifications= new ArrayList<>();

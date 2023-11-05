@@ -21,32 +21,38 @@ import java.util.List;
     }
 
     @Override
-    public ResponseEntity<List<Faq>> findAll() {
+    public ResponseEntity<Object> findAll() {
         return regionService.findAll();
     }
 
     @Override
-    public ResponseEntity<List<Faq>> findAllSupport() {
+    public ResponseEntity<Object> findAllSupport() {
         return regionService.findAllSupport();
     }
 
     @Override
-    public ResponseEntity<Faq> findById(@PathVariable Long id) {
+    public ResponseEntity<Object> findById(@PathVariable Long id) {
         return regionService.findById(id);
     }
 
     @Override
-    public ResponseEntity<Faq>  save(@RequestBody Faq faq) {
+    public ResponseEntity<Object>  save(@RequestBody Faq faq) {
         return regionService.save(faq);
     }
 
     @Override
-    public ResponseEntity<Faq> support(String name, String email, String question_en, int status) {
+    public ResponseEntity<Object> points(Long user_id) {
+
+            return regionService.points(user_id);
+            }
+
+    @Override
+    public ResponseEntity<Object> support(String name, String email, String question_en, int status) {
         return regionService.support(name,email,question_en,status);
     }
 
     @Override
-    public ResponseEntity<Faq> update(@RequestBody Faq faq, @PathVariable Long id) {
+    public ResponseEntity<Object> update(@RequestBody Faq faq, @PathVariable Long id) {
         faq.setId(id);
         return regionService.save(faq);
     }

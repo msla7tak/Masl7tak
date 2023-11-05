@@ -18,11 +18,9 @@ import java.util.List;
 @Service
 @Transactional
 public class ReplacementServiceImp implements ReplacementService {
-    private final ReplacementRepository replacementRepository;
     @Autowired
-    public ReplacementServiceImp(ReplacementRepository replacementRepository) {
-        this.replacementRepository = replacementRepository;
-    }
+    private  ReplacementRepository replacementRepository;
+
 
     @Override
     public ResponseEntity<List<Replacement>> findAll() {

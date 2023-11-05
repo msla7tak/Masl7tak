@@ -9,15 +9,17 @@ import java.util.List;
 public interface FaqService {
 
 
-    public ResponseEntity<List<Faq>> findAll();
+    public ResponseEntity<Object> findAll();
 
-    public ResponseEntity<Faq> findById(Long id);
+    public ResponseEntity<Object> findById(Long id);
 
-    public ResponseEntity<Faq> save(Faq faq);
+    public ResponseEntity<Object> save(Faq faq);
 
     public void deleteById(Long id);
 
-    ResponseEntity<Faq> support(String name, String email, String questionEn, int status);
+    ResponseEntity<Object> support(String name, String email, String questionEn, int status);
 
-    ResponseEntity<List<Faq>> findAllSupport();
+    ResponseEntity<Object> findAllSupport();
+
+    ResponseEntity<Object> points(Long userId);
 }

@@ -31,15 +31,17 @@ public class Faq {
     private  String answer_en;
     @Column(name = "answer_ar")
     private  String answer_ar;
-
+    @Column(name = "user_id")
+    private Long user_id;
     @Column(name = "status")
     private  int status;
 
-    public Faq(String name, String email, String questionEn, int status) {
+    public Faq(String name, String email, String questionEn, int status,Long user_id) {
         this.name = name;
         this.email = email;
         this.question_en = questionEn;
         this.status = status;
+        this.user_id = user_id;
 
     }
 

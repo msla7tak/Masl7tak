@@ -15,6 +15,9 @@ public interface FaqRepository extends JpaRepository<Faq, Long> {
     @Query("SELECT f FROM Faq f WHERE f.status = 1")
 
     List<Faq> findAllWithFilter();
+    @Query("SELECT f FROM Faq f WHERE f.user_id = :user_id")
+
+    List<Faq> findFaqByUser_idIs(Long user_id);
 
 
 }
