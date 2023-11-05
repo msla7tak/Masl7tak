@@ -222,7 +222,7 @@ public class ServicesServiceImp implements ServicesService {
             if (files != null) service.setImages(amazonS3Controller.uploadFiles(files));
             service.setCarBrand(productService.getCarBrand());
             service.setCarModel(productService.getCarModel());
-            Long ID= productService.getCategory().getId()==null?productService.getCategory().getId():productService.getCategoryId();
+            Long ID= productService.getCategoryId();
             Category category = categoryRepository.findById(ID).orElse(null);
 
             service.setCategory(category);
@@ -254,8 +254,7 @@ public class ServicesServiceImp implements ServicesService {
                 image=productService.getImages();
 //            if (files != null)
 //                image = amazonS3Controller.uploadFiles(files);
-        Long ID= productService.getCategory().getId()==null?productService.getCategory().getId():productService.getCategoryId();
-
+            Long ID= productService.getCategoryId();
             Category category = categoryRepository.findById(ID).orElse(null);
             servicesRepository.update(productService.getId(), image, productService.getDiscountValue(), productService.getCarBrand(),
                     productService.getCarModel(), productService.getMax_usage(),
@@ -296,7 +295,10 @@ public class ServicesServiceImp implements ServicesService {
             if (files != null) service.setImages(amazonS3Controller.uploadFiles(files));
             service.setCarBrand(productService.getCarBrand());
             service.setCarModel(productService.getCarModel());
-            service.setCategory(productService.getCategory()!=null?productService.getCategory():new Category(productService.getCategoryId()));
+            Long ID= productService.getCategoryId();
+            Category category = categoryRepository.findById(ID).orElse(null);
+
+            service.setCategory(category);
             service.setQuantity(productService.getQuantity());
             service.setValidUntil(productService.getValidUntil());
             service.setIs_available(productService.getIs_available());
