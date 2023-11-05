@@ -247,6 +247,7 @@ public class ServicesServiceImp implements ServicesService {
     public ResponseEntity<Object> UpdateProductService(ProductService productService, MultipartFile[] files) {
 
         try {
+            log.info("test"+productService);
             productRepository.update(productService.getName(), productService.getDescription(), productService.getProducts_id());
 
             String image = null;
@@ -254,11 +255,16 @@ public class ServicesServiceImp implements ServicesService {
                 image=productService.getImages();
 //            if (files != null)
 //                image = amazonS3Controller.uploadFiles(files);
-            Long ID= productService.getCategoryId();
-            Category category = categoryRepository.findById(ID).orElse(null);
+            Long ID = productService.getCategoryId();
+            Category category =new Category();
+            category.setId(ID);
+            log.info("Category ID: " + ID);
+            log.info("Category Name: " + category.getName());
+
             servicesRepository.update(productService.getId(), image, productService.getDiscountValue(), productService.getCarBrand(),
                     productService.getCarModel(), productService.getMax_usage(),
-                    productService.getValidUntil(), productService.getIs_available(),productService.schedule_mode,category);
+                    productService.getValidUntil(), productService.getIs_available(), productService.schedule_mode, ID);
+
 
             return new ResponseEntity<>( servicesRepository.findBy_Id(productService.getId()), HttpStatus.OK);
 

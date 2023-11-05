@@ -30,7 +30,7 @@ public class Services implements Serializable {
 
     @Column(name = "valid_until")
     private String validUntil;
-    @Column(name = "is available")
+    @Column(name = "is_available")
     private String is_available;
     @Column(name = "quantity")
     private int quantity;
