@@ -57,6 +57,7 @@ public interface ReadmeRepository extends JpaRepository<Readme, Long> {
     List<ReadmeDTO> findAllReadme();
 
     @Query("SELECT new com.application.masl7tak.dto.ReadmeDTO ( " +
+            "    R.documentPath, " +
             "    R.id, " +
             "    R.services.id, " +
             "    R.user.id, " +

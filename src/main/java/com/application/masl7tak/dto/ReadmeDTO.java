@@ -142,7 +142,42 @@ public class ReadmeDTO {
 //    }
 
 
+    public ReadmeDTO(String invoiced_path,Long id, Long services_id, Long user_id, String schedule_date, String schedule_time, String service_name, Double service_discount,
+                     String business_Logo, String business_name, Long business_branch_ID, String business_branch_address, String locationLink, String branch_phone_number,
+                     String branch_openTime, String branch_closureTime,
+                     String service_expiration,
+                     String readme_date, String stateName, Boolean invoiced, Boolean comment,
+                     String total_invoice,int confirm_date,int confirm_invoice ,String reason,int schedule_mode,String comment_str) {
+        this.id = id;
+        this.services_id = services_id;
+        this.user_id = user_id;
+        this.schedule_date = schedule_date;
+        this.schedule_time = schedule_time;
+        this.service_name = service_name;
+        this.service_discount = service_discount;
+        this.business_Logo = business_Logo;
+        this.business_branch_ID = business_branch_ID;
+        this.business_branch_address = business_branch_address;
+        this.locationLink = locationLink;
+        this.branch_phone_number = branch_phone_number;
+        this.branch_openTime = branch_openTime;
+        this.branch_closureTime = branch_closureTime;
 
+        this.service_expiration = service_expiration;
+        this.business_name = business_name;
+        this.readme_date = readme_date;
+        this.stateName = stateName;
+        this.invoiced = invoiced;
+        this.comment = comment;
+        this.coupon_code =generateCouponCode(this.id);
+        this.total_invoice =total_invoice;
+        this.confirm_date =confirm_date;
+        this.confirm_invoice =confirm_invoice;
+        this.reason =reason;
+        this.schedule_mode =schedule_mode;
+        this.comment_str =comment_str;
+        this.invoiced_path =invoiced_path;
+    }
 
 
         public long generateCouponCode(long id) {
