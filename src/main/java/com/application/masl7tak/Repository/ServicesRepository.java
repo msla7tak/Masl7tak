@@ -102,7 +102,7 @@ public interface ServicesRepository extends JpaRepository<Services, Long> {
                                              PageRequest offset);
     @Query("SELECT DISTINCT new com.application.masl7tak.dto.ServicesDTO(S.id, S.discountValue,S.images, S.creationDate, S.validUntil, S.rate, S.category.id, " +
             "S.carModel, S.carBrand, S.business.id, B.name, S.quantity, C.name, S.is_available, P.id, P.name, P.description, P.price, P.image, " +
-            " B.email, B.status, B.subscriptionType, B.description, B.logo, B.start_discount_val,count(R.comment),S.readme_num,S.max_usage ,B.working_days,S.schedule_mode) " +
+            " B.email, B.status, B.subscriptionType, B.description, B.logo, B.start_discount_val,count(R.comment),S.readme_num,S.max_usage ,B.working_days,S.schedule_mode,((SELECT C.name from CarBrand C where S.carBrand= C.id ))) " +
             "FROM Services S " +
             "JOIN S.products P " +
             "JOIN S.business B " +
