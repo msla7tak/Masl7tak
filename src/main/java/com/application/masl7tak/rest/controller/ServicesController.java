@@ -86,4 +86,9 @@ public class ServicesController implements ServicesAPI {
     public void deleteById(@PathVariable Long id) {
         servicesService.deleteById(id);
     }
+
+    @Override
+    public ResponseEntity<Object> findMostVisited() {
+        return servicesService.findMostVisited();
+    }
 }

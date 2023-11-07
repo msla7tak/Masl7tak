@@ -45,4 +45,6 @@ public interface ServicesAPI {
 
     @DeleteMapping("business/services/{id}")
     public void deleteById(@PathVariable Long id);
+    @GetMapping("public/service/find_most_visited")
+    public ResponseEntity<Object> findMostVisited();
 }

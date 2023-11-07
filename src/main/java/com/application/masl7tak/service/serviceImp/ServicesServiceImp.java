@@ -371,5 +371,17 @@ public class ServicesServiceImp implements ServicesService {
         }
     }
 
+    @Override
+    public ResponseEntity<Object> findMostVisited() {
+        try {
+
+            return new ResponseEntity<>(servicesRepository.findMostVisited(), HttpStatus.OK);
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(),105), HttpStatus.BAD_REQUEST);
+
+        }    }
+
 
 }

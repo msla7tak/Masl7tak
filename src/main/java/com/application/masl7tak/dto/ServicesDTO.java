@@ -9,6 +9,7 @@ import java.sql.Date;
 @Data
 @Transactional
 public class ServicesDTO {
+    private  double visit_num;
     private Long id;
     private double discount_value;
     private String service_images;
@@ -56,6 +57,35 @@ public class ServicesDTO {
                 businessDescription,  logo, start_discount_val, working_days);
         this.products = new ProductDTO( id_p,  name,  description,  price,  image);
     }
+ public ServicesDTO(double visit_num,Long id, double discount_value,String service_images, String creationDate, String validUntil,float rate, Long category_id,Long model_id, Long brand_id,
+                       Long business_id, String business_name, int quantity, String category_name,
+                       String is_available, Long id_p, String name, String description, double price, String image,
+                      String email, String status, String subscriptionType,
+                       String businessDescription, String logo
+                       ,double start_discount_val,Long numberOfComments,double readme_num,int max_usage,String working_days, int schedule_mode) {
+        this.id = id;
+        this.discount_value = discount_value;
+        this.creationDate = creationDate;
+        this.model_id = model_id;
+        this.brand_id = brand_id;
+        this.validUntil = validUntil;
+        this.category_id = category_id;
+        this.rate = rate;
+        this.service_images = service_images;
+        this.category_name = category_name;
+        this.is_available = is_available;
+        this.quantity = quantity;
+        this.numberOfComments = numberOfComments.toString();
+        this.readme_num = readme_num;
+        this.max_usage = max_usage;
+        this.schedule_mode = schedule_mode;
+        this.visit_num = visit_num;
+
+        this.business= new BusinessDTO( business_id,  business_name,    email,  status,  subscriptionType,
+                businessDescription,  logo, start_discount_val, working_days);
+        this.products = new ProductDTO( id_p,  name,  description,  price,  image);
+    }
+
 //
 
 

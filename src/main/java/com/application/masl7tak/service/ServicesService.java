@@ -37,4 +37,6 @@ public interface ServicesService {
     ResponseEntity<List<ServicesDTO>> findAllAdmin(ServicesFilter criteria);
 
     ResponseEntity<Object> findMaxAmount();
+
+    ResponseEntity<Object> findMostVisited();
 }
