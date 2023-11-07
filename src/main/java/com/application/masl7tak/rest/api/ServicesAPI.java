@@ -21,14 +21,14 @@ public interface ServicesAPI {
     @GetMapping("public/max_amount")
     public ResponseEntity<Object>  findMaxAmount();
     @GetMapping("admin/services")
-    public ResponseEntity<List<ServicesDTO>>  findAllAdmin(@ModelAttribute ServicesFilter criteria);
+    public ResponseEntity<List<ServicesDTO>>findAllAdmin(@ModelAttribute ServicesFilter criteria);
 
     @GetMapping("public/services/{id}")
     public ResponseEntity<ServicesDTO> findById(@PathVariable Long id);
     @CrossOrigin(origins = "http://127.0.0.1:5500")
 
     @PostMapping("business/services")
-    public ResponseEntity<Services>  save(@RequestBody Services services);
+    public ResponseEntity<Services>save(@RequestBody Services services);
     @PutMapping("admin/services/active/{id}")
     public ResponseEntity<String> active(@PathVariable("id") String id);
     @CrossOrigin(origins = "http://127.0.0.1:5500")

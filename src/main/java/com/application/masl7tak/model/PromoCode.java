@@ -6,6 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @AllArgsConstructor
@@ -31,7 +34,17 @@ public class PromoCode implements Serializable {
     private double discountValue;
     @Column(name = "is_available")
     private String is_available;
+    @OneToMany(mappedBy = "promoCode", cascade = CascadeType.ALL)
+    private List<BusinessIdEntity> businessIds;
+    public List<Long> getAllBusinessIds() {
+        if (businessIds == null) {
+            return Collections.emptyList();
+        }
 
+        return businessIds.stream()
+                .map(BusinessIdEntity::aLongBusinessId)
+                .collect(Collectors.toList());
+    }
 
 
 }

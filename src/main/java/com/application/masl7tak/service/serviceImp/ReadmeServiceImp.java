@@ -75,29 +75,27 @@ public class ReadmeServiceImp implements ReadmeService {
                 readme.setDate(today);
                 servicesRepository.readme_num(servicesDTO.getId());
                 servicesRepository.isAvailable(servicesDTO.getId());
-                if (promoCode!=null){
-                if (promoCode.getReadme_num() < promoCode.getMax_usage()) {
-                    promoCodeRepository.readme_num(promoCode.getId());
-                    promoCodeRepository.isAvailable(promoCode.getId());
-//                    promoCode.getDiscountValue();
-                }
-                else {
-                    return new ResponseEntity<>(Constants.responseMessage("Promo Code expired ", 144), HttpStatus.BAD_REQUEST);
-                }
-                }
-
-
-
+                if (promoCode != null) {
+                    List<Long> allBusinessIds = promoCode.getAllBusinessIds();
+                    if (allBusinessIds.contains(servicesDTO.getBusiness().getId())) {
+                        if (promoCode.getReadme_num() < promoCode.getMax_usage()) {
+                            promoCodeRepository.readme_num(promoCode.getId());
+                            promoCodeRepository.isAvailable(promoCode.getId());
+                            readme.setPromo_code_discount(promoCode.getDiscountValue());
+                        }
+                    }
+                } else
+                    readme.setPromo_code_discount(0.0);
 
                 return new ResponseEntity<>(readmeRepository.findReadmeById(readmeRepository.save(readme).getId()), HttpStatus.CREATED);
                 //return new ResponseEntity<>(Constants.DATA_Inserted, HttpStatus.OK);
             } else
-                return new ResponseEntity<>(Constants.responseMessage("Coupon expired ",144), HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(Constants.responseMessage("Coupon expired ", 144), HttpStatus.BAD_REQUEST);
 
 
         } catch (Exception exception) {
             exception.printStackTrace();
-            return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(),150), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(), 150), HttpStatus.BAD_REQUEST);
 
         }
     }
@@ -110,11 +108,11 @@ public class ReadmeServiceImp implements ReadmeService {
     @Override
     public ResponseEntity<String> update(String comment, Float rate, Long readmeId) {
         try {
-         Readme readme=   readmeRepository.findById(readmeId).get();
+            Readme readme = readmeRepository.findById(readmeId).get();
             comment = (comment.equals("")) ? null : comment;
             readmeRepository.update(comment, rate, readmeId);
-            readmeRepository.updateRate( rate, readmeId);
-            businessRepository.updateRate(rate,readme.getBusiness_id());
+            readmeRepository.updateRate(rate, readmeId);
+            businessRepository.updateRate(rate, readme.getBusiness_id());
             return new ResponseEntity<>(Constants.DATA_Inserted, HttpStatus.OK);
         } catch (Exception exception) {
 
@@ -155,7 +153,7 @@ public class ReadmeServiceImp implements ReadmeService {
     @Override
     public ResponseEntity<Object> findBusinessCoupons(Long businessId, String date) {
         try {
-            if (date.equals("")){
+            if (date.equals("")) {
                 return new ResponseEntity<>(readmeRepository.findBusinessCouponsIDs(businessId), HttpStatus.OK);
             }
             return new ResponseEntity<>(readmeRepository.findBusinessCoupons(businessId, date), HttpStatus.OK);

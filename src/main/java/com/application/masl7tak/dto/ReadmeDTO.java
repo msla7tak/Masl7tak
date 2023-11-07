@@ -19,6 +19,7 @@ public class ReadmeDTO {
     private String schedule_time;
     private String service_name;
     private Double service_discount;
+    private Double promo_code_discount;
     private String business_name;
     private String business_Logo;
     private long coupon_code;
@@ -55,7 +56,7 @@ public class ReadmeDTO {
                      String branch_openTime, String branch_closureTime,
                String service_expiration,
                      String readme_date, String stateName, Boolean invoiced, Boolean comment,
-                     String total_invoice,int confirm_date,int confirm_invoice ,String reason,int schedule_mode,String comment_str) {
+                     String total_invoice,int confirm_date,int confirm_invoice ,String reason,int schedule_mode,String comment_str,Double promo_code_discount) {
         this.id = id;
         this.services_id = services_id;
         this.user_id = user_id;
@@ -84,6 +85,7 @@ public class ReadmeDTO {
         this.reason =reason;
         this.schedule_mode =schedule_mode;
         this.comment_str =comment_str;
+        this.promo_code_discount =promo_code_discount;
     }
 
     public ReadmeDTO(Long id, Long services_id, Long user_id,String user_name,String user_phone,String user_avatar, String schedule_date, String schedule_time, String service_name, Double service_discount,
@@ -91,7 +93,7 @@ public class ReadmeDTO {
                      String branch_openTime, String branch_closureTime,
                    String service_expiration,
                      String readme_date, String stateName, Boolean invoiced, Boolean comment,
-                     String total_invoice,String invoiced_path, int confirm_date,int confirm_invoice,String reason,int schedule_mode,String comment_str) {
+                     String total_invoice,String invoiced_path, int confirm_date,int confirm_invoice,String reason,int schedule_mode,String comment_str,Double promo_code_discount) {
         this.id = id;
         this.services_id = services_id;
         this.user_id = user_id;
@@ -124,6 +126,7 @@ public class ReadmeDTO {
         this.reason = reason;
         this.schedule_mode = schedule_mode;
         this.comment_str = comment_str;
+        this.promo_code_discount = promo_code_discount;
     }
 //    public ReadmeServiceDTO(Long id, Long user_id, Long services_id, Long business_id, Long business_branch, String schedule_date, String schedule_time, String readme_date, String documentPath,
 //                            String stateName, float rate, String comment) {
@@ -147,7 +150,7 @@ public class ReadmeDTO {
                      String branch_openTime, String branch_closureTime,
                      String service_expiration,
                      String readme_date, String stateName, Boolean invoiced, Boolean comment,
-                     String total_invoice,int confirm_date,int confirm_invoice ,String reason,int schedule_mode,String comment_str) {
+                     String total_invoice,int confirm_date,int confirm_invoice ,String reason,int schedule_mode,String comment_str,Double promo_code_discount) {
         this.id = id;
         this.services_id = services_id;
         this.user_id = user_id;
@@ -177,6 +180,7 @@ public class ReadmeDTO {
         this.schedule_mode =schedule_mode;
         this.comment_str =comment_str;
         this.invoiced_path =invoiced_path;
+        this.promo_code_discount =promo_code_discount;
     }
 
 

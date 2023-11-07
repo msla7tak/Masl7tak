@@ -2,6 +2,8 @@ package com.application.masl7tak.service.serviceImp;
 
 import com.application.masl7tak.Repository.PromoCodeRepository;
 import com.application.masl7tak.constents.Constants;
+import com.application.masl7tak.dto.PromoCodeDTO;
+import com.application.masl7tak.model.BusinessIdEntity;
 import com.application.masl7tak.model.PromoCode;
 import com.application.masl7tak.service.PromoCodeService;
 import com.application.masl7tak.service.PromoCodeService;
@@ -25,44 +27,52 @@ public class PromoCodeServiceImp implements PromoCodeService {
     private  PromoCodeRepository  promoCodeRepository;
 
     @Override
-    public ResponseEntity<List<PromoCode>> findAll() {
+    public ResponseEntity<Object> findAll() {
         try {
          
-            return new ResponseEntity<List<PromoCode>>(promoCodeRepository.findAll(), HttpStatus.OK);
+            return new ResponseEntity<>(promoCodeRepository.findAllDto(), HttpStatus.OK);
 
         } catch (Exception exception) {
             exception.printStackTrace();
+            return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(),142), HttpStatus.BAD_REQUEST);
+
         }
 
-        return new ResponseEntity<>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @Override
-    public ResponseEntity<PromoCode> findById(Long id) {
+    public ResponseEntity<Object> findById(Long id) {
         try {
 
-            return new ResponseEntity<>(promoCodeRepository.findById(id).orElseThrow(), HttpStatus.OK);
+            return new ResponseEntity<>(promoCodeRepository.findBy_Id(id), HttpStatus.OK);
 
         } catch (Exception exception) {
             exception.printStackTrace();
+            return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(),142), HttpStatus.BAD_REQUEST);
+
         }
 
-        return new ResponseEntity<>(new PromoCode(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @Override
-    public ResponseEntity<PromoCode> save(PromoCode PromoCode) {
+    public ResponseEntity<Object> save(PromoCode PromoCode) {
         try {
             LocalDate today = LocalDate.now();
             DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             String formattedDate = today.format(dateFormat);
             PromoCode.setCreationDate(formattedDate);
+
+            for (BusinessIdEntity businessIdEntity  :   PromoCode.getBusinessIds()) {
+                businessIdEntity.setPromoCode(PromoCode);
+            }
             PromoCode.setIs_available("true");
-            return new ResponseEntity<>(promoCodeRepository.save(PromoCode), HttpStatus.OK);
+          PromoCode=  promoCodeRepository.save(PromoCode);
+            return new ResponseEntity<>(promoCodeRepository.findBy_Id(PromoCode.getId()), HttpStatus.OK);
         } catch (Exception exception) {
             exception.printStackTrace();
+            return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(),142), HttpStatus.BAD_REQUEST);
+
         }
-        return new ResponseEntity<>(new PromoCode(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @Override
@@ -71,23 +81,25 @@ public class PromoCodeServiceImp implements PromoCodeService {
     }
 
     @Override
-    public ResponseEntity<Object> expired(String code) {
+    public ResponseEntity<Object> expired(String code,Long business_id) {
         try {
             PromoCode promoCode = promoCodeRepository.findByCode(code).orElse(null);
 
-            if (promoCode!=null){
-                if (promoCode.getReadme_num() < promoCode.getMax_usage()) {
+            if (promoCode!=null) {
+                List<Long> allBusinessIds = promoCode.getAllBusinessIds();
+                if (allBusinessIds.contains(business_id)) {
+                    if (promoCode.getReadme_num() < promoCode.getMax_usage()) {
+                        return new ResponseEntity<>(Constants.responseMessage( promoCode.getDiscountValue(), 200), HttpStatus.OK);
+                    }
 
-                    return new ResponseEntity<>(Constants.responseMessage("Promo Code not expired  value = "+promoCode.getDiscountValue(), 200), HttpStatus.OK);
+                    return new ResponseEntity<>(Constants.responseMessage("Promo code not valid ", 141), HttpStatus.BAD_REQUEST);
+
                 }
-
-                    return new ResponseEntity<>(Constants.responseMessage("Promo Code expired ", 141), HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(Constants.responseMessage("Promo code not valid ", 140), HttpStatus.BAD_REQUEST);
 
             }
-            else
-            {
-                return new ResponseEntity<>(Constants.responseMessage("Promo Code not found ", 140), HttpStatus.BAD_REQUEST);
-            }
+                return new ResponseEntity<>(Constants.responseMessage("Promo code not found ", 140), HttpStatus.BAD_REQUEST);
+
         } catch (Exception exception) {
             exception.printStackTrace();
             return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(),142), HttpStatus.BAD_REQUEST);

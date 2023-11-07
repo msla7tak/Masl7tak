@@ -1,6 +1,8 @@
 package com.application.masl7tak.Repository;
 
+import com.application.masl7tak.dto.PromoCodeDTO;
 import com.application.masl7tak.dto.ServicesDTO;
+import com.application.masl7tak.model.BusinessIdEntity;
 import com.application.masl7tak.model.Category;
 import com.application.masl7tak.model.PromoCode;
 import com.application.masl7tak.model.Services;
@@ -29,5 +31,13 @@ public interface PromoCodeRepository extends JpaRepository<PromoCode, Long> {
   @Query("select  P from PromoCode P where P.code= :promoCode")
   Optional< PromoCode> findByCode(String promoCode);
 
+  @Query(value = "SELECT new com.application.masl7tak.dto.PromoCodeDTO(P.id, P.code, P.max_usage, P.readme_num," +
+          "  P.validUntil, P.creationDate, P.discountValue, P.is_available)" +
+          " FROM  PromoCode P")
+  List<PromoCodeDTO> findAllDto();
+  @Query(value = "SELECT new com.application.masl7tak.dto.PromoCodeDTO(P.id, P.code, P.max_usage, P.readme_num," +
+          "  P.validUntil, P.creationDate, P.discountValue, P.is_available)" +
+          " FROM  PromoCode P where P.id= :id")
+  PromoCodeDTO findBy_Id(Long id);
 }
 

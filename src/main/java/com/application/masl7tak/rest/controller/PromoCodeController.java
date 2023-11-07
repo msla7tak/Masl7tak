@@ -1,8 +1,10 @@
 package com.application.masl7tak.rest.controller;
 
+import com.application.masl7tak.dto.PromoCodeDTO;
 import com.application.masl7tak.model.PromoCode;
 import com.application.masl7tak.rest.api.PromoCodeAPI;
 import com.application.masl7tak.service.PromoCodeService;
+import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,26 +22,27 @@ public class PromoCodeController implements PromoCodeAPI {
 
 
     @Override
-    public ResponseEntity<List<PromoCode>> findAll() {
+    public ResponseEntity<Object> findAll() {
         return promoCodeService.findAll( );
     }
 
     @Override
-    public ResponseEntity<PromoCode> findById(@PathVariable Long id) {
+    public ResponseEntity<Object> findById(@PathVariable Long id) {
         return promoCodeService.findById(id);
     }
 
     @Override
-    public ResponseEntity<PromoCode>  save(@RequestBody PromoCode promo_code) {
+    public ResponseEntity<Object>  save(@RequestBody PromoCode promo_code) {
+        log.info("Tetst: "+promo_code+ " ");
         return promoCodeService.save(promo_code);
     }
 
     @Override
-    public ResponseEntity<Object> expired(String code) {
-        return promoCodeService.expired(code);    }
+    public ResponseEntity<Object> expired(String code,Long business_id) {
+        return promoCodeService.expired(code,business_id);    }
 
     @Override
-    public ResponseEntity<PromoCode> update(@RequestBody PromoCode promo_code, @PathVariable Long id) {
+    public ResponseEntity<Object> update(@RequestBody PromoCode promo_code, @PathVariable Long id) {
         promo_code.setId(id);
         return promoCodeService.save(promo_code);
     }
