@@ -63,6 +63,18 @@ public class Services implements Serializable {
                 .collect(Collectors.toList());
     }
 
+    @OneToMany(mappedBy = "services", cascade = CascadeType.ALL)
+    private List<CarModelEntity> carModelEntities;
+    public List<Long> getAllModelIds() {
+        if (carModelEntities == null) {
+            return Collections.emptyList();
+        }
+
+        return carModelEntities.stream()
+                .map(CarModelEntity::aLongcarModelId)
+                .collect(Collectors.toList());
+    }
+
 //    @ManyToOne(cascade = CascadeType.MERGE, fetch=FetchType.LAZY)
 //    @JoinColumn(name = "user_id", referencedColumnName = "id")
 //    private User user;

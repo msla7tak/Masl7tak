@@ -238,6 +238,9 @@ public class ServicesServiceImp implements ServicesService {
             for (CarBrandEntity carBrandEntity  :   productService.getCarBrandEntities()) {
                 carBrandEntity.setServices(service);
             }
+            for (CarModelEntity carModelEntity  :   productService.getCarModelEntities()) {
+                carModelEntity.setServices(service);
+            }
             return new ResponseEntity<>(servicesRepository.save(service), HttpStatus.OK);
 
         } catch (Exception exception) {

@@ -46,4 +46,17 @@ public class ProductService {
                 .map(CarBrandEntity::aLongcarBrandId)
                 .collect(Collectors.toList());
     }
+
+
+    private List<CarModelEntity> carModelEntities;
+    public List<Long> getAllModelIds() {
+        if (carModelEntities == null) {
+            return Collections.emptyList();
+        }
+
+        return carModelEntities.stream()
+                .map(CarModelEntity::aLongcarModelId)
+                .collect(Collectors.toList());
+    }
+
 }
