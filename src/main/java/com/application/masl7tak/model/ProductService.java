@@ -1,8 +1,14 @@
 package com.application.masl7tak.model;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @AllArgsConstructor
@@ -29,4 +35,15 @@ public class ProductService {
     public Long categoryId;
     public int schedule_mode;
     private Category category;
+
+    private List<CarBrandEntity> carBrandEntities;
+    public List<Long> getAllBrandIds() {
+        if (carBrandEntities == null) {
+            return Collections.emptyList();
+        }
+
+        return carBrandEntities.stream()
+                .map(CarBrandEntity::aLongcarBrandId)
+                .collect(Collectors.toList());
+    }
 }

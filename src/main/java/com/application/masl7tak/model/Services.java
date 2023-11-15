@@ -7,7 +7,9 @@ import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @AllArgsConstructor
@@ -49,7 +51,17 @@ public class Services implements Serializable {
     @Column(name="schedule_mode")
     private int  schedule_mode;
 
+    @OneToMany(mappedBy = "services", cascade = CascadeType.ALL)
+    private List<CarBrandEntity> carBrandEntities;
+    public List<Long> getAllBrandIds() {
+        if (carBrandEntities == null) {
+            return Collections.emptyList();
+        }
 
+        return carBrandEntities.stream()
+                .map(CarBrandEntity::aLongcarBrandId)
+                .collect(Collectors.toList());
+    }
 
 //    @ManyToOne(cascade = CascadeType.MERGE, fetch=FetchType.LAZY)
 //    @JoinColumn(name = "user_id", referencedColumnName = "id")

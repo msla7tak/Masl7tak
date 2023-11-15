@@ -204,6 +204,7 @@ public class ServicesServiceImp implements ServicesService {
                 businessRepository.save(business);
             }
 
+
             Products products = new Products();
             products.setName(productService.getName());
             products.setDescription(productService.getDescription());
@@ -233,6 +234,10 @@ public class ServicesServiceImp implements ServicesService {
             service.setRate(0);
             service.setSchedule_mode(productService.getSchedule_mode());
 
+
+            for (CarBrandEntity carBrandEntity  :   productService.getCarBrandEntities()) {
+                carBrandEntity.setServices(service);
+            }
             return new ResponseEntity<>(servicesRepository.save(service), HttpStatus.OK);
 
         } catch (Exception exception) {
