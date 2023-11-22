@@ -5,6 +5,7 @@ import com.amazonaws.auth.AWSCredentialsProvider;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,17 @@ public class AmazonS3Service {
 
     public S3Object downloadFile(String bucketName, String keyName) {
         return s3Client.getObject(bucketName, keyName);
+    }
+
+    @Transactional
+    public void deleteFile(String bucketName, String keyName) {
+        try {
+            // Delete the file from S3
+            s3Client.deleteObject(new DeleteObjectRequest(bucketName, keyName));
+        } catch (Exception e) {
+            // Handle exceptions or throw a custom exception if needed
+            throw new RuntimeException("Error deleting file from S3: " + e.getMessage(), e);
+        }
     }
 }
 

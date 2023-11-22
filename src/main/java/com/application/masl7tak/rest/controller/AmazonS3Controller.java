@@ -30,7 +30,7 @@ public class AmazonS3Controller {
     @PostMapping("user/s3/upload")
     public ResponseEntity<String> uploadFilesToS3(@RequestParam(value = "file") MultipartFile[] files) {
         try {
-            String bucketName = "msla7takproject";
+            String bucketName = "msla7tak";
             List<File> fileList = new ArrayList<>();
             String nameList = "";
 
@@ -51,7 +51,7 @@ public class AmazonS3Controller {
 
     public String uploadFiles(MultipartFile[] files) {
         try {
-            String bucketName = "msla7takproject";
+            String bucketName = "msla7tak";
             List<File> fileList = new ArrayList<>();
             String nameList ="";
             for (MultipartFile file : files) {
@@ -79,7 +79,7 @@ public class AmazonS3Controller {
     @CrossOrigin(origins = "http://127.0.0.1:5500")
     @GetMapping("public/s3/download")
     public ResponseEntity<InputStreamResource> downloadFileFromS3(@RequestParam("keyName") String keyName) {
-        String bucketName = "msla7takproject";
+        String bucketName = "msla7tak";
         S3Object s3object = amazonS3Service.downloadFile(bucketName, keyName);
 
         InputStreamResource inputStreamResource = new InputStreamResource(s3object.getObjectContent());
@@ -90,6 +90,17 @@ public class AmazonS3Controller {
         headers.setContentDispositionFormData("attachment", keyName);
 
         return new ResponseEntity<>(inputStreamResource, headers, HttpStatus.OK);
+    }
+
+    @DeleteMapping("user/s3/delete/{fileName}")
+    public ResponseEntity<String> deleteFileFromS3(@PathVariable String fileName) {
+        try {
+            String bucketName = "msla7tak";
+            amazonS3Service.deleteFile(bucketName, fileName);
+            return ResponseEntity.ok("File deleted successfully: " + fileName);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error deleting file: " + e.getMessage());
+        }
     }
 
 
