@@ -45,7 +45,7 @@ public class AmazonS3Controller {
             amazonS3Service.uploadFilesToS3(bucketName, fileList);
             return ResponseEntity.ok(nameList);
         } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 
