@@ -235,12 +235,12 @@ public class ServicesServiceImp implements ServicesService {
             service.setSchedule_mode(productService.getSchedule_mode());
           Services service_=servicesRepository.findById( servicesRepository.save(service).getId()).get();
 
-            for (CarBrandEntity carBrandEntity  :   productService.getCarBrandEntities()) {
+            for (CarModelEntity carBrandEntity  :   productService.getCarBrandEntities()) {
                 carBrandEntity.setServices(service_);
             }
-            for (CarModelEntity carModelEntity  :   productService.getCarModelEntities()) {
-                carModelEntity.setServices(service_);
-            }
+//            for (CarModelEntity carModelEntity  :   productService.getCarModelEntities()) {
+//                carModelEntity.setServices(service_);
+//            }
             return new ResponseEntity<>(service_, HttpStatus.OK);
 
         } catch (Exception exception) {
