@@ -30,22 +30,19 @@ import java.util.List;
 public class ServicesServiceImp implements ServicesService {
 
     @Autowired
-    private  ServicesRepository servicesRepository;
+    private ServicesRepository servicesRepository;
     @Autowired
-    private  CategoryRepository categoryRepository;
+    private CategoryRepository categoryRepository;
     @Autowired
-    private  ProductRepository productRepository;
+    private ProductRepository productRepository;
     @Autowired
-    private  JwtAuthFilter jwtAuthFilter;
+    private JwtAuthFilter jwtAuthFilter;
     @Autowired
-    private  BusinessRepository businessRepository;
+    private BusinessRepository businessRepository;
     @Autowired
-    private  UserRepository userRepository;
+    private UserRepository userRepository;
     @Autowired
-    private  AmazonS3Controller amazonS3Controller;
-
-
-
+    private AmazonS3Controller amazonS3Controller;
 
 
     @Override
@@ -123,9 +120,9 @@ public class ServicesServiceImp implements ServicesService {
 
         Business business = services.getBusiness();
 
-       User user = userRepository.findUserByEmail(jwtAuthFilter.getCurrentUser()).orElseThrow();
-        log.info(business.getId().equals(user.getBusiness_id())+"    "+user.getBusiness_id()+"    "+business.getId());
-        if (business.getId().equals(user.getBusiness_id())||jwtAuthFilter.getRole().equals("admin")) {
+        User user = userRepository.findUserByEmail(jwtAuthFilter.getCurrentUser()).orElseThrow();
+        log.info(business.getId().equals(user.getBusiness_id()) + "    " + user.getBusiness_id() + "    " + business.getId());
+        if (business.getId().equals(user.getBusiness_id()) || jwtAuthFilter.getRole().equals("admin")) {
 
             productRepository.delete(services.getProducts());
             servicesRepository.deleteById(id);
@@ -133,7 +130,6 @@ public class ServicesServiceImp implements ServicesService {
 
         }
         log.info("error");
-
 
 
     }
@@ -163,7 +159,7 @@ public class ServicesServiceImp implements ServicesService {
             LocalDate currentDate = LocalDate.now();
 
             return new ResponseEntity<>(servicesRepository.findServicesByCriteria(productId, eventOfferId, businessId, categoryId, regionId, rate,
-                    carModel, carBrand, minDiscountValue, maxDiscountValue, searchKey,currentDate, PageRequest.of(offset, 100)), HttpStatus.OK);
+                    carModel, carBrand, minDiscountValue, maxDiscountValue, searchKey, currentDate, PageRequest.of(offset, 100)), HttpStatus.OK);
 //            }
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -194,7 +190,7 @@ public class ServicesServiceImp implements ServicesService {
     @Override
     public ResponseEntity<Object> setProductService(ProductService productService, MultipartFile[] files) {
         try {
-            if( productService.getBusiness()==null)
+            if (productService.getBusiness() == null)
                 productService.setBusiness(new Business(productService.getBusinessId()));
 
             Long businessId = productService.getBusiness().getId();
@@ -223,7 +219,7 @@ public class ServicesServiceImp implements ServicesService {
             if (files != null) service.setImages(amazonS3Controller.uploadFiles(files));
             service.setCarBrand(productService.getCarBrand());
             service.setCarModel(productService.getCarModel());
-            Long ID= productService.getCategoryId();
+            Long ID = productService.getCategoryId();
             Category category = categoryRepository.findById(ID).orElse(null);
 
             service.setCategory(category);
@@ -233,24 +229,28 @@ public class ServicesServiceImp implements ServicesService {
             service.setMax_usage(productService.getMax_usage());
             service.setRate(0);
             service.setSchedule_mode(productService.getSchedule_mode());
-
-            for (CarModelEntity carModelEntity  :   productService.getCarModelEntities()) {
-                carModelEntity.setServices(service);
-                service.setCarModel(Long.parseLong(carModelEntity.getModelId()));
+            if (productService.getCarModelEntities() != null) {
+                for (CarModelEntity carModelEntity : productService.getCarModelEntities()) {
+                    carModelEntity.setServices(service);
+                    service.setCarModel(Long.parseLong(carModelEntity.getModelId()));
+                }
+                service.setCarModelEntities(productService.getCarModelEntities());
             }
-            for (CarBrandEntity carBrandEntity  :   productService.getCarBrandEntities()) {
-                carBrandEntity.setServices(service);
-                service.setCarBrand(Long.parseLong(carBrandEntity.getBrandId()));
+            service.setSchedule_mode(productService.getSchedule_mode());
+            if (productService.getCarBrandEntities() != null) {
+                for (CarBrandEntity carBrandEntity : productService.getCarBrandEntities()) {
+                    carBrandEntity.setServices(service);
+                    service.setCarBrand(Long.parseLong(carBrandEntity.getBrandId()));
 
+                }
+
+                service.setCarBrandEntities(productService.getCarBrandEntities());
             }
-
-            service.setCarModelEntities(productService.getCarModelEntities());
-            service.setCarBrandEntities(productService.getCarBrandEntities());
-            return new ResponseEntity<>(servicesRepository.findBy_Id( servicesRepository.save(service).getId()), HttpStatus.OK);
+            return new ResponseEntity<>(servicesRepository.findBy_Id(servicesRepository.save(service).getId()), HttpStatus.OK);
 
         } catch (Exception exception) {
             exception.printStackTrace();
-            return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(),105), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(), 105), HttpStatus.BAD_REQUEST);
 
         }
     }
@@ -260,45 +260,49 @@ public class ServicesServiceImp implements ServicesService {
     public ResponseEntity<Object> UpdateProductService(ProductService productService, MultipartFile[] files) {
 
         try {
-            log.info("test"+productService);
+            log.info("test" + productService);
             productRepository.update(productService.getName(), productService.getDescription(), productService.getProducts_id());
 
             String image = null;
-            if (productService.getImages() != null&&!productService.getImages().equals( ""))
-                image=productService.getImages();
+            if (productService.getImages() != null && !productService.getImages().equals(""))
+                image = productService.getImages();
 //            if (files != null)
 //                image = amazonS3Controller.uploadFiles(files);
             Long ID = productService.getCategoryId();
-            Category category =new Category();
+            Category category = new Category();
             category.setId(ID);
             log.info("Category ID: " + ID);
             log.info("Category Name: " + category.getName());
-
-
 
 
             servicesRepository.update(productService.getId(), image, productService.getDiscountValue(), productService.getCarBrand(),
                     productService.getCarModel(), productService.getMax_usage(),
                     productService.getValidUntil(), productService.getIs_available(), productService.schedule_mode, ID);
 
-           Services service= servicesRepository.findById(productService.getId()).get();
+            Services service = servicesRepository.findById(productService.getId()).get();
             service.getCarBrandEntities().clear();
             service.getCarModelEntities().clear();
-            for (CarModelEntity carModelEntity  :   productService.getCarModelEntities()) {
-                carModelEntity.setServices(service);
-            }
-            for (CarBrandEntity carBrandEntity  :   productService.getCarBrandEntities()) {
-                carBrandEntity.setServices(service);
+            if (productService.getCarModelEntities() != null) {
 
+                for (CarModelEntity carModelEntity : productService.getCarModelEntities()) {
+                    carModelEntity.setServices(service);
+                }
+                service.setCarModelEntities(productService.getCarModelEntities());
             }
-            service.setCarModelEntities(productService.getCarModelEntities());
-            service.setCarBrandEntities(productService.getCarBrandEntities());
+            if (productService.getCarBrandEntities() != null) {
+
+                for (CarBrandEntity carBrandEntity : productService.getCarBrandEntities()) {
+                    carBrandEntity.setServices(service);
+
+                }
+                service.setCarBrandEntities(productService.getCarBrandEntities());
+            }
             servicesRepository.save(service);
-            return new ResponseEntity<>( servicesRepository.findBy_Id(productService.getId()), HttpStatus.OK);
+            return new ResponseEntity<>(servicesRepository.findBy_Id(productService.getId()), HttpStatus.OK);
 
         } catch (Exception exception) {
             exception.printStackTrace();
-            return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(),104), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(), 104), HttpStatus.BAD_REQUEST);
 
         }
     }
@@ -306,7 +310,7 @@ public class ServicesServiceImp implements ServicesService {
     @Override
     public ResponseEntity<Object> setService_event(ProductService productService, MultipartFile[] files) {
         try {
-            if( productService.getBusiness()==null)
+            if (productService.getBusiness() == null)
                 productService.setBusiness(new Business(productService.getBusinessId()));
 
 
@@ -329,7 +333,7 @@ public class ServicesServiceImp implements ServicesService {
             if (files != null) service.setImages(amazonS3Controller.uploadFiles(files));
             service.setCarBrand(productService.getCarBrand());
             service.setCarModel(productService.getCarModel());
-            Long ID= productService.getCategoryId();
+            Long ID = productService.getCategoryId();
             Category category = categoryRepository.findById(ID).orElse(null);
 
             service.setCategory(category);
@@ -344,15 +348,16 @@ public class ServicesServiceImp implements ServicesService {
 
         } catch (Exception exception) {
             exception.printStackTrace();
-            return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(),105), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(), 105), HttpStatus.BAD_REQUEST);
 
         }
     }
 
     @Override
     public ResponseEntity<String> active(long longId) {
-        servicesRepository.active(longId,"true");
-        return new ResponseEntity<>("done", HttpStatus.OK);    }
+        servicesRepository.active(longId, "true");
+        return new ResponseEntity<>("done", HttpStatus.OK);
+    }
 
     @Override
     public ResponseEntity<List<ServicesDTO>> findAllAdmin(ServicesFilter criteria) {
@@ -394,7 +399,7 @@ public class ServicesServiceImp implements ServicesService {
 
         } catch (Exception exception) {
             exception.printStackTrace();
-            return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(),105), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(), 105), HttpStatus.BAD_REQUEST);
 
         }
     }
@@ -407,9 +412,10 @@ public class ServicesServiceImp implements ServicesService {
 
         } catch (Exception exception) {
             exception.printStackTrace();
-            return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(),105), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(), 105), HttpStatus.BAD_REQUEST);
 
-        }    }
+        }
+    }
 
 
 }
