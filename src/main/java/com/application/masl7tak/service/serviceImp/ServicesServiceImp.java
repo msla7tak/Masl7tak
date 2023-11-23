@@ -246,8 +246,7 @@ public class ServicesServiceImp implements ServicesService {
 
             service.setCarModelEntities(productService.getCarModelEntities());
             service.setCarBrandEntities(productService.getCarBrandEntities());
-
-            return new ResponseEntity<>(servicesRepository.save(service), HttpStatus.OK);
+            return new ResponseEntity<>(servicesRepository.findBy_Id( servicesRepository.save(service).getId()), HttpStatus.OK);
 
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -275,11 +274,26 @@ public class ServicesServiceImp implements ServicesService {
             log.info("Category ID: " + ID);
             log.info("Category Name: " + category.getName());
 
+
+
+
             servicesRepository.update(productService.getId(), image, productService.getDiscountValue(), productService.getCarBrand(),
                     productService.getCarModel(), productService.getMax_usage(),
                     productService.getValidUntil(), productService.getIs_available(), productService.schedule_mode, ID);
 
+           Services service= servicesRepository.findById(productService.getId()).get();
+            service.getCarBrandEntities().clear();
+            service.getCarModelEntities().clear();
+            for (CarModelEntity carModelEntity  :   productService.getCarModelEntities()) {
+                carModelEntity.setServices(service);
+            }
+            for (CarBrandEntity carBrandEntity  :   productService.getCarBrandEntities()) {
+                carBrandEntity.setServices(service);
 
+            }
+            service.setCarModelEntities(productService.getCarModelEntities());
+            service.setCarBrandEntities(productService.getCarBrandEntities());
+            servicesRepository.save(service);
             return new ResponseEntity<>( servicesRepository.findBy_Id(productService.getId()), HttpStatus.OK);
 
         } catch (Exception exception) {
