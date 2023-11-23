@@ -36,27 +36,27 @@ public class ProductService {
     public int schedule_mode;
     private Category category;
 
-    private List<CarBrandEntity> carBrandEntities;
+    private List<CarBrandEntity> carModelEntities;
     public List<Long> getAllBrandIds() {
-        if (carBrandEntities == null) {
-            return Collections.emptyList();
-        }
-
-        return carBrandEntities.stream()
-                .map(CarBrandEntity::aLongcarBrandId)
-                .collect(Collectors.toList());
-    }
-
-
-    private List<CarModelEntity> carModelEntities;
-    public List<Long> getAllModelIds() {
         if (carModelEntities == null) {
             return Collections.emptyList();
         }
 
         return carModelEntities.stream()
-                .map(CarModelEntity::aLongcarModelId)
+                .map(CarBrandEntity::aLongcarBrandId)
                 .collect(Collectors.toList());
     }
+
+//
+//    private List<CarModelEntity> carModelEntities;
+//    public List<Long> getAllModelIds() {
+//        if (carModelEntities == null) {
+//            return Collections.emptyList();
+//        }
+//
+//        return carModelEntities.stream()
+//                .map(CarModelEntity::aLongcarModelId)
+//                .collect(Collectors.toList());
+//    }
 
 }
