@@ -19,13 +19,14 @@ public class CarBrandEntity {
     @JoinColumn(name = "services_id", referencedColumnName = "id")
     private Services services;
 
-    private Integer brandId;
+    private String brandId;
 
-    public CarBrandEntity(Integer brandId) {
+    public CarBrandEntity(String brandId) {
         this.brandId = brandId;
     }
+
     public Long aLongcarBrandId(){
-        return Long.parseLong(this.brandId+"");
+        return Long.parseLong(this.brandId);
     }
 }
 

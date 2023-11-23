@@ -233,15 +233,15 @@ public class ServicesServiceImp implements ServicesService {
             service.setMax_usage(productService.getMax_usage());
             service.setRate(0);
             service.setSchedule_mode(productService.getSchedule_mode());
-          Services service_=servicesRepository.findById( servicesRepository.save(service).getId()).get();
 
-            for (CarModelEntity carBrandEntity  :   productService.getCarBrandEntities()) {
-                carBrandEntity.setServices(service_);
+
+            for (CarBrandEntity carBrandEntity  :   productService.getCarBrandEntities()) {
+                carBrandEntity.setServices(service);
             }
-//            for (CarModelEntity carModelEntity  :   productService.getCarModelEntities()) {
-//                carModelEntity.setServices(service_);
-//            }
-            return new ResponseEntity<>(service_, HttpStatus.OK);
+            for (CarModelEntity carModelEntity  :   productService.getCarModelEntities()) {
+                carModelEntity.setServices(service);
+            }
+            return new ResponseEntity<>(servicesRepository.save(service), HttpStatus.OK);
 
         } catch (Exception exception) {
             exception.printStackTrace();

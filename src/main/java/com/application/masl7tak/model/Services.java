@@ -51,6 +51,7 @@ public class Services implements Serializable {
     @Column(name="schedule_mode")
     private int  schedule_mode;
 
+
     @OneToMany(mappedBy = "services", cascade = CascadeType.ALL)
     private List<CarBrandEntity> carBrandEntities;
     public List<Long> getAllBrandIds() {
@@ -62,7 +63,6 @@ public class Services implements Serializable {
                 .map(CarBrandEntity::aLongcarBrandId)
                 .collect(Collectors.toList());
     }
-
     @OneToMany(mappedBy = "services", cascade = CascadeType.ALL)
     private List<CarModelEntity> carModelEntities;
     public List<Long> getAllModelIds() {
