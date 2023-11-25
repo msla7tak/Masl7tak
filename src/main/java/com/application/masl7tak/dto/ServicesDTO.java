@@ -1,14 +1,22 @@
 package com.application.masl7tak.dto;
 
+import com.application.masl7tak.Repository.ServicesRepository;
+import com.application.masl7tak.model.CarBrandEntity;
+import com.application.masl7tak.model.CarModelEntity;
 import jakarta.persistence.Column;
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @Transactional
 public class ServicesDTO {
+
     private  double visit_num;
     private Long id;
     private double discount_value;
@@ -29,6 +37,10 @@ public class ServicesDTO {
     private double readme_num;
     private int max_usage;
     private int schedule_mode;
+    private List<String> carBrandEntities;
+
+
+    private List<String> carModelEntities;
 
     public ServicesDTO(Long id, double discount_value,String service_images, String creationDate, String validUntil,float rate, Long category_id,Long model_id, Long brand_id,
                        Long business_id, String business_name, int quantity, String category_name,
@@ -52,7 +64,6 @@ public class ServicesDTO {
         this.readme_num = readme_num;
         this.max_usage = max_usage;
         this.schedule_mode = schedule_mode;
-
         this.business= new BusinessDTO( business_id,  business_name,    email,  status,  subscriptionType,
                 businessDescription,  logo, start_discount_val, working_days);
         this.products = new ProductDTO( id_p,  name,  description,  price,  image);

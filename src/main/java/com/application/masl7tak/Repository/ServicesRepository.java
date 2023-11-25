@@ -174,6 +174,17 @@ public interface ServicesRepository extends JpaRepository<Services, Long> {
 
     List<ServicesDTO> findMostVisited();
 
+    @Query("SELECT B.brandId  " +
+            "FROM  CarBrandEntity B " +
+            "WHERE B.services.id = :id")
+
+    List<String> findBrand(Long id);
+    @Query("SELECT M.modelId  " +
+            "FROM  CarModelEntity M " +
+            "WHERE M.services.id = :id")
+
+    List<String> findModel(Long id);
+
 
 //            "JOIN Branches Br " +
 //@Param("regionId") Long regionId,

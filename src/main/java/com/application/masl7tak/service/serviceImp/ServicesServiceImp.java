@@ -158,8 +158,14 @@ public class ServicesServiceImp implements ServicesService {
             int offset = criteria.getOffset();
             LocalDate currentDate = LocalDate.now();
 
-            return new ResponseEntity<>(servicesRepository.findServicesByCriteria(productId, eventOfferId, businessId, categoryId, regionId, rate,
-                    carModel, carBrand, minDiscountValue, maxDiscountValue, searchKey, currentDate, PageRequest.of(offset, 100)), HttpStatus.OK);
+            List<ServicesDTO> servicesDTOS=servicesRepository.findServicesByCriteria(productId, eventOfferId, businessId, categoryId, regionId, rate,
+                    carModel, carBrand, minDiscountValue, maxDiscountValue, searchKey, currentDate, PageRequest.of(offset, 100));
+            for (ServicesDTO services:servicesDTOS) {
+                services.setCarBrandEntities(servicesRepository.findBrand(services.getId()));
+                services.setCarModelEntities(servicesRepository.findModel(services.getId()));
+
+            }
+            return new ResponseEntity<>(servicesDTOS, HttpStatus.OK);
 //            }
         } catch (Exception exception) {
             exception.printStackTrace();
