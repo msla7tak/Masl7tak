@@ -52,7 +52,7 @@ public class Services implements Serializable {
     private int  schedule_mode;
 
 
-    @OneToMany(mappedBy = "services", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
+    @OneToMany(mappedBy = "services", cascade = CascadeType.ALL)
     private List<CarBrandEntity> carBrandEntities;
     public List<Long> getAllBrandIds() {
         if (carBrandEntities == null) {
@@ -63,7 +63,7 @@ public class Services implements Serializable {
                 .map(CarBrandEntity::aLongcarBrandId)
                 .collect(Collectors.toList());
     }
-    @OneToMany(mappedBy = "services", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
+    @OneToMany(mappedBy = "services", cascade = CascadeType.ALL)
     private List<CarModelEntity> carModelEntities;
     public List<Long> getAllModelIds() {
         if (carModelEntities == null) {

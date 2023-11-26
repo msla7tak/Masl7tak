@@ -285,9 +285,13 @@ public class ServicesServiceImp implements ServicesService {
                     productService.getCarModel(), productService.getMax_usage(),
                     productService.getValidUntil(), productService.getIs_available(), productService.schedule_mode, ID);
 
-            Services service = servicesRepository.findById(productService.getId()).get();
-            service.getCarBrandEntities().clear();
-            service.getCarModelEntities().clear();
+            Services service = servicesRepository.findById(productService.getId()).orElseThrow();
+
+// Remove orphaned CarBrandEntities
+            service.getCarBrandEntities().removeIf(brand -> !service.getCarBrandEntities().contains(brand));
+            service.getCarModelEntities().removeIf(brand -> !service.getCarModelEntities().contains(brand));
+
+
             if (productService.getCarModelEntities() != null) {
 
                 for (CarModelEntity carModelEntity : productService.getCarModelEntities()) {
