@@ -22,6 +22,7 @@ public class UserDTO {
     private String facebook_id;
     private String gmail_id;
     private String token;
+    private String firebase_token;
     private String invitation_code;
     public UserDTO(Long id, Long business_id, String image, String name, String contactNumber, String email,
                    String role, String status, Integer points, int carBrand, int carModel,
@@ -48,6 +49,11 @@ public class UserDTO {
     public UserDTO(Long id,String name) {
         this.id = id;
         this.name = name;
+
+    }
+    public UserDTO(String firebase_token,Long id) {
+        this.id = id;
+        this.firebase_token = firebase_token;
 
     }
 }

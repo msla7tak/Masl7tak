@@ -37,21 +37,20 @@ import java.util.*;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    private  UserRepository userRepository;
+    private UserRepository userRepository;
     @Autowired
-    private  PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
     @Autowired
-    private  JwtService jwtService;
+    private JwtService jwtService;
     @Autowired
-    private  JwtAuthFilter jwtAuthFilter;
+    private JwtAuthFilter jwtAuthFilter;
     @Autowired
-    private  AmazonS3Controller amazonS3Controller;
+    private AmazonS3Controller amazonS3Controller;
 
     @Autowired
-    private  AuthenticationManager authenticationManager;
+    private AuthenticationManager authenticationManager;
     @Autowired
     private ReplacementRepository replacementRepository;
-
 
 
     private boolean validateSignupMap(Map<String, String> requestMap) {
@@ -65,6 +64,7 @@ public class UserServiceImpl implements UserService {
         user.setName(requestMap.get("name"));
         user.setContactNumber(requestMap.get("contact_number"));
         user.setEmail(requestMap.get("email"));
+        user.setFirebase_token(requestMap.get("firebase_token"));
         user.setCarModel(Integer.parseInt(requestMap.get("car_model")));
         user.setCarBrand(Integer.parseInt(requestMap.get("car_brand")));
         user.setPassword(passwordEncoder.encode(requestMap.get("password")));
@@ -101,7 +101,7 @@ public class UserServiceImpl implements UserService {
         try {
             if (jwtAuthFilter.isAdmin())
 
-            return new ResponseEntity<>(userRepository.lastRegisteredUsers(PageRequest.of(0, 10)), HttpStatus.OK);
+                return new ResponseEntity<>(userRepository.lastRegisteredUsers(PageRequest.of(0, 10)), HttpStatus.OK);
             else
 //                log.info(""+jwtAuthFilter.isAdmin());
                 return new ResponseEntity<>(new ArrayList<>(), HttpStatus.UNAUTHORIZED);
@@ -109,7 +109,8 @@ public class UserServiceImpl implements UserService {
             exception.printStackTrace();
 
         }
-        return new ResponseEntity<>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);    }
+        return new ResponseEntity<>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
 
     @Override
@@ -124,29 +125,30 @@ public class UserServiceImpl implements UserService {
                     UserDTO userDTO = userRepository.findDtoByEmail(requestMap.get("email"));
 
                     userDTO.setToken(jwtToken);
-                    if(requestMap.get("invitation_code")!=null){
+                    if (requestMap.get("invitation_code") != null) {
                         User inviter = userRepository.findByInvitationCode(requestMap.get("invitation_code"));
-                        Integer point =replacementRepository.getReferenceById(1L).getPoint_for_invitation();
-                        userRepository.updatePoints(inviter.getPoints()+point,inviter.getId());
+                        Integer point = replacementRepository.getReferenceById(1L).getPoint_for_invitation();
+                        userRepository.updatePoints(inviter.getPoints() + point, inviter.getId());
                     }
-                    userRepository.updatePoints(replacementRepository.getReferenceById(1L).getPoint_for_registration(),userDTO.getId());
+                    userRepository.updatePoints(replacementRepository.getReferenceById(1L).getPoint_for_registration(), userDTO.getId());
 
                     return new ResponseEntity<>(userDTO, HttpStatus.OK);
                 } else {
-                    return new ResponseEntity<>(Constants.responseMessage("Email  already exits",101), HttpStatus.BAD_REQUEST);
+                    return new ResponseEntity<>(Constants.responseMessage("Email  already exits", 101), HttpStatus.BAD_REQUEST);
                 }
             } else {
-                return new ResponseEntity<>(Constants.responseMessage(Constants.INVALID_DATA,102), HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(Constants.responseMessage(Constants.INVALID_DATA, 102), HttpStatus.BAD_REQUEST);
             }
         } catch (Exception exception) {
             exception.printStackTrace();
-            return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(),500), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(), 500), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
     }
+
     public String generateInvitationToken() {
         UUID token = UUID.randomUUID();
-        return token.toString().substring(0,8);
+        return token.toString().substring(0, 8);
     }
 
     @Override
@@ -158,8 +160,11 @@ public class UserServiceImpl implements UserService {
                     new UsernamePasswordAuthenticationToken(requestMap.get("email"), requestMap.get("password")));
 
             if (auth.isAuthenticated()) {
-                UserDTO userDTO = userRepository.findDtoByEmail(requestMap.get("email"));
 
+                UserDTO userDTO = userRepository.findDtoByEmail(requestMap.get("email"));
+                if (requestMap.get("firebase_token") != null || requestMap.get("firebase_token") != "") {
+                    userRepository.updateFirebase(userDTO.getId(),requestMap.get("firebase_token"));
+                }
                 //          if (user.getStatus().equalsIgnoreCase("true")) {
 //                    log.info("Inside login");
                 var jwtToken = jwtService.generateToken(userRepository.findByEmail(requestMap.get("email")));
@@ -170,15 +175,13 @@ public class UserServiceImpl implements UserService {
 //                    return Utils.getResponseEntity("Wait for admin approval.", HttpStatus.BAD_REQUEST);
 //
 //                }
-            }
-            else
-                return new ResponseEntity<>(Constants.responseMessage("Wrong credentials",103), HttpStatus.BAD_REQUEST);
-
+            } else
+                return new ResponseEntity<>(Constants.responseMessage("Wrong credentials", 103), HttpStatus.BAD_REQUEST);
 
 
         } catch (Exception ex) {
 
-            return new ResponseEntity<>(Constants.responseMessage(ex.getMessage(),103), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Constants.responseMessage(ex.getMessage(), 103), HttpStatus.BAD_REQUEST);
 
         }
 
@@ -196,20 +199,19 @@ public class UserServiceImpl implements UserService {
                 if (passwordEncoder.matches(requestmap.get("old_password"), userOb.getPassword())) {
                     userOb.setPassword(passwordEncoder.encode(requestmap.get("new_password")));
                     userRepository.save(userOb);
-                    return new ResponseEntity<>(Constants.responseMessage("Password Updated Successfully",110), HttpStatus.BAD_REQUEST);
+                    return new ResponseEntity<>(Constants.responseMessage("Password Updated Successfully", 110), HttpStatus.BAD_REQUEST);
 
                 }
 
 
             }
-            return new ResponseEntity<>(Constants.responseMessage("Incorrect Old Password",110), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Constants.responseMessage("Incorrect Old Password", 110), HttpStatus.BAD_REQUEST);
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(), 105), HttpStatus.BAD_REQUEST);
 
         }
-        catch (Exception exception) {
-        exception.printStackTrace();
-        return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(),105), HttpStatus.BAD_REQUEST);
-
-    }
 
     }
 
@@ -288,17 +290,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResponseEntity<SuccessDTO> updateProfile(Long id, MultipartFile[] image, String name, String contactNumber,
-                                                    String email, String password,String old_password, int carBrand, int carModel) {
+                                                    String email, String password, String old_password, int carBrand, int carModel) {
         try {
             User userOb = userRepository.findByEmail(jwtAuthFilter.getCurrentUser());
-            int passwordChanged=0;
+            int passwordChanged = 0;
 
-            if ((password != null)  && password.length() >= 6) {
-                passwordChanged=1;
+            if ((password != null) && password.length() >= 6) {
+                passwordChanged = 1;
                 if (passwordEncoder.matches(old_password, userOb.getPassword())) {
                     userOb.setPassword(passwordEncoder.encode(password));
                     userRepository.save(userOb);
-                    passwordChanged=2;
+                    passwordChanged = 2;
                 }
             }
 //            else {
@@ -311,10 +313,9 @@ public class UserServiceImpl implements UserService {
                 image_path = amazonS3Controller.uploadFiles(image);
 
             userRepository.updateProfile(id, image_path, name, contactNumber, email, carBrand, carModel);
-            if (passwordChanged==0||passwordChanged==2) {
+            if (passwordChanged == 0 || passwordChanged == 2) {
                 return new ResponseEntity<>(new SuccessDTO(userOb.getId(), Constants.DATA_Inserted), HttpStatus.OK);
-            }
-            else {
+            } else {
                 return new ResponseEntity<>(new SuccessDTO(userOb.getId(), Constants.WRONG_PASSWORD), HttpStatus.BAD_REQUEST);
 
             }

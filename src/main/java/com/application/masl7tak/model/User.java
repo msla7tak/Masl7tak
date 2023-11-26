@@ -59,6 +59,8 @@ public class User implements UserDetails, Serializable {
     private int carModel;
     @Column(name = "facebook_id")
     private String facebook_id;
+    @Column(name = "firebase_token")
+    private String firebase_token;
     @Column(name = "gmail_id")
     private String gmail_id;
     @Column(name = "creation_date")

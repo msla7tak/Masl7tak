@@ -6,7 +6,9 @@ import com.application.masl7tak.constents.Constants;
 import com.application.masl7tak.dto.NotificationDTO;
 import com.application.masl7tak.dto.UserDTO;
 import com.application.masl7tak.model.Notification;
+import com.application.masl7tak.model.User;
 import com.application.masl7tak.service.NotificationService;
+import com.application.masl7tak.utils.FBNotificationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,17 +26,18 @@ import java.util.List;
 @Transactional
 public class NotificationServiceImp implements NotificationService {
     @Autowired
-   private  NotificationRepository notificationRepository;
+    private NotificationRepository notificationRepository;
     @Autowired
-   private UserRepository userRepository;
-
+    private UserRepository userRepository;
+    @Autowired
+    private FBNotificationService fbNotificationService;
 
 
     @Override
     public ResponseEntity<List<NotificationDTO>> findAll(Long userId) {
         try {
-            List<NotificationDTO> notificationDTOList=  notificationRepository.getAllNotification(userId);
-      notificationDTOList.addAll( notificationRepository.getAllNotification(0L));
+            List<NotificationDTO> notificationDTOList = notificationRepository.getAllNotification(userId);
+            notificationDTOList.addAll(notificationRepository.getAllNotification(0L));
             return new ResponseEntity<>(notificationDTOList, HttpStatus.OK);
 
         } catch (Exception exception) {
@@ -62,8 +65,10 @@ public class NotificationServiceImp implements NotificationService {
         try {
             LocalDateTime now = LocalDateTime.now();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-            notification.setCreationDate(  formatter.format(now));
+            notification.setCreationDate(formatter.format(now));
             notification.setStatusReviewed("pending");
+            User user = userRepository.findById(notification.getUser_id()).get();
+//            fbNotificationService.sendNotification(user.getFirebase_token(), notification.getTitle(), notification.getDescription());
 
             return new ResponseEntity<>(notificationRepository.save(notification), HttpStatus.OK);
         } catch (Exception exception) {
@@ -82,24 +87,25 @@ public class NotificationServiceImp implements NotificationService {
         try {
             LocalDateTime now = LocalDateTime.now();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-            notification.setCreationDate(  formatter.format(now));
-          List<UserDTO> userDTOS=  userRepository.AllUsers();
-          List<Notification>notifications= new ArrayList<>();
-            for (UserDTO userDTO:userDTOS) {
+            notification.setCreationDate(formatter.format(now));
+            List<UserDTO> userDTOS = userRepository.AllUsers();
+//            fbNotificationService.sendNotificationToAllUsers(notification.getTitle(), notification.getDescription());
+            List<Notification> notifications = new ArrayList<>();
+            for (UserDTO userDTO : userDTOS) {
                 Notification notifi = new Notification();
                 notifi.setTitle(notification.getTitle());
                 notifi.setStatusReviewed("pending");
-                notifi.setCreationDate( formatter.format(now));
-                notifi.setDescription( notification.getDescription());
+                notifi.setCreationDate(formatter.format(now));
+                notifi.setDescription(notification.getDescription());
                 notifi.setUser_id(userDTO.getId());
                 notifications.add(notifi);
             }
             notificationRepository.saveAll(notifications);
 
-            return new ResponseEntity<>(Constants.responseMessage("Done",1007), HttpStatus.OK);
+            return new ResponseEntity<>(Constants.responseMessage("Done", 1007), HttpStatus.OK);
         } catch (Exception exception) {
             exception.printStackTrace();
-            return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(),1006), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(), 1006), HttpStatus.BAD_REQUEST);
 
         }
     }
@@ -109,24 +115,26 @@ public class NotificationServiceImp implements NotificationService {
         try {
             LocalDateTime now = LocalDateTime.now();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            notification.setCreationDate(  formatter.format(now));
-            List<UserDTO> userDTOS=  userRepository.AllBusiness();
-            List<Notification>notifications= new ArrayList<>();
-            for (UserDTO userDTO:userDTOS) {
+            notification.setCreationDate(formatter.format(now));
+            List<UserDTO> userDTOS = userRepository.AllBusiness();
+//            fbNotificationService.sendNotificationToAllBusiness(notification.getTitle(), notification.getDescription());
+
+            List<Notification> notifications = new ArrayList<>();
+            for (UserDTO userDTO : userDTOS) {
                 Notification notifi = new Notification();
                 notifi.setTitle(notification.getTitle());
                 notifi.setStatusReviewed("pending");
-                notifi.setCreationDate( formatter.format(now));
-                notifi.setDescription( notification.getDescription());
+                notifi.setCreationDate(formatter.format(now));
+                notifi.setDescription(notification.getDescription());
                 notifi.setUser_id(userDTO.getId());
                 notifications.add(notifi);
             }
             notificationRepository.saveAll(notifications);
 
-            return new ResponseEntity<>(Constants.responseMessage("Done",1007), HttpStatus.OK);
+            return new ResponseEntity<>(Constants.responseMessage("Done", 1007), HttpStatus.OK);
         } catch (Exception exception) {
             exception.printStackTrace();
-            return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(),1006), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(), 1006), HttpStatus.BAD_REQUEST);
 
         }
     }
