@@ -184,6 +184,12 @@ public interface ServicesRepository extends JpaRepository<Services, Long> {
             "WHERE M.services.id = :id")
 
     List<String> findModel(Long id);
+    @Modifying
+    @Query("DELETE FROM CarBrandEntity c WHERE c.services.id = :id")
+    void clearCarBrandEntities(Long id);
+    @Modifying
+    @Query("DELETE FROM CarModelEntity c WHERE c.services.id = :id")
+    void clearCarModelEntities(Long id);
 
 
 //            "JOIN Branches Br " +
