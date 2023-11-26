@@ -2,10 +2,10 @@ package com.application.masl7tak.utils;
 
 import com.application.masl7tak.Repository.UserRepository;
 import com.application.masl7tak.dto.UserDTO;
+import com.application.masl7tak.model.Notification;
 import com.application.masl7tak.model.User;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.Message;
-import com.google.firebase.messaging.Notification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,10 +17,12 @@ public class FBNotificationService {
     private UserRepository deviceTokenRepository;
 
 
-    public void sendNotification(String token, String title, String body) {
+    public void sendNotification(String token, String title, String body,String route,String creationDate) {
         Message message = Message.builder()
                 .putData("title", title)
                 .putData("body", body)
+                .putData("creation_date", creationDate)
+                .putData("route", route)
                 .setToken(token)
                 .build();
 
@@ -32,7 +34,7 @@ public class FBNotificationService {
         }
     }
 
-    public void sendNotificationToAllUsers(String title, String body) {
+    public void sendNotificationToAllUsers(Notification notification) {
         List<UserDTO> allTokens = deviceTokenRepository.AllUsersToking();
 
         for (UserDTO deviceToken : allTokens) {
@@ -40,8 +42,10 @@ public class FBNotificationService {
 
             Message message = Message.builder()
                     .setToken(deviceToken.getFirebase_token())
-                    .putData("title", title)
-                    .putData("body", body)
+                    .putData("title", notification.getTitle())
+                    .putData("body", notification.getDescription())
+                    .putData("creation_date", notification.getCreationDate())
+                    .putData("route", "list")
                     .build();
 
             try {
@@ -53,14 +57,16 @@ public class FBNotificationService {
         }
     }
 
-    public void sendNotificationToAllBusiness(String title, String body) {
+    public void sendNotificationToAllBusiness(Notification notification) {
 
         List<UserDTO> allTokens = deviceTokenRepository.AllBusinessToking();
 
         for (UserDTO deviceToken : allTokens) {
             Message message = Message.builder()
-                    .putData("title", title)
-                    .putData("body", body)
+                    .putData("title", notification.getTitle())
+                    .putData("body", notification.getDescription())
+                    .putData("creation_date", notification.getCreationDate())
+                    .putData("route", "list")
                     .setToken(deviceToken.getFirebase_token())
                     .build();
 

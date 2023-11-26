@@ -68,7 +68,7 @@ public class NotificationServiceImp implements NotificationService {
             notification.setCreationDate(formatter.format(now));
             notification.setStatusReviewed("pending");
             User user = userRepository.findById(notification.getUser_id()).get();
-//            fbNotificationService.sendNotification(user.getFirebase_token(), notification.getTitle(), notification.getDescription());
+//            fbNotificationService.sendNotification(user.getFirebase_token(), notification.getTitle(), notification.getDescription(),notification.getCreationDate());
 
             return new ResponseEntity<>(notificationRepository.save(notification), HttpStatus.OK);
         } catch (Exception exception) {
@@ -89,7 +89,7 @@ public class NotificationServiceImp implements NotificationService {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
             notification.setCreationDate(formatter.format(now));
             List<UserDTO> userDTOS = userRepository.AllUsers();
-//            fbNotificationService.sendNotificationToAllUsers(notification.getTitle(), notification.getDescription());
+//            fbNotificationService.sendNotificationToAllUsers(notification);
             List<Notification> notifications = new ArrayList<>();
             for (UserDTO userDTO : userDTOS) {
                 Notification notifi = new Notification();
@@ -117,7 +117,7 @@ public class NotificationServiceImp implements NotificationService {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             notification.setCreationDate(formatter.format(now));
             List<UserDTO> userDTOS = userRepository.AllBusiness();
-//            fbNotificationService.sendNotificationToAllBusiness(notification.getTitle(), notification.getDescription());
+//          fbNotificationService.sendNotificationToAllBusiness( notification);
 
             List<Notification> notifications = new ArrayList<>();
             for (UserDTO userDTO : userDTOS) {
