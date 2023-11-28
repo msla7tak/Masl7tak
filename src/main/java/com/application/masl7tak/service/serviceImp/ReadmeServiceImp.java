@@ -1,13 +1,16 @@
 package com.application.masl7tak.service.serviceImp;
 
 import com.application.masl7tak.Repository.*;
+import com.application.masl7tak.configs.JwtAuthFilter;
 import com.application.masl7tak.constents.Constants;
 import com.application.masl7tak.dto.ReadmeDTO;
 import com.application.masl7tak.dto.ServicesDTO;
+import com.application.masl7tak.model.Notification;
 import com.application.masl7tak.model.PromoCode;
 import com.application.masl7tak.model.Readme;
 import com.application.masl7tak.model.User;
 import com.application.masl7tak.service.ReadmeService;
+import com.application.masl7tak.utils.FBNotificationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +19,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,10 +31,13 @@ public class ReadmeServiceImp implements ReadmeService {
     @Autowired
     private ReadmeRepository readmeRepository;
     @Autowired
+    private NotificationRepository notificationRepository;
+    @Autowired
     private ServicesRepository servicesRepository;
     @Autowired
     private ReplacementRepository replacementRepository;
-
+    @Autowired
+    private JwtAuthFilter jwtAuthFilter;
     @Autowired
     private BusinessRepository businessRepository;
     @Autowired
@@ -37,7 +45,8 @@ public class ReadmeServiceImp implements ReadmeService {
     @Autowired
     private PromoCodeRepository promoCodeRepository;
 
-
+    @Autowired
+    private FBNotificationService fbNotificationService;
     @Override
     public ResponseEntity<List<ReadmeDTO>> findAll() {
         try {
@@ -170,6 +179,21 @@ public class ReadmeServiceImp implements ReadmeService {
     public ResponseEntity<Object> coupons_date(String scheduleDate, String scheduleTime, int confirmDate, Long readmeId) {
         try {
             readmeRepository.coupons_date(scheduleDate, scheduleTime, confirmDate, readmeId);
+            LocalDateTime now = LocalDateTime.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+            User user = userRepository.findUserByEmail(jwtAuthFilter.getCurrentUser()).orElseThrow();
+            Notification notification= new Notification();
+
+            notification.setTitle("");
+            notification.setStatusReviewed("");
+            notification.setUser_id(user.getId());
+            notification.setStatus(confirmDate+"");
+            notification.setCreationDate(confirmDate+"");
+            notification.setCreationDate(formatter.format(now));
+            notification.setStatusReviewed("pending");
+            notificationRepository.save(notification);
+
+            fbNotificationService.sendNotification(user.getFirebase_token(), notification.getTitle(), notification.getDescription(),"list",notification.getCreationDate(),"4",confirmDate+"");
 
             return new ResponseEntity<Object>(readmeRepository.findReadmeById(readmeId), HttpStatus.OK);
 

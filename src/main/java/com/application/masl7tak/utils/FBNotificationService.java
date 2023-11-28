@@ -17,9 +17,12 @@ public class FBNotificationService {
     private UserRepository deviceTokenRepository;
 
 
-    public void sendNotification(String token, String title, String body,String route,String creationDate) {
+    public void sendNotification(String token, String title, String body,String route,String creationDate,String type,String status) {
         Message message = Message.builder()
                 .putData("title", title)
+                .putData("body", body)
+                .putData("type", type)
+                .putData("status",status)
                 .putData("body", body)
                 .putData("creation_date", creationDate)
                 .putData("route", route)
@@ -39,9 +42,11 @@ public class FBNotificationService {
 
         for (UserDTO deviceToken : allTokens) {
 
-
             Message message = Message.builder()
                     .setToken(deviceToken.getFirebase_token())
+                    .putData("title", notification.getTitle())
+                    .putData("type", "1")
+                    .putData("status",notification.getStatus())
                     .putData("title", notification.getTitle())
                     .putData("body", notification.getDescription())
                     .putData("creation_date", notification.getCreationDate())
@@ -64,6 +69,8 @@ public class FBNotificationService {
         for (UserDTO deviceToken : allTokens) {
             Message message = Message.builder()
                     .putData("title", notification.getTitle())
+                    .putData("type", "2")
+                    .putData("status",notification.getStatus())
                     .putData("body", notification.getDescription())
                     .putData("creation_date", notification.getCreationDate())
                     .putData("route", "list")

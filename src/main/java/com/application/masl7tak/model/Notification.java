@@ -30,6 +30,8 @@ public class Notification implements Serializable {
     private  String creationDate;
     @Column(name = "description")
     private  String description;
+    @Column(name = "status")
+    private  String status;
     @Column(name = "statusReviewed")
     private  String statusReviewed;
     @Column(name = "user_id")
