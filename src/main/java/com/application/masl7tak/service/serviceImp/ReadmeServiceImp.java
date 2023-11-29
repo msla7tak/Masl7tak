@@ -193,7 +193,7 @@ public class ReadmeServiceImp implements ReadmeService {
             notification.setStatusReviewed("pending");
             notificationRepository.save(notification);
 
-            fbNotificationService.sendNotification(user.getFirebase_token(), notification.getTitle(), notification.getDescription(),"list",notification.getCreationDate(),"4",confirmDate+"");
+            fbNotificationService.sendNotification(user.getFirebase_token(), notification.getTitle(), notification.getDescription(),"list",notification.getCreationDate(),"4",confirmDate+"","confirmDate");
 
             return new ResponseEntity<Object>(readmeRepository.findReadmeById(readmeId), HttpStatus.OK);
 

@@ -2,11 +2,15 @@ package com.application.masl7tak.service.serviceImp;
 
 import com.application.masl7tak.Repository.InsuranceRepository;
 import com.application.masl7tak.Repository.NotificationRepository;
+import com.application.masl7tak.Repository.UserRepository;
+import com.application.masl7tak.configs.JwtAuthFilter;
 import com.application.masl7tak.constents.Constants;
 import com.application.masl7tak.dto.InsuranceDTO;
 import com.application.masl7tak.model.Insurance;
 import com.application.masl7tak.model.Notification;
+import com.application.masl7tak.model.User;
 import com.application.masl7tak.service.InsuranceService;
+import com.application.masl7tak.utils.FBNotificationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,14 +25,16 @@ import java.util.List;
 @Service
 @Transactional
 public class InsuranceServiceImp implements InsuranceService {
-   private final InsuranceRepository insuranceRepository;
-   private final NotificationRepository notificationRepository;
     @Autowired
-    public InsuranceServiceImp(InsuranceRepository insuranceRepository, NotificationRepository notificationRepository) {
-        this.insuranceRepository = insuranceRepository;
-        this.notificationRepository = notificationRepository;
-    }
-
+   private  InsuranceRepository insuranceRepository;
+    @Autowired
+   private  NotificationRepository notificationRepository;
+    @Autowired
+    private FBNotificationService fbNotificationService;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private JwtAuthFilter jwtAuthFilter;
 
 
     @Override
@@ -61,7 +67,12 @@ public class InsuranceServiceImp implements InsuranceService {
     public ResponseEntity<InsuranceDTO> save(Insurance insurance) {
         try {
             Insurance row= insuranceRepository.save(insurance);
-            notificationRepository.save(new Notification(row));
+           Notification notification= new Notification(row);
+            notificationRepository.save(notification);
+            User user = userRepository.findUserByEmail(jwtAuthFilter.getCurrentUser()).orElseThrow();
+
+            fbNotificationService.sendNotification(user.getFirebase_token(), notification.getTitle(), notification.getDescription(),"insurance",notification.getCreationDate(),"5",notification.getCreationDate()+"","Insurance");
+
             return new ResponseEntity<>(new InsuranceDTO(row), HttpStatus.OK);
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -81,8 +92,13 @@ public class InsuranceServiceImp implements InsuranceService {
         try {
            insuranceRepository.AcceptOffer( insuranceLogo,  insuranceContact,  insuranceType,
                     insurancePrice,  insurancePeriod,  commission,insurancePriceAr,  insuranceId);
+       Notification  notification=     new Notification(insuranceRepository.findById(insuranceId).orElseThrow(),"Reviewed");
+                    notificationRepository.save(notification);
 
-                    notificationRepository.save(new Notification(insuranceRepository.findById(insuranceId).orElseThrow(),"Reviewed"));
+            User user = userRepository.findUserByEmail(jwtAuthFilter.getCurrentUser()).orElseThrow();
+
+            fbNotificationService.sendNotification(user.getFirebase_token(), notification.getTitle(), notification.getDescription(),"insurance",notification.getCreationDate(),"6",notification.getCreationDate()+"","insurance_accept_offer");
+
             return new ResponseEntity<>(Constants.responseMessage(Constants.DATA_Inserted,104), HttpStatus.OK);
         } catch (Exception exception) {
             exception.printStackTrace();

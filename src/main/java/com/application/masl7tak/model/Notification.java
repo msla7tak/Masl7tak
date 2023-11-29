@@ -55,6 +55,7 @@ public class Notification implements Serializable {
         this.insurance = insurance;
         this.user_id = insurance.getUser().getId();
 
+
     }
     public Notification(Insurance insurance,String Reviewed) {
          LocalDateTime now = LocalDateTime.now();
