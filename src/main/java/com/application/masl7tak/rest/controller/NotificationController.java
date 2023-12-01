@@ -25,7 +25,13 @@ import java.util.List;
 
     @Override
     public ResponseEntity<List<NotificationDTO>> findAll(Long UserId) {
+
         return notificationService.findAll(UserId);
+    }
+
+    @Override
+    public ResponseEntity<Object> unSeen(Long UserId) {
+        return notificationService.unSeen(UserId);
     }
 
     @Override

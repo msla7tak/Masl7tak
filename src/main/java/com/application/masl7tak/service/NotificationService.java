@@ -19,4 +19,5 @@ public interface NotificationService {
 
     ResponseEntity<Object> createBusiness(Notification notification);
 
+    ResponseEntity<Object> unSeen(Long userId);
 }

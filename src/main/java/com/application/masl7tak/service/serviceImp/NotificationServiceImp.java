@@ -37,6 +37,9 @@ public class NotificationServiceImp implements NotificationService {
     public ResponseEntity<List<NotificationDTO>> findAll(Long userId) {
         try {
             List<NotificationDTO> notificationDTOList = notificationRepository.getAllNotification(userId);
+            for (NotificationDTO notificationDTO:notificationDTOList) {
+                notificationRepository.updateStatus(notificationDTO.getId(),"seen");
+            }
             notificationDTOList.addAll(notificationRepository.getAllNotification(0L));
             return new ResponseEntity<>(notificationDTOList, HttpStatus.OK);
 
@@ -68,7 +71,8 @@ public class NotificationServiceImp implements NotificationService {
             notification.setCreationDate(formatter.format(now));
             notification.setStatusReviewed("pending");
             User user = userRepository.findById(notification.getUser_id()).get();
-            fbNotificationService.sendNotification(user.getFirebase_token(), notification.getTitle(), notification.getDescription(),"list",notification.getCreationDate(),"3","1","from_admin");
+            fbNotificationService.sendNotification(user.getFirebase_token(),
+                    notification.getTitle(), notification.getDescription(),"list",notification.getCreationDate(),"3","1","from_admin");
 
             return new ResponseEntity<>(notificationRepository.save(notification), HttpStatus.OK);
         } catch (Exception exception) {
@@ -135,6 +139,17 @@ public class NotificationServiceImp implements NotificationService {
         } catch (Exception exception) {
             exception.printStackTrace();
             return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(), 1006), HttpStatus.BAD_REQUEST);
+
+        }
+    }
+
+    @Override
+    public ResponseEntity<Object> unSeen(Long userId) {
+        try {
+            return new ResponseEntity<>(Constants.responseMessage(  notificationRepository.unSeen("pending",userId), 200), HttpStatus.OK);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(), 1008), HttpStatus.BAD_REQUEST);
 
         }
     }

@@ -13,6 +13,8 @@ import java.util.List;
 public interface NotificationAPI {
     @GetMapping("user/notification")
     public ResponseEntity<List<NotificationDTO> > findAll(@RequestParam  Long UserId);
+    @GetMapping("user/notification/seen")
+    public ResponseEntity<Object> unSeen(@RequestParam  Long UserId);
 
     @GetMapping("user/notification/{id}")
     public ResponseEntity<Notification> findById(@PathVariable Long id);

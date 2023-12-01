@@ -71,7 +71,8 @@ public class InsuranceServiceImp implements InsuranceService {
             notificationRepository.save(notification);
             User user = userRepository.findUserByEmail(jwtAuthFilter.getCurrentUser()).orElseThrow();
 
-            fbNotificationService.sendNotification(user.getFirebase_token(), notification.getTitle(), notification.getDescription(),"insurance",notification.getCreationDate(),"5",notification.getCreationDate()+"","Insurance");
+            fbNotificationService.sendNotification(user.getFirebase_token(), notification.getTitle(), notification.getDescription(),
+                    "insurance",notification.getCreationDate(),"5","1","Insurance");
 
             return new ResponseEntity<>(new InsuranceDTO(row), HttpStatus.OK);
         } catch (Exception exception) {
@@ -95,9 +96,10 @@ public class InsuranceServiceImp implements InsuranceService {
        Notification  notification=     new Notification(insuranceRepository.findById(insuranceId).orElseThrow(),"Reviewed");
                     notificationRepository.save(notification);
 
-            User user = userRepository.findUserByEmail(jwtAuthFilter.getCurrentUser()).orElseThrow();
+            User user = userRepository.findById(notification.getUser_id()).get();
 
-            fbNotificationService.sendNotification(user.getFirebase_token(), notification.getTitle(), notification.getDescription(),"insurance",notification.getCreationDate(),"6",notification.getCreationDate()+"","insurance_accept_offer");
+            fbNotificationService.sendNotification(user.getFirebase_token(), notification.getTitle(), notification.getDescription()
+                    ,"insurance","","6",notification.getCreationDate()+"","insurance_accept_offer");
 
             return new ResponseEntity<>(Constants.responseMessage(Constants.DATA_Inserted,104), HttpStatus.OK);
         } catch (Exception exception) {

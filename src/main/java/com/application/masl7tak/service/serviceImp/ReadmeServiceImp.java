@@ -184,8 +184,8 @@ public class ReadmeServiceImp implements ReadmeService {
             User user = userRepository.findUserByEmail(jwtAuthFilter.getCurrentUser()).orElseThrow();
             Notification notification= new Notification();
 
-            notification.setTitle("");
-            notification.setStatusReviewed("");
+            notification.setTitle("تم تحديث طلبك");
+            notification.setDescription("تم تحديث حالةالطلب بنجاح");
             notification.setUser_id(user.getId());
             notification.setStatus(confirmDate+"");
             notification.setCreationDate(confirmDate+"");
@@ -193,7 +193,8 @@ public class ReadmeServiceImp implements ReadmeService {
             notification.setStatusReviewed("pending");
             notificationRepository.save(notification);
 
-            fbNotificationService.sendNotification(user.getFirebase_token(), notification.getTitle(), notification.getDescription(),"list",notification.getCreationDate(),"4",confirmDate+"","confirmDate");
+            fbNotificationService.sendNotification(user.getFirebase_token(), notification.getTitle(), notification.getDescription(),
+                    "list",notification.getCreationDate(),"4",confirmDate+"","confirmDate");
 
             return new ResponseEntity<Object>(readmeRepository.findReadmeById(readmeId), HttpStatus.OK);
 
