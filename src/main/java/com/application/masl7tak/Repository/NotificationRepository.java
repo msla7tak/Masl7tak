@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface NotificationRepository extends JpaRepository<Notification, Long> {
 
-    @Query(value = "SELECT new com.application.masl7tak.dto.NotificationDTO(N.id, N.title, N.creationDate, N.description, N.statusReviewed,N.insurance.id)" +
+    @Query(value = "SELECT new com.application.masl7tak.dto.NotificationDTO(N.id, N.title, N.creationDate, N.description, N.statusReviewed,N.insurance.id,N.status)" +
             "FROM Notification N WHERE N.user_id=:userId")
 
     List<NotificationDTO> getAllNotification(Long userId);
