@@ -35,12 +35,12 @@ public class PointController implements PointAPI {
     }
 
     @Override
-    public ResponseEntity<Point>  save(@RequestBody Point point) {
+    public ResponseEntity<Object>  save(@RequestBody Point point) {
         return pointService.save(point);
     }
 
     @Override
-    public ResponseEntity<Point> update(@RequestBody Point point, @PathVariable Long id) {
+    public ResponseEntity<Object> update(@RequestBody Point point, @PathVariable Long id) {
         point.setId(id);
         return pointService.save(point);
     }

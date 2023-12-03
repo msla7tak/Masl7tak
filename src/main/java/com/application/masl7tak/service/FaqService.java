@@ -21,5 +21,5 @@ public interface FaqService {
 
     ResponseEntity<Object> findAllSupport();
 
-    ResponseEntity<Object> points(Long userId);
+
 }

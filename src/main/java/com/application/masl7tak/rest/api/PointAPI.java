@@ -19,10 +19,10 @@ public interface PointAPI {
     public ResponseEntity<List<Point>> findRequestsByUserId(@RequestParam Long user_id);
 
     @PostMapping("user/point_request")
-    public ResponseEntity<Point> save(@RequestBody Point point);
+    public ResponseEntity<Object> save(@RequestBody Point point);
 
     @PutMapping("admin/point/{id}")
-    public ResponseEntity<Point> update(@RequestBody Point point, @PathVariable Long id);
+    public ResponseEntity<Object> update(@RequestBody Point point, @PathVariable Long id);
 
     @DeleteMapping("admin/point/{id}")
     public void deleteById(@PathVariable Long id);

@@ -25,8 +25,7 @@ public interface FaqAPI {
 
     @PostMapping("user/faq")
     public ResponseEntity<Object>  save(@ModelAttribute Faq faq);
-    @PostMapping("user/points")
-    public ResponseEntity<Object>  points(@RequestParam Long user_id);
+
     @PostMapping("user/faq/support")
 
     public ResponseEntity<Object> support(@RequestParam(name = "name", required = false) String name,

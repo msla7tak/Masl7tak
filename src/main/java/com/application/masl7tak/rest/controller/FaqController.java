@@ -40,11 +40,7 @@ import java.util.List;
         return regionService.save(faq);
     }
 
-    @Override
-    public ResponseEntity<Object> points(Long user_id) {
 
-            return regionService.points(user_id);
-            }
 
     @Override
     public ResponseEntity<Object> support(String name, String email, String question_en, int status) {

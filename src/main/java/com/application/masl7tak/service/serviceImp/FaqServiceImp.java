@@ -111,24 +111,7 @@ public class FaqServiceImp implements FaqService {
     }
 
 
-    @Override
-    public ResponseEntity<Object> points(Long userId) {
-        try {
-            User user = userRepository.findUserByEmail(jwtAuthFilter.getCurrentUser()).orElseThrow();
-          Replacement replacement = replacementRepository.findById(1L).orElseThrow();
-            userRepository.updatePoints(0,user.getId());
-            if (user.getPoints()>=replacement.getMin_no_of_points_to_change()){
-            return new ResponseEntity<>(faqRepository.save(new Faq(user.getName(),user.getEmail(),user.getName()+" : "+"اريد استبدال نقاطي وهما "+user.getPoints()+" نقطة ",0,user.getId())), HttpStatus.OK);
-            }
 
-        } catch (Exception exception) {
-            exception.printStackTrace();
-            return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(),105), HttpStatus.BAD_REQUEST);
-
-    }
-        return new ResponseEntity<>(Constants.responseMessage("Can't exchange you point yet",106), HttpStatus.BAD_REQUEST);
-
-    }
 
 
 }

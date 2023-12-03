@@ -12,7 +12,7 @@ public interface PointService {
 
     public ResponseEntity<Point> findById(Long id);
 
-    public ResponseEntity<Point> save(Point point);
+    public ResponseEntity<Object> save(Point point);
 
     public void deleteById(Long id);
 

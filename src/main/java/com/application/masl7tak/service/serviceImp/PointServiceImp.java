@@ -1,9 +1,10 @@
 package com.application.masl7tak.service.serviceImp;
 
 import com.application.masl7tak.Repository.*;
+import com.application.masl7tak.configs.JwtAuthFilter;
+import com.application.masl7tak.constents.Constants;
 import com.application.masl7tak.dto.AnalyticsDTO;
-import com.application.masl7tak.model.Admin;
-import com.application.masl7tak.model.Point;
+import com.application.masl7tak.model.*;
 import com.application.masl7tak.service.AdminService;
 import com.application.masl7tak.service.PointService;
 import lombok.extern.slf4j.Slf4j;
@@ -21,14 +22,17 @@ import java.util.List;
 @Transactional
 public class PointServiceImp implements PointService {
     @Autowired
-    private  PointRepository pointRepository;
+    private PointRepository pointRepository;
     @Autowired
-    private  BusinessRepository businessRepository;
-
+    private BusinessRepository businessRepository;
     @Autowired
-    private  UserRepository userRepository;
+    private JwtAuthFilter jwtAuthFilter;
     @Autowired
-    private  ServicesRepository servicesRepository;
+    private UserRepository userRepository;
+    @Autowired
+    private ReplacementRepository replacementRepository;
+    @Autowired
+    private ServicesRepository servicesRepository;
 
     @Override
     public ResponseEntity<List<Point>> findAll() {
@@ -56,14 +60,35 @@ public class PointServiceImp implements PointService {
         return new ResponseEntity<>(new Point(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @Override
-    public ResponseEntity<Point> save(Point point) {
+    public ResponseEntity<Object> points(Long userId) {
         try {
-            return new ResponseEntity<>(pointRepository.save(point), HttpStatus.OK);
+
+
         } catch (Exception exception) {
             exception.printStackTrace();
+            return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(), 105), HttpStatus.BAD_REQUEST);
+
         }
-        return new ResponseEntity<>(new Point(), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(Constants.responseMessage("Can't exchange you point yet", 106), HttpStatus.BAD_REQUEST);
+
+    }
+
+    @Override
+    public ResponseEntity<Object> save(Point point) {
+        try {
+            User user = userRepository.findUserByEmail(jwtAuthFilter.getCurrentUser()).orElseThrow();
+            Replacement replacement = replacementRepository.findById(1L).orElseThrow();
+            userRepository.updatePoints(0, user.getId());
+            if (user.getPoints() >= replacement.getMin_no_of_points_to_change()) {
+                return new ResponseEntity<>(pointRepository.save(point), HttpStatus.OK);
+            }
+            return new ResponseEntity<>(Constants.responseMessage("Can't exchange you point yet", 106), HttpStatus.BAD_REQUEST);
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(), 107), HttpStatus.BAD_REQUEST);
+
+        }
     }
 
     @Override
@@ -74,7 +99,7 @@ public class PointServiceImp implements PointService {
     @Override
     public ResponseEntity<List<Point>> findRequestsByUserId(Long userId) {
         try {
-            return new   ResponseEntity<List<Point>>( pointRepository.findRequestsByUserId(userId), HttpStatus.OK);
+            return new ResponseEntity<List<Point>>(pointRepository.findRequestsByUserId(userId), HttpStatus.OK);
         } catch (Exception exception) {
             exception.printStackTrace();
         }
