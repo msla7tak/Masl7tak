@@ -37,10 +37,12 @@ public class InsuranceDTO {
 
     private String payment_status;
     private Long user_id;
+    private  String status;
+    private String invoice_id;
 
     public InsuranceDTO(Long id, String car_type, Long car_brand_id, Long car_model_id, String car_price, String kilometers, String made_in, String owner_age,
                         String phone_number, String commission, String insurance_price,String insurance_price_ar, String insurance_period,
-                        String payment_status, Long user_id,String insurance_logo, String insurance_contact, String insurance_type) {
+                        String payment_status, Long user_id,String insurance_logo, String insurance_contact, String insurance_type,String status,String invoice_id) {
         this.id = id;
         this.car_type = car_type;
         this.car_brand_id = car_brand_id;
@@ -60,6 +62,8 @@ public class InsuranceDTO {
         this.insurance_type = insurance_type;
         this.payment_status = payment_status;
         this.user_id = user_id;
+        this.status = status;
+        this.invoice_id = invoice_id;
     }
 
     public InsuranceDTO() {

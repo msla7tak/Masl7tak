@@ -32,6 +32,8 @@ public class Notification implements Serializable {
     private  String description;
     @Column(name = "status")
     private  String status;
+    @Column(name = "type")
+    private  String type;
     @Column(name = "statusReviewed")
     private  String statusReviewed;
     @Column(name = "user_id")

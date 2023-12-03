@@ -18,7 +18,7 @@ public interface InsuranceAPI {
     @PostMapping("user/insurances")
     public ResponseEntity<InsuranceDTO> save(@RequestBody Insurance insurance);
 
-    @PutMapping("user/{id}")
+    @PutMapping("user/insurances{id}")
     public ResponseEntity<InsuranceDTO> update(@RequestBody Insurance insurance, @PathVariable Long id);
     @PutMapping("/admin/insurance/accept_offer")
     public ResponseEntity<Object> AcceptOffer(@RequestParam(name = "insurance_logo") String insurance_logo,

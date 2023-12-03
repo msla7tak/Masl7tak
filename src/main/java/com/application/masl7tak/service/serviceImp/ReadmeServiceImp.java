@@ -191,6 +191,7 @@ public class ReadmeServiceImp implements ReadmeService {
             notification.setCreationDate(confirmDate+"");
             notification.setCreationDate(formatter.format(now));
             notification.setStatusReviewed("pending");
+            notification.setType("4");
             notificationRepository.save(notification);
 
             fbNotificationService.sendNotification(user.getFirebase_token(), notification.getTitle(), notification.getDescription(),

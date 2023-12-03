@@ -39,6 +39,10 @@ public class Insurance implements Serializable {
     private String kilometers;
     @Column(name = "made_in")
     private String made_in;
+    @Column(name = "invoice_id")
+    private String invoice_id;
+    @Column(name = "status")
+    private String status;
     @Column(name = "owner_age")
     private String owner_age;
     @Column(name = "phone_number")

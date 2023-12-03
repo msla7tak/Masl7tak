@@ -68,6 +68,7 @@ public class InsuranceServiceImp implements InsuranceService {
         try {
             Insurance row= insuranceRepository.save(insurance);
            Notification notification= new Notification(row);
+            notification.setType("5");
             notificationRepository.save(notification);
             User user = userRepository.findUserByEmail(jwtAuthFilter.getCurrentUser()).orElseThrow();
 
@@ -94,6 +95,7 @@ public class InsuranceServiceImp implements InsuranceService {
            insuranceRepository.AcceptOffer( insuranceLogo,  insuranceContact,  insuranceType,
                     insurancePrice,  insurancePeriod,  commission,insurancePriceAr,  insuranceId);
        Notification  notification=     new Notification(insuranceRepository.findById(insuranceId).orElseThrow(),"Reviewed");
+            notification.setType("6");
                     notificationRepository.save(notification);
 
             User user = userRepository.findById(notification.getUser_id()).get();
