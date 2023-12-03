@@ -60,18 +60,7 @@ public class PointServiceImp implements PointService {
         return new ResponseEntity<>(new Point(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    public ResponseEntity<Object> points(Long userId) {
-        try {
 
-
-        } catch (Exception exception) {
-            exception.printStackTrace();
-            return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(), 105), HttpStatus.BAD_REQUEST);
-
-        }
-        return new ResponseEntity<>(Constants.responseMessage("Can't exchange you point yet", 106), HttpStatus.BAD_REQUEST);
-
-    }
 
     @Override
     public ResponseEntity<Object> save(Point point) {
