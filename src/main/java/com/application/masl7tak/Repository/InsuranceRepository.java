@@ -64,6 +64,13 @@ public interface InsuranceRepository extends JpaRepository<Insurance, Long> {
             "WHERE I.id = :insuranceId  ")
     void AcceptOffer(String insuranceLogo, String insuranceContact, String insuranceType, String insurancePrice, String insurancePeriod, String commission, String insurancePriceAr, Long insuranceId);
 
+    @Modifying
+    @Query("UPDATE Insurance I  " +
+            "SET I.invoice_id = :invoice_id, " +
+            " I.status = :status " +
+            "WHERE I.id = :insuranceId  ")
+    void updateInvoice(String invoice_id, Long insuranceId,String status);
+
 
 
 

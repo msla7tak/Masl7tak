@@ -44,6 +44,11 @@ public class InsuranceController implements InsuranceAPI {
     }
 
     @Override
+    public ResponseEntity<InsuranceDTO> updateInvoice(String invoice_id, Long id) {
+        return insuranceService.updateInvoice(invoice_id,id);
+    }
+
+    @Override
     public ResponseEntity<Object> AcceptOffer(String insurance_logo, String insurance_contact, String insurance_type,
                                               String insurance_price, String insurance_period, String commission,
                                               String insurance_price_ar, Long insuranceId) {

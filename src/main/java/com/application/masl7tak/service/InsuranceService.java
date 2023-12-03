@@ -21,4 +21,5 @@ public interface InsuranceService {
                                        String insurancePrice, String insurancePeriod, String commission,
                                        String insurancePriceAr, Long insuranceId);
 
+    ResponseEntity<InsuranceDTO> updateInvoice(String invoiceId, Long id);
 }

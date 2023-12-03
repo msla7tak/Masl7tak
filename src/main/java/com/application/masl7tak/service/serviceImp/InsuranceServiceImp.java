@@ -110,5 +110,21 @@ public class InsuranceServiceImp implements InsuranceService {
 
         }}
 
+    @Override
+    public ResponseEntity<InsuranceDTO> updateInvoice(String invoiceId, Long id) {
+        try {
+            User user = userRepository.findUserByEmail(jwtAuthFilter.getCurrentUser()).orElseThrow();
+
+            insuranceRepository.updateInvoice(invoiceId,id,"3");
+            InsuranceDTO  insurance= insuranceRepository.findInsuranceById(id);
+
+
+            return new ResponseEntity<>(insurance, HttpStatus.OK);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+        return new ResponseEntity<>(new InsuranceDTO(), HttpStatus.BAD_REQUEST);
+    }
+
 
 }

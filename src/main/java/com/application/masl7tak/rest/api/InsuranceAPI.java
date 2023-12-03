@@ -18,8 +18,10 @@ public interface InsuranceAPI {
     @PostMapping("user/insurances")
     public ResponseEntity<InsuranceDTO> save(@RequestBody Insurance insurance);
 
-    @PutMapping("user/insurances{id}")
+    @PutMapping("user/insurances/{id}")
     public ResponseEntity<InsuranceDTO> update(@RequestBody Insurance insurance, @PathVariable Long id);
+    @PutMapping("user/update_invoice")
+    public ResponseEntity<InsuranceDTO> updateInvoice(@RequestParam String invoice_id, @RequestParam Long id);
     @PutMapping("/admin/insurance/accept_offer")
     public ResponseEntity<Object> AcceptOffer(@RequestParam(name = "insurance_logo") String insurance_logo,
                                          @RequestParam(name = "insurance_contact") String insurance_contact,
