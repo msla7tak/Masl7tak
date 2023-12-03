@@ -89,5 +89,7 @@ public class InsuranceDTO {
         this.insurance_contact = row.getInsurance_contact();
         this.insurance_type = row.getInsurance_type();
         this.insurance_price_ar = row.getInsurance_price_ar();
+        this.status = row.getStatus();
+        this.invoice_id = row.getInvoice_id();
     }
 }
