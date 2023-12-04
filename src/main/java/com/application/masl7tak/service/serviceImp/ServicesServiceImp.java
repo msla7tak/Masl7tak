@@ -147,8 +147,8 @@ public class ServicesServiceImp implements ServicesService {
             Long eventOfferId = criteria.getEventId();
             Long businessId = criteria.getBusinessId();
             Long categoryId = criteria.getCategoryId();
-            Long carModel = criteria.getModelId();
-            Long carBrand = criteria.getBrandId();
+            String carModel = criteria.getModelId()+"";
+            String carBrand = criteria.getBrandId()+"";
             Long regionId = criteria.getRegionId();
             Float rate = criteria.getRate();
             String searchKey = criteria.getSearchKey();

@@ -72,6 +72,8 @@ public interface ServicesRepository extends JpaRepository<Services, Long> {
             "FROM Services S " +
             "JOIN S.products P " +
             "JOIN S.business B " +
+            "JOIN CarBrandEntity eb on eb.services.id = S.id " +
+            "JOIN CarModelEntity em on em.services.id = S.id " +
             "JOIN S.category C " +
             "LEFT JOIN S.readme R  " +
             "JOIN S.business.branches Br " +
@@ -82,8 +84,8 @@ public interface ServicesRepository extends JpaRepository<Services, Long> {
             "AND (:categoryId is null OR C.id = :categoryId) " +
             "AND (:regionId is null OR Br.region.id = :regionId)  " +
             "AND (:rate is null OR S.rate >= :rate)  " +
-            "AND (:carModel is null OR S.carModel = :carModel) " +
-            "AND (:carBrand is null OR S.carBrand = :carBrand) " +
+            "AND (:carModel is null OR em.modelId = :carModel) " +
+            "AND (:carBrand is null OR eb.brandId = :carBrand) " +
             "AND S.is_available='true' " +
             "AND STR_TO_DATE(S.validUntil, '%Y-%m-%d')>= :currentDate " +
             "AND (:minDiscountValue is null OR S.discountValue >= :minDiscountValue) " +
@@ -94,8 +96,8 @@ public interface ServicesRepository extends JpaRepository<Services, Long> {
                                              @Param("categoryId") Long categoryId,
                                              @Param("regionId") Long regionId,
                                              @Param("rate") Float rate,
-                                             @Param("carModel") Long carModel,
-                                             @Param("carBrand") Long carBrand,
+                                             @Param("carModel") String carModel,
+                                             @Param("carBrand") String carBrand,
                                              @Param("minDiscountValue") Double minDiscountValue,
                                              @Param("maxDiscountValue") Double maxDiscountValue,
                                              @Param("searchKey") String searchKey, LocalDate currentDate,

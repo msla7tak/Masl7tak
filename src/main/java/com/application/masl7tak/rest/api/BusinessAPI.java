@@ -20,7 +20,7 @@ public interface BusinessAPI {
     public ResponseEntity<List<BusinessDTO>> findAll(@ModelAttribute BusinessFilter criteria);
     @GetMapping("public/all_businesses")
     public ResponseEntity<List<BusinessDTO>> findAllBusinesses( BusinessFilter criteria);
-    @GetMapping("admin/businesses")
+    @GetMapping("public/businesses")
     public ResponseEntity<List<BusinessDTO>> getAll();
     @GetMapping("public/find_most_visited")
     public ResponseEntity<Object> findMostVisited();
