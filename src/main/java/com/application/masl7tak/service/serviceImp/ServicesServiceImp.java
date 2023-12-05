@@ -147,8 +147,8 @@ public class ServicesServiceImp implements ServicesService {
             Long eventOfferId = criteria.getEventId();
             Long businessId = criteria.getBusinessId();
             Long categoryId = criteria.getCategoryId();
-            String carModel = criteria.getModelId()+"";
-            String carBrand = criteria.getBrandId()+"";
+            Long carModel = criteria.getModelId();
+            Long carBrand = criteria.getBrandId();
             Long regionId = criteria.getRegionId();
             Float rate = criteria.getRate();
             String searchKey = criteria.getSearchKey();
@@ -238,7 +238,7 @@ public class ServicesServiceImp implements ServicesService {
             if (productService.getCarModelEntities() != null) {
                 for (CarModelEntity carModelEntity : productService.getCarModelEntities()) {
                     carModelEntity.setServices(service);
-                    service.setCarModel(Long.parseLong(carModelEntity.getModelId()));
+                    service.setCarModel(carModelEntity.getModelId());
                 }
                 service.setCarModelEntities(productService.getCarModelEntities());
             }
@@ -246,7 +246,7 @@ public class ServicesServiceImp implements ServicesService {
             if (productService.getCarBrandEntities() != null) {
                 for (CarBrandEntity carBrandEntity : productService.getCarBrandEntities()) {
                     carBrandEntity.setServices(service);
-                    service.setCarBrand(Long.parseLong(carBrandEntity.getBrandId()));
+                    service.setCarBrand(carBrandEntity.getBrandId());
 
                 }
 

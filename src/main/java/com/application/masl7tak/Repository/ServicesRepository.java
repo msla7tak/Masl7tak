@@ -72,11 +72,11 @@ public interface ServicesRepository extends JpaRepository<Services, Long> {
             "FROM Services S " +
             "JOIN S.products P " +
             "JOIN S.business B " +
-            "JOIN CarBrandEntity eb on eb.services.id = S.id " +
-            "JOIN CarModelEntity em on em.services.id = S.id " +
             "JOIN S.category C " +
             "LEFT JOIN S.readme R  " +
             "JOIN S.business.branches Br " +
+            " JOIN CarBrandEntity eb  " +
+            " JOIN CarModelEntity em  " +
             "WHERE (:productId is null OR P.id = :productId) " +
             "AND ((:searchKey is null OR P.name LIKE CONCAT('%', :searchKey, '%')) OR (:searchKey is null OR C.name LIKE CONCAT('%', :searchKey, '%'))) " +
             "AND (:eventOfferId is null OR S.eventOffers.id = :eventOfferId) " +
@@ -84,8 +84,7 @@ public interface ServicesRepository extends JpaRepository<Services, Long> {
             "AND (:categoryId is null OR C.id = :categoryId) " +
             "AND (:regionId is null OR Br.region.id = :regionId)  " +
             "AND (:rate is null OR S.rate >= :rate)  " +
-            "AND (:carModel is null OR em.modelId = :carModel) " +
-            "AND (:carBrand is null OR eb.brandId = :carBrand) " +
+            "AND (:carModel is null OR :carBrand is null OR (em.services.id = S.id AND em.modelId = :carModel) OR (eb.services.id = S.id AND eb.brandId = :carBrand)) " +
             "AND S.is_available='true' " +
             "AND STR_TO_DATE(S.validUntil, '%Y-%m-%d')>= :currentDate " +
             "AND (:minDiscountValue is null OR S.discountValue >= :minDiscountValue) " +
@@ -96,8 +95,8 @@ public interface ServicesRepository extends JpaRepository<Services, Long> {
                                              @Param("categoryId") Long categoryId,
                                              @Param("regionId") Long regionId,
                                              @Param("rate") Float rate,
-                                             @Param("carModel") String carModel,
-                                             @Param("carBrand") String carBrand,
+                                             @Param("carModel") Long carModel,
+                                             @Param("carBrand") Long carBrand,
                                              @Param("minDiscountValue") Double minDiscountValue,
                                              @Param("maxDiscountValue") Double maxDiscountValue,
                                              @Param("searchKey") String searchKey, LocalDate currentDate,
@@ -121,7 +120,7 @@ public interface ServicesRepository extends JpaRepository<Services, Long> {
             "AND (:carModel is null OR S.carModel = :carModel) " +
             "AND (:carBrand is null OR S.carBrand = :carBrand) " +
             "AND (:minDiscountValue is null OR S.discountValue >= :minDiscountValue) " +
-            "AND (:maxDiscountValue is null OR S.discountValue <= :maxDiscountValue)group by S.id")
+            "AND (:maxDiscountValue is null OR S.discountValue <= :maxDiscountValue) group by S.id")
     List<ServicesDTO> findAllAdmin(@Param("productId") Long productId,
                                              @Param("eventOfferId") Long eventOfferId,
                                              @Param("businessId") Long businessId,
