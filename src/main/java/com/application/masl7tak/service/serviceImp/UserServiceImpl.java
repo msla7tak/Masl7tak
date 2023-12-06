@@ -234,38 +234,49 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseEntity<String> Social_login(Map<String, String> requestMap) {
+    public ResponseEntity<Object> Social_login(Map<String, String> requestMap) {
         try {
             User user = null;
-            log.info("test1 " + user + "   :    " + requestMap.get("gmail_id"));
+
 
             if (requestMap.containsKey("facebook_id")) {
                 user = userRepository.findByFacebookId(requestMap.get("facebook_id"));
 
             } else if (requestMap.containsKey("gmail_id")) {
                 user = userRepository.findByGmailId(requestMap.get("gmail_id"));
-                log.info("test2 " + user);
 
             }
 
             if (user != null) {
-                log.info("test3 " + user);
 
-                var jwtToken = jwtService.generateToken(user);
 
-                return new ResponseEntity<>("{\"token\":\"" +
-                        jwtToken
-                        + "\"}",
+                return new ResponseEntity<>(user,
                         HttpStatus.OK);
 
             }
+            user= new User();
+            user.setName("");
+            user.setCarModel(1);
+            user.setCarBrand(1);
+            user.setPassword(passwordEncoder.encode("123456"));
+            user.setStatus("active");
+            user.setRole("user");
+            user.setInvitation_code(generateInvitationToken());
+            user.setInviter_code("");
+            LocalDate today = LocalDate.now();
+            DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            String formattedDate = today.format(dateFormat);
+            user.setCreationDate(formattedDate);
 
+            user.setGmail_id(requestMap.get("facebook_id"));
+            user.setGmail_id(requestMap.get("gmail_id"));
+            userRepository.save(user);
+            return new ResponseEntity<>(user, HttpStatus.OK);
         } catch (Exception ex) {
             log.error("{}", ex);
-
+            return new ResponseEntity<>(Constants.responseMessage(ex.getMessage(), 105), HttpStatus.BAD_REQUEST);
         }
 
-        return Utils.getResponseEntity("Bad Credentials.", HttpStatus.BAD_REQUEST);
     }
 
     @Override

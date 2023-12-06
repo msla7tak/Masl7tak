@@ -50,12 +50,13 @@ public class InvitationServiceImp implements InvitationService {
             } else
             {
                 log.info(invitationRepository.existsByInviteeEmail(inviteeEmail).toString());
-                return new ResponseEntity<>("Please check the Email existing.", HttpStatus.CONFLICT);}
+                return new ResponseEntity<>("Please check the Email existing.", HttpStatus.BAD_REQUEST);
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return new ResponseEntity<>("Please check the Email.", HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>("Please check the Email.", HttpStatus.BAD_REQUEST);
     }
 
     @Transactional

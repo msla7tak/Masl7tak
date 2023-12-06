@@ -20,7 +20,7 @@ public interface UserAPI {
     @PostMapping(path = "public/user/login")
     public ResponseEntity<Object> login(@RequestBody(required = true) Map<String, String> requestMap);
     @PostMapping(path = "public/user/Social_login")
-    public ResponseEntity<String> Social_login (@RequestHeader Map<String, String> requestMap);
+    public ResponseEntity<Object> Social_login (@RequestHeader Map<String, String> requestMap);
 
     @GetMapping(path = "admin/user/alluser")
     public ResponseEntity<List<UserDTO>> getAllUser();

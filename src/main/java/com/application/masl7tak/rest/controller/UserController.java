@@ -39,11 +39,10 @@ public class UserController implements UserAPI {
     public ResponseEntity<Object> signUp(Map<String, String> requestMap) {
         try {
             return userService.signUp(requestMap);
-        }
-        catch (Exception exception) {
+        } catch (Exception exception) {
             exception.printStackTrace();
         }
-        return  new ResponseEntity<>( new UserDTO(Constants.SOMETHING_WENT_WRONG), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(new UserDTO(Constants.SOMETHING_WENT_WRONG), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @Override
@@ -54,19 +53,17 @@ public class UserController implements UserAPI {
             ex.printStackTrace();
 
         }
-        return  new ResponseEntity<>( new UserDTO(Constants.SOMETHING_WENT_WRONG), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(new UserDTO(Constants.SOMETHING_WENT_WRONG), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @Override
-    public ResponseEntity<String> Social_login(Map<String, String> requestMap) {
-        try {
-            return userService.Social_login(requestMap);
-        } catch (Exception ex) {
-            ex.printStackTrace();
+    public ResponseEntity<Object> Social_login(Map<String, String> requestMap) {
 
-        }
-        return Utils.getResponseEntity(Constants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);    }
+        return userService.Social_login(requestMap);
 
+
+
+}
     @Override
     public ResponseEntity<List<UserDTO>> getAllUser() {
         try {

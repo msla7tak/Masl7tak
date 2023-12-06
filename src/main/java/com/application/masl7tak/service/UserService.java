@@ -21,7 +21,7 @@ public interface UserService {
 
     ResponseEntity<String> forgetPassword(Map<String, String> requestmap);
 
-    ResponseEntity<String> Social_login(Map<String, String> requestMap);
+    ResponseEntity<Object> Social_login(Map<String, String> requestMap);
 
     ResponseEntity<SuccessDTO> updateImage(MultipartFile[] imagePath, Long id);
 
