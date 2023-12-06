@@ -28,7 +28,7 @@ public class Point implements  Serializable {
     @Column(name = "point")
     private int point;
     @Column(name = "promo_code")
-    private int promo_code;
+    private String promo_code;
 
 
 
