@@ -67,8 +67,9 @@ public class PointServiceImp implements PointService {
         try {
             User user = userRepository.findUserByEmail(jwtAuthFilter.getCurrentUser()).orElseThrow();
             Replacement replacement = replacementRepository.findById(1L).orElseThrow();
-            userRepository.updatePoints(0, user.getId());
+
             if (user.getPoints() >= replacement.getMin_no_of_points_to_change()) {
+                userRepository.updatePoints(0, user.getId());
                 return new ResponseEntity<>(pointRepository.save(point), HttpStatus.OK);
             }
             return new ResponseEntity<>(Constants.responseMessage("Can't exchange you point yet", 106), HttpStatus.BAD_REQUEST);
