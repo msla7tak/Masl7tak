@@ -10,8 +10,9 @@ public interface InvitationRepository extends JpaRepository<Invitation, Long> {
     @Query("SELECT i FROM Invitation i WHERE i.invitationToken = :invitationToken")
     Invitation findByInvitationToken(@Param("invitationToken") String invitationToken);
 
-    @Query("SELECT CASE WHEN COUNT(i) > 0 THEN true ELSE false END FROM Invitation i WHERE i.inviteeEmail = :inviteeEmail")
-    Boolean existsByInviteeEmail(@Param("inviteeEmail") String inviteeEmail);
+    @Query("SELECT COUNT(i) FROM Invitation i WHERE i.inviteeEmail = :inviteeEmail")
+    long existsByInviteeEmail(@Param("inviteeEmail") String inviteeEmail);
+
 
 
 }

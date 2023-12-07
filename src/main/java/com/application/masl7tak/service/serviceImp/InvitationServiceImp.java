@@ -37,19 +37,18 @@ public class InvitationServiceImp implements InvitationService {
             User inviter = userRepository.findById(inviterId)
                     .orElseThrow(() -> new IllegalArgumentException("Inviter not found"));
 
-            if (!invitationRepository.existsByInviteeEmail(inviteeEmail)) {
+            if (invitationRepository.existsByInviteeEmail(inviteeEmail)==0) {
                 Invitation invitation = new Invitation();
                 invitation.setInviter(inviter);
                 invitation.setInviteeEmail(inviteeEmail);
                 invitation.setInvitationToken(generateInvitationToken());
 
                 // Send the invitation email using the emailService
-                emailService.sendInvitationEmail(inviteeEmail, invitation.getInvitationToken());
+//                emailService.sendInvitationEmail(inviteeEmail, invitation.getInvitationToken());
                 invitationRepository.save(invitation);
-                ResponseEntity.ok("Invitation sent successfully.");
+                return    ResponseEntity.ok("Invitation sent successfully.");
             } else
             {
-                log.info(invitationRepository.existsByInviteeEmail(inviteeEmail).toString());
                 return new ResponseEntity<>("Please check the Email existing.", HttpStatus.BAD_REQUEST);
             }
 
