@@ -101,6 +101,9 @@ public interface ServicesRepository extends JpaRepository<Services, Long> {
                                              @Param("maxDiscountValue") Double maxDiscountValue,
                                              @Param("searchKey") String searchKey, LocalDate currentDate,
                                              PageRequest offset);
+    @Modifying
+    @Query("update Services b set b.rate = ((b.rate+ :rate)/2)  where b.id = :readmeId")
+    void updateRate(Float rate, Long readmeId);
     @Query("SELECT DISTINCT new com.application.masl7tak.dto.ServicesDTO(S.id, S.discountValue,S.images, S.creationDate, S.validUntil, S.rate, S.category.id, " +
             "S.carModel, S.carBrand, S.business.id, B.name, S.quantity, C.name, S.is_available, P.id, P.name, P.description, P.price, P.image, " +
             " B.email, B.status, B.subscriptionType, B.description, B.logo, B.start_discount_val,S.comments_num,S.readme_num,S.max_usage ,B.working_days,S.schedule_mode,((SELECT C.name from CarBrand C where S.carBrand= C.id ))) " +
