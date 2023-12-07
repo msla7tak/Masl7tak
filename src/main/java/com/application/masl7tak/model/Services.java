@@ -21,6 +21,8 @@ public class Services implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+    @Column(name = "comments_num")
+    private Long comments_num;
 
     @Column(name = "discount_value")
     private double discountValue;

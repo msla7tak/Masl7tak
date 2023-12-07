@@ -19,7 +19,7 @@ public interface BusinessRepository extends JpaRepository<Business, Long> {
     int countBusinesses();
 
     @Query("SELECT DISTINCT new com.application.masl7tak.dto.BusinessDTO(B.id, B.name,  B.email, B.status, B.subscriptionType," +
-            "B.description, B.logo,COUNT(S.id),B.start_discount_val,B.rate," +
+            "B.description, B.logo,B.service_count,B.start_discount_val,B.rate," +
             "(SELECT C.id from Category C where B.category.id= C.id ), " +
             " MIN(Br.id) ,B.visits_num ,B.working_days)" +
             "FROM Business B " +
@@ -38,13 +38,13 @@ public interface BusinessRepository extends JpaRepository<Business, Long> {
 
 
     @Query("SELECT new com.application.masl7tak.dto.BusinessDTO(B.id, B.name,B.email, B.status, B.subscriptionType," +
-            " B.description, B.logo, COUNT(S.id),(SELECT C.id from Category C where B.category.id= C.id ),B.visits_num,B.working_days)" +
+            " B.description, B.logo, B.service_count,(SELECT C.id from Category C where B.category.id= C.id ),B.visits_num,B.working_days)" +
             " FROM  Business B LEFT JOIN B.services S GROUP BY B.id")
     List<BusinessDTO> getAllBusiness();
     Business findByEmail(@Param("email") String email);
 
     @Query("SELECT new com.application.masl7tak.dto.BusinessDTO(B.id, B.name,  B.email, B.status, B.subscriptionType, " +
-            "B.description, B.logo, COUNT(S.id), B.start_discount_val, B.rate, B.category.id, " +
+            "B.description, B.logo, B.service_count, B.start_discount_val, B.rate, B.category.id, " +
             "MIN(Br.id), B.visits_num ,B.working_days) " +
             "FROM Business B " +
             "JOIN Branches Br ON B.id = Br.business.id " +
@@ -87,7 +87,7 @@ public interface BusinessRepository extends JpaRepository<Business, Long> {
     @Query("SELECT  new com.application.masl7tak.dto.BusinessDTO(B.id, B.name) FROM Business B")
     List<BusinessDTO> getAll();
     @Query("SELECT DISTINCT new com.application.masl7tak.dto.BusinessDTO(B.id, B.name,  B.email, B.status, B.subscriptionType, " +
-            "B.description, B.logo, COUNT(S.id), B.start_discount_val, B.rate, B.category.id, " +
+            "B.description, B.logo, B.service_count, B.start_discount_val, B.rate, B.category.id, " +
             "MIN(Br.id), B.visits_num ,B.working_days) " +
             "FROM Business B " +
             "JOIN Branches Br ON B.id = Br.business.id " +
@@ -97,9 +97,14 @@ public interface BusinessRepository extends JpaRepository<Business, Long> {
     @Modifying
     @Query("update Business b set b.rate = ((b.rate+ :rate)/2)  where b.id = :businessId")
     void updateRate(Float rate, Long businessId);
-
+    @Modifying
+    @Query("update Business b set b.service_count = (b.service_count +1)  where b.id = :id")
+    void serviceCount(Long id);
+    @Modifying
+    @Query("update Business b set b.service_count = (b.service_count -1)  where b.id = :id")
+    void serviceDeCount(Long id);
     @Query("SELECT DISTINCT new com.application.masl7tak.dto.BusinessDTO(B.id, B.name,  B.email, B.status, B.subscriptionType," +
-            "B.description, B.logo,COUNT(S.id),B.start_discount_val,B.rate," +
+            "B.description, B.logo,B.service_count,B.start_discount_val,B.rate," +
             "(SELECT C.id from Category C where B.category.id= C.id ), " +
             " MIN(Br.id) ,B.visits_num ,B.working_days)" +
             "FROM Business B " +

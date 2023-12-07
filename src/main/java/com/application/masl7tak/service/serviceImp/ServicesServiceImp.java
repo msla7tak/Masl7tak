@@ -98,12 +98,14 @@ public class ServicesServiceImp implements ServicesService {
     @Override
     public ResponseEntity<Services> save(Services services) {
         try {
+            businessRepository.serviceCount(services.getBusiness().getId());
             log.info("TEST" + services);
             if (services.getDiscountValue() < 1 && services.getBusiness().getId() != null) {
 //                businessRepository.updateStartDiscountVal(services.getBusiness().getId(), services.getDiscountValue());
                 Business business = businessRepository.findById(services.getBusiness().getId()).orElseThrow();
                 business.setStart_discount_val(business.getStart_discount_val() < services.getDiscountValue() ? services.getDiscountValue() : business.getStart_discount_val());
                 businessRepository.save(business);
+                businessRepository.serviceCount(business.getId());
             }
 
             return new ResponseEntity<>(servicesRepository.save(services), HttpStatus.OK);
@@ -123,6 +125,7 @@ public class ServicesServiceImp implements ServicesService {
         User user = userRepository.findUserByEmail(jwtAuthFilter.getCurrentUser()).orElseThrow();
         log.info(business.getId().equals(user.getBusiness_id()) + "    " + user.getBusiness_id() + "    " + business.getId());
         if (business.getId().equals(user.getBusiness_id()) || jwtAuthFilter.getRole().equals("admin")) {
+            businessRepository.serviceDeCount(business.getId());
 
             productRepository.delete(services.getProducts());
             servicesRepository.deleteById(id);
@@ -177,6 +180,8 @@ public class ServicesServiceImp implements ServicesService {
     @Override
     public ResponseEntity<Services> save(Services services, MultipartFile[] files) {
         try {
+            businessRepository.serviceCount(services.getBusiness().getId());
+
             if (services.getDiscountValue() < 1 && services.getBusiness().getId() != null) {
 //                businessRepository.updateStartDiscountVal(services.getBusiness().getId(), services.getDiscountValue());
                 Business business = businessRepository.findById(services.getBusiness().getId()).orElseThrow();
@@ -196,6 +201,7 @@ public class ServicesServiceImp implements ServicesService {
     @Override
     public ResponseEntity<Object> setProductService(ProductService productService, MultipartFile[] files) {
         try {
+
             if (productService.getBusiness() == null)
                 productService.setBusiness(new Business(productService.getBusinessId()));
 
@@ -205,6 +211,8 @@ public class ServicesServiceImp implements ServicesService {
                 business.setStart_discount_val(business.getStart_discount_val() < productService.getDiscountValue() ? productService.getDiscountValue() : business.getStart_discount_val());
                 businessRepository.save(business);
             }
+            businessRepository.serviceCount(businessId);
+
 
 
             Products products = new Products();
@@ -324,7 +332,7 @@ public class ServicesServiceImp implements ServicesService {
             products.setName(productService.getName());
             products.setDescription(productService.getDescription());
             products.setBusiness(productService.getBusiness());
-
+            businessRepository.serviceCount(productService.getBusiness().getId());
 
             Services service = new Services();
             service.setBusiness(productService.getBusiness());

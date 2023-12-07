@@ -41,7 +41,7 @@ public interface ServicesRepository extends JpaRepository<Services, Long> {
             "S.carModel, S.carBrand, S.business.id, B.name, S.quantity, " +
             " C.name, S.is_available, " +
             " P.id, P.name, P.description, P.price, P.image,  B.email, B.status, B.subscriptionType," +
-            " B.description,B.logo , B.start_discount_val,count(R.comment),S.readme_num,S.max_usage,B.working_days,S.schedule_mode)" +
+            " B.description,B.logo , B.start_discount_val,S.comments_num,S.readme_num,S.max_usage,B.working_days,S.schedule_mode)" +
             " FROM Services S JOIN " +
             "S.products P " +
             "JOIN S.business B " +
@@ -54,7 +54,7 @@ public interface ServicesRepository extends JpaRepository<Services, Long> {
             " S.carModel, S.carBrand,S.business.id, B.name, S.quantity, " +
             " C.name, S.is_available, " +
             " P.id, P.name, P.description, P.price, P.image,  B.email, B.status, B.subscriptionType," +
-            " B.description,  B.logo , B.start_discount_val,count(R.comment),S.readme_num,S.max_usage,B.working_days,S.schedule_mode)" +
+            " B.description,  B.logo , B.start_discount_val,S.comments_num,S.readme_num,S.max_usage,B.working_days,S.schedule_mode)" +
             " FROM Services S " +
             "JOIN S.products P " +
             "JOIN S.business B " +
@@ -68,7 +68,7 @@ public interface ServicesRepository extends JpaRepository<Services, Long> {
 
     @Query("SELECT DISTINCT new com.application.masl7tak.dto.ServicesDTO(S.id, S.discountValue,S.images, S.creationDate, S.validUntil, S.rate, S.category.id, " +
             "S.carModel, S.carBrand, S.business.id, B.name, S.quantity, C.name, S.is_available, P.id, P.name, P.description, P.price, P.image, " +
-            " B.email, B.status, B.subscriptionType, B.description, B.logo, B.start_discount_val,count(R.comment),S.readme_num,S.max_usage ,B.working_days,S.schedule_mode) " +
+            " B.email, B.status, B.subscriptionType, B.description, B.logo, B.start_discount_val,S.comments_num,S.readme_num,S.max_usage ,B.working_days,S.schedule_mode) " +
             "FROM Services S " +
             "JOIN S.products P " +
             "JOIN S.business B " +
@@ -103,7 +103,7 @@ public interface ServicesRepository extends JpaRepository<Services, Long> {
                                              PageRequest offset);
     @Query("SELECT DISTINCT new com.application.masl7tak.dto.ServicesDTO(S.id, S.discountValue,S.images, S.creationDate, S.validUntil, S.rate, S.category.id, " +
             "S.carModel, S.carBrand, S.business.id, B.name, S.quantity, C.name, S.is_available, P.id, P.name, P.description, P.price, P.image, " +
-            " B.email, B.status, B.subscriptionType, B.description, B.logo, B.start_discount_val,count(R.comment),S.readme_num,S.max_usage ,B.working_days,S.schedule_mode,((SELECT C.name from CarBrand C where S.carBrand= C.id ))) " +
+            " B.email, B.status, B.subscriptionType, B.description, B.logo, B.start_discount_val,S.comments_num,S.readme_num,S.max_usage ,B.working_days,S.schedule_mode,((SELECT C.name from CarBrand C where S.carBrand= C.id ))) " +
             "FROM Services S " +
             "JOIN S.products P " +
             "JOIN S.business B " +
@@ -135,6 +135,11 @@ public interface ServicesRepository extends JpaRepository<Services, Long> {
                                              PageRequest offset);
 
     @Modifying
+    @Query("update Services b set b.comments_num = (b.comments_num +1)  where b.id = :id")
+    void comments_numCount(Long id);
+
+
+    @Modifying
     @Query(value = "UPDATE services s SET " +
             "s.images = COALESCE(:images, s.images), " +
             "s.discount_value = COALESCE(:discountValue, s.discount_value), " +
@@ -158,13 +163,16 @@ public interface ServicesRepository extends JpaRepository<Services, Long> {
     @Query("update Services s set s.is_available = 'false'  where s.id = :id and s.readme_num=s.max_usage")
     void isAvailable(Long id);
     @Modifying
+    @Query("UPDATE Business b SET b.service_count = (b.service_count + 1) WHERE b.id = :id AND :service_id IN (SELECT s.id FROM Services s WHERE s.business.id = b.id AND s.is_available = 'false')")
+    void reCountService(Long id,Long service_id);
+    @Modifying
     @Query("update Services b set b.is_available = :active  where b.id = :longId")
     void active(long longId, String active);
     @Query("SELECT NEW com.application.masl7tak.dto.ServicesDTO(S.visit_num,S.id, S.discountValue, S.images, S.creationDate, S.validUntil, S.rate, S.category.id, " +
             "S.carModel, S.carBrand, S.business.id, B.name, S.quantity, " +
             "C.name, S.is_available, " +
             "P.id, P.name, P.description, P.price, P.image, B.email, B.status, B.subscriptionType, " +
-            "B.description, B.logo, B.start_discount_val, COUNT(R.comment), S.readme_num, S.max_usage, B.working_days, S.schedule_mode) " +
+            "B.description, B.logo, B.start_discount_val, S.comments_num, S.readme_num, S.max_usage, B.working_days, S.schedule_mode) " +
             "FROM Services S " +
             "JOIN S.products P " +
             "JOIN S.business B " +

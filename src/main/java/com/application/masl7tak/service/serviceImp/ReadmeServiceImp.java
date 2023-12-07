@@ -84,6 +84,7 @@ public class ReadmeServiceImp implements ReadmeService {
                 readme.setDate(today);
                 servicesRepository.readme_num(servicesDTO.getId());
                 servicesRepository.isAvailable(servicesDTO.getId());
+                servicesRepository.reCountService(servicesDTO.getBrand_id(),servicesDTO.getId());
                 if (promoCode != null) {
                     List<Long> allBusinessIds = promoCode.getAllBusinessIds();
                     if (allBusinessIds.contains(servicesDTO.getBusiness().getId())) {
@@ -118,6 +119,7 @@ public class ReadmeServiceImp implements ReadmeService {
     public ResponseEntity<String> update(String comment, Float rate, Long readmeId) {
         try {
             Readme readme = readmeRepository.findById(readmeId).get();
+            servicesRepository.comments_numCount(readme.getServices().getId());
             comment = (comment.equals("")) ? null : comment;
             readmeRepository.update(comment, rate, readmeId);
             readmeRepository.updateRate(rate, readmeId);
