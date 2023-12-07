@@ -30,9 +30,9 @@ public class Point implements  Serializable {
     @Column(name = "promo_code")
     private String promo_code;
     @Column(name = "discount_value")
-    private double discountValue;
+    private double discount_value;
     @Column(name = "valid_until")
-    private String validUntil;
+    private String valid_until;
 
 
 
