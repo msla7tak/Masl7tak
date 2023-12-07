@@ -29,6 +29,10 @@ public class Point implements  Serializable {
     private int point;
     @Column(name = "promo_code")
     private String promo_code;
+    @Column(name = "discount_value")
+    private double discountValue;
+    @Column(name = "valid_until")
+    private String validUntil;
 
 
 
