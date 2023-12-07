@@ -241,6 +241,6 @@ public interface ReadmeRepository extends JpaRepository<Readme, Long> {
             "GROUP BY R.id ")
     ReadmeDTO findReadme(Long readmeId);
     @Modifying
-    @Query("update Readme b set b.rate = ((b.rate+ :rate)/2)  where b.id = :readmeId")
+    @Query("update Services b set b.rate = ((b.rate+ :rate)/2)  where b.id = :readmeId")
     void updateRate(Float rate, Long readmeId);
 }
