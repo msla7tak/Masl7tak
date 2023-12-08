@@ -241,7 +241,7 @@ public class ServicesServiceImp implements ServicesService {
             service.setValidUntil(productService.getValidUntil());
             service.setIs_available(productService.getIs_available());
             service.setMax_usage(productService.getMax_usage());
-            service.setRate(0);
+            service.setRate(5);
             service.setSchedule_mode(productService.getSchedule_mode());
             if (productService.getCarModelEntities() != null) {
                 for (CarModelEntity carModelEntity : productService.getCarModelEntities()) {
@@ -355,7 +355,7 @@ public class ServicesServiceImp implements ServicesService {
             service.setValidUntil(productService.getValidUntil());
             service.setIs_available(productService.getIs_available());
             service.setMax_usage(productService.getMax_usage());
-            service.setRate(0);
+            service.setRate(5);
             service.setSchedule_mode(productService.getSchedule_mode());
 
             return new ResponseEntity<>(servicesRepository.save(service), HttpStatus.OK);

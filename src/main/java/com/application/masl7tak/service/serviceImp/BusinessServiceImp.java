@@ -78,6 +78,7 @@ public class BusinessServiceImp implements BusinessService {
                 business.setName(businessBranch.getName());
                 business.setEmail(businessBranch.getEmail());
                 business.setLogo(businessBranch.getLogo());
+                business.setRate(5);
                 business.setTermsConditions(businessBranch.getTermsConditions());
                 business.setDescription(businessBranch.getDescription());
                 business.setSubscriptionType(businessBranch.getSubscriptionType());
@@ -189,7 +190,7 @@ public class BusinessServiceImp implements BusinessService {
     public ResponseEntity<SuccessDTO> save(Business business) {
         try {
             Business businessRepositoryByEmail = businessRepository.findByEmail(business.getEmail());
-
+            business.setRate(5);
             if (Objects.isNull(businessRepositoryByEmail)) {
                 businessRepositoryByEmail = businessRepository.save(business);
                 userRepository.updateRoleByEmail(JwtAuthFilter.getCurrentUser(), businessRepositoryByEmail.getId());
@@ -280,6 +281,7 @@ public class BusinessServiceImp implements BusinessService {
     public ResponseEntity<Object> create(Map<String, String> business_map, Long userId) {
         try {
             Business business = createBusinessFromMap(business_map);
+            business.setRate(5);
             Business businessRepositoryByEmail = businessRepository.findByEmail(business.getEmail());
 
             if (Objects.isNull(businessRepositoryByEmail)) {
