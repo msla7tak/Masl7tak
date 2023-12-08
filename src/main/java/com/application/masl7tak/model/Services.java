@@ -22,7 +22,7 @@ public class Services implements Serializable {
     @Column(name = "id")
     private Long id;
     @Column(name = "comments_num")
-    private Long comments_num;
+    private Long comments_num=0L;
 
     @Column(name = "discount_value")
     private double discountValue;
@@ -43,13 +43,13 @@ public class Services implements Serializable {
     @Column(name = "car_model")
     private Long carModel;
     @Column(name="rate")
-    private float rate;
+    private float rate=5;
     @Column(name="readme_num")
-    private double readme_num;
+    private double readme_num=0;
     @Column(name=" visit_num")
-    private double  visit_num;
+    private double  visit_num =0;
     @Column(name=" max_usage")
-    private int  max_usage;
+    private int  max_usage=0;
     @Column(name="schedule_mode")
     private int  schedule_mode;
 
