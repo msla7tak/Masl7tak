@@ -34,7 +34,7 @@ public class Business implements Serializable {
     @Column(name = "status")
     private String status;
     @Column(name = "service_count")
-    private Long service_count;
+    private Long service_count=0L;
     @Column(name = "subscriptionType")
     private String subscriptionType;
 
@@ -46,10 +46,10 @@ public class Business implements Serializable {
     @Column(name = "start_discount_val")
     private double start_discount_val;
     @Column(name = "visits_num")
-    private double visits_num;
+    private double visits_num=0;
 
     @Column(name = "rate")
-    private float rate;
+    private float rate=5;
     @Column(name = "top_rate")
     private int top_rate;
     @Column(name = "working_days")
