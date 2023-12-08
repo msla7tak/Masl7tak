@@ -116,15 +116,11 @@ public class BusinessServiceImp implements BusinessService {
     @Override
     public ResponseEntity<Object> update(BusinessBranch businessBranch) {
         try {
-            User user = userRepository.findUserByEmail(JwtAuthFilter.getCurrentUser()).get();
-
-            log.info(user + "user");
-
-          ;//
+            log.error(businessBranch + "");
             // Fetch the existing Business entity from the repository
-            Business business = businessRepository.findById(user.getBusiness_id()).get();
-            businessBranch.setId( user.getBusiness_id());
-            log.info(businessBranch + "info");
+            Business business = businessRepository.findById(businessBranch.getId())
+                    .orElseThrow(() -> new EntityNotFoundException("Business not found"));
+
             // Update the Business entity with values from businessBranch
             business.setName(businessBranch.getName());
             business.setEmail(businessBranch.getEmail());
@@ -165,9 +161,9 @@ public class BusinessServiceImp implements BusinessService {
             business = businessRepository.save(business);
 
 // Save the individual existing branches
-//            for (Branches existingBranch : existingBranches) {
-//                branchesRepository.save(existingBranch);
-//            }
+            for (Branches existingBranch : existingBranches) {
+                branchesRepository.save(existingBranch);
+            }
 
             return new ResponseEntity<>(new SuccessDTO(business.getId(), Constants.DATA_Inserted), HttpStatus.OK);
         } catch (Exception exception) {
@@ -175,7 +171,6 @@ public class BusinessServiceImp implements BusinessService {
             return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(), 105), HttpStatus.BAD_REQUEST);
         }
     }
-
     @Transactional
     public void addBranchToBusiness(Long businessId, Branches newBranch) {
         Business business = businessRepository.findById(businessId).orElse(null);
