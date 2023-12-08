@@ -118,12 +118,13 @@ public class BusinessServiceImp implements BusinessService {
         try {
             User user = userRepository.findUserByEmail(JwtAuthFilter.getCurrentUser()).orElseThrow();
 
-            log.error(businessBranch + "");
+
           ;
             // Fetch the existing Business entity from the repository
             Business business = businessRepository.findById(  user.getBusiness_id())
                     .orElseThrow(() -> new EntityNotFoundException("Business not found"));
-
+            businessBranch.setId( user.getBusiness_id());
+            log.error(businessBranch + "");
             // Update the Business entity with values from businessBranch
             business.setName(businessBranch.getName());
             business.setEmail(businessBranch.getEmail());
