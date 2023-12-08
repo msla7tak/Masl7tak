@@ -116,7 +116,7 @@ public class BusinessServiceImp implements BusinessService {
     @Override
     public ResponseEntity<Object> update(BusinessBranch businessBranch) {
         try {
-            User user = userRepository.findUserByEmail(JwtAuthFilter.getCurrentUser()).orElseThrow();
+            User user = userRepository.findUserByEmail(JwtAuthFilter.getCurrentUser()).get();
 
             log.info(user + "user");
 
@@ -165,9 +165,9 @@ public class BusinessServiceImp implements BusinessService {
             business = businessRepository.save(business);
 
 // Save the individual existing branches
-            for (Branches existingBranch : existingBranches) {
-                branchesRepository.save(existingBranch);
-            }
+//            for (Branches existingBranch : existingBranches) {
+//                branchesRepository.save(existingBranch);
+//            }
 
             return new ResponseEntity<>(new SuccessDTO(business.getId(), Constants.DATA_Inserted), HttpStatus.OK);
         } catch (Exception exception) {
