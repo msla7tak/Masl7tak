@@ -122,6 +122,7 @@ public class BusinessServiceImp implements BusinessService {
                     .orElseThrow(() -> new EntityNotFoundException("Business not found"));
 
             // Update the Business entity with values from businessBranch
+            business.setId(businessBranch.getId());
             business.setName(businessBranch.getName());
             business.setEmail(businessBranch.getEmail());
             business.setLogo(businessBranch.getLogo());
@@ -158,6 +159,7 @@ public class BusinessServiceImp implements BusinessService {
             }
 
             business.setBranches(existingBranches);
+            business.setId(businessBranch.getId());
             business = businessRepository.save(business);
 
 // Save the individual existing branches
