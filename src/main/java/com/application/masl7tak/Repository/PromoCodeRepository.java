@@ -26,7 +26,7 @@ public interface PromoCodeRepository extends JpaRepository<PromoCode, Long> {
 
     @Modifying
     @Query("update PromoCode s set s.is_available = 'false'  where s.id = :id and s.readme_num=s.max_usage")
-    void isAvailable(Long id);
+    void  isAvailable(Long id);
 
   @Query("select  P from PromoCode P where P.code= :promoCode")
   Optional< PromoCode> findByCode(String promoCode);

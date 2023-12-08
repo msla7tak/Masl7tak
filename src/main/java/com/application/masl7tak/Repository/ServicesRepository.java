@@ -166,7 +166,7 @@ public interface ServicesRepository extends JpaRepository<Services, Long> {
     @Query("update Services s set s.is_available = 'false'  where s.id = :id and s.readme_num=s.max_usage")
     void isAvailable(Long id);
     @Modifying
-    @Query("UPDATE Business b SET b.service_count = (b.service_count + 1) WHERE b.id = :id AND :service_id IN (SELECT s.id FROM Services s WHERE s.business.id = b.id AND s.is_available = 'false')")
+    @Query("UPDATE Business b SET b.service_count = (b.service_count - 1) WHERE b.id = :id AND :service_id IN (SELECT s.id FROM Services s WHERE s.business.id = b.id AND s.is_available = 'false')")
     void reCountService(Long id,Long service_id);
     @Modifying
     @Query("update Services b set b.is_available = :active  where b.id = :longId")
