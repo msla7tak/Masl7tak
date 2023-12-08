@@ -116,13 +116,15 @@ public class BusinessServiceImp implements BusinessService {
     @Override
     public ResponseEntity<Object> update(BusinessBranch businessBranch) {
         try {
+            User user = userRepository.findUserByEmail(JwtAuthFilter.getCurrentUser()).orElseThrow();
+
             log.error(businessBranch + "");
+          ;
             // Fetch the existing Business entity from the repository
-            Business business = businessRepository.findById(businessBranch.getId())
+            Business business = businessRepository.findById(  user.getBusiness_id())
                     .orElseThrow(() -> new EntityNotFoundException("Business not found"));
 
             // Update the Business entity with values from businessBranch
-            business.setId(businessBranch.getId());
             business.setName(businessBranch.getName());
             business.setEmail(businessBranch.getEmail());
             business.setLogo(businessBranch.getLogo());
@@ -159,7 +161,6 @@ public class BusinessServiceImp implements BusinessService {
             }
 
             business.setBranches(existingBranches);
-            business.setId(businessBranch.getId());
             business = businessRepository.save(business);
 
 // Save the individual existing branches
