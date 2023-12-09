@@ -40,13 +40,14 @@ public class FaqServiceImp implements FaqService {
         try {
          List  <Faq> faqList= faqRepository.findAllWithFilter();
             if (lang != null && lang.equals("en")) {
+
                 for (Faq ob : faqList) {
                     ob.setAnswer_en(ob.getAnswer_ar());
                     ob.setQuestion_en(ob.getQuestion_ar());
                 }
                 return new ResponseEntity<>(faqList, HttpStatus.OK);
             }
-            return new ResponseEntity<>(faqRepository.findAllWithFilter(), HttpStatus.OK);
+            return new ResponseEntity<>(faqList, HttpStatus.OK);
 
         } catch (Exception exception) {
 
