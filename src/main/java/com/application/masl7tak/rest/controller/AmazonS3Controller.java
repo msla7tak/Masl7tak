@@ -36,8 +36,12 @@ public class AmazonS3Controller {
 
             for (MultipartFile file : files) {
                 File convertedFile = convertMultiPartFileToFile(file);
-                fileList.add(convertedFile);
-                nameList=nameList + convertedFile.getName()+",";
+                String uniqueFileName = generateUniqueFileName(file.getOriginalFilename());
+                File renamedFile = new File(convertedFile.getParent(), uniqueFileName);
+                convertedFile.renameTo(renamedFile);
+
+                fileList.add(renamedFile);
+                nameList = nameList + uniqueFileName + ",";
             }
 
             nameList = nameList.substring(0, nameList.length() - 1);
@@ -49,19 +53,33 @@ public class AmazonS3Controller {
         }
     }
 
+    private String generateUniqueFileName(String originalFileName) {
+        String timeStamp = String.valueOf(System.currentTimeMillis());
+        int dotIndex = originalFileName.lastIndexOf('.');
+        String extension = (dotIndex > 0) ? originalFileName.substring(dotIndex) : "";
+        return "file_" + timeStamp + extension;
+    }
+
     public String uploadFiles(MultipartFile[] files) {
         try {
             String bucketName = "msla7tak";
             List<File> fileList = new ArrayList<>();
-            String nameList ="";
+            String nameList = "";
+
             for (MultipartFile file : files) {
                 File convertedFile = convertMultiPartFileToFile(file);
-                fileList.add(convertedFile);
-                nameList=nameList + convertedFile.getName()+",";
+                String uniqueFileName = generateUniqueFileName(convertedFile.getName());
+                File renamedFile = new File(convertedFile.getParent(), uniqueFileName);
+                convertedFile.renameTo(renamedFile);
+
+                fileList.add(renamedFile);
+                nameList = nameList + uniqueFileName + ",";
             }
-             nameList = nameList.substring(0, nameList.length() - 1);
-         amazonS3Service.uploadFilesToS3(bucketName, fileList);
-            return  nameList;
+
+            nameList = nameList.substring(0, nameList.length() - 1);
+
+            amazonS3Service.uploadFilesToS3(bucketName, fileList);
+            return nameList;
         } catch (IOException e) {
             return e.getMessage();
         }
