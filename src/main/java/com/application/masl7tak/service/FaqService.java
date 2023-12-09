@@ -9,7 +9,7 @@ import java.util.List;
 public interface FaqService {
 
 
-    public ResponseEntity<Object> findAll();
+    public ResponseEntity<Object> findAll( String lang);
 
     public ResponseEntity<Object> findById(Long id);
 

@@ -21,8 +21,8 @@ import java.util.List;
     }
 
     @Override
-    public ResponseEntity<Object> findAll() {
-        return regionService.findAll();
+    public ResponseEntity<Object> findAll( String lang) {
+        return regionService.findAll(lang);
     }
 
     @Override

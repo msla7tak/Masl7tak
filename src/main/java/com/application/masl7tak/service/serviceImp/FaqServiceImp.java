@@ -5,6 +5,7 @@ import com.application.masl7tak.Repository.ReplacementRepository;
 import com.application.masl7tak.Repository.UserRepository;
 import com.application.masl7tak.configs.JwtAuthFilter;
 import com.application.masl7tak.constents.Constants;
+import com.application.masl7tak.dto.CategoryDTO;
 import com.application.masl7tak.dto.SuccessDTO;
 import com.application.masl7tak.model.Faq;
 import com.application.masl7tak.model.Replacement;
@@ -16,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,9 +36,16 @@ public class FaqServiceImp implements FaqService {
     private ReplacementRepository replacementRepository;
 
     @Override
-    public ResponseEntity<Object> findAll() {
+    public ResponseEntity<Object> findAll( String lang) {
         try {
-        // where have a answer
+         List  <Faq> faqList= faqRepository.findAllWithFilter();
+            if (lang != null && lang.equals("en")) {
+                for (Faq ob : faqList) {
+                    ob.setAnswer_en(ob.getAnswer_ar());
+                    ob.setQuestion_en(ob.getQuestion_ar());
+                }
+                return new ResponseEntity<>(faqList, HttpStatus.OK);
+            }
             return new ResponseEntity<>(faqRepository.findAllWithFilter(), HttpStatus.OK);
 
         } catch (Exception exception) {

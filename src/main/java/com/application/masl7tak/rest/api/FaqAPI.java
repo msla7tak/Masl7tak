@@ -16,7 +16,7 @@ import java.util.List;
 @RequestMapping( path = "/api/")
 public interface FaqAPI {
     @GetMapping("public/faq")
-    public ResponseEntity<Object> findAll();
+    public ResponseEntity<Object> findAll(@RequestParam(value = "lang", required = false) String lang);
     @GetMapping("public/faq/support")
     public ResponseEntity<Object> findAllSupport();
 
