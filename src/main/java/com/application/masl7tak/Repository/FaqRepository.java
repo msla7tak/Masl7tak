@@ -12,9 +12,14 @@ public interface FaqRepository extends JpaRepository<Faq, Long> {
     @Query("select f from Faq f where f.answer_en=null ")
 
     List<Faq> findAllSupport();
-    @Query("SELECT f FROM Faq f WHERE f.status = 1")
+//    (Long id, String name, String email, String question_en, String answer_en, Long user_id, int status)
+@Query(value = "SELECT new com.application.masl7tak.dto.FaqDTO(f.id, f.name, f.email, f.question_en, f.answer_en, f.user_id, f.status ) " +
+        " FROM  Faq f where f.status= 1")
 
-    List<Faq> findAllWithFilter();
+    List<Faq> findAllWithFilter();@Query(value = "SELECT new com.application.masl7tak.dto.FaqDTO(f.id, f.name, f.email, f.answer_ar, f.answer_ar, f.user_id, f.status ) " +
+        " FROM  Faq f where f.status= 1")
+
+    List<Faq> findAllWithFilter_en();
     @Query("SELECT f FROM Faq f WHERE f.user_id = :user_id")
 
     List<Faq> findFaqByUser_idIs(Long user_id);

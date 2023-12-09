@@ -38,16 +38,11 @@ public class FaqServiceImp implements FaqService {
     @Override
     public ResponseEntity<Object> findAll( String lang) {
         try {
-         List  <Faq> faqList= faqRepository.findAllWithFilter();
             if (lang != null && lang.equals("en")) {
 
-                for (Faq ob : faqList) {
-                    ob.setAnswer_en(ob.getAnswer_ar());
-                    ob.setQuestion_en(ob.getQuestion_ar());
-                }
-                return new ResponseEntity<>(faqList, HttpStatus.OK);
+                return new ResponseEntity<>( faqRepository.findAllWithFilter_en(), HttpStatus.OK);
             }
-            return new ResponseEntity<>(faqList, HttpStatus.OK);
+            return new ResponseEntity<>(faqRepository.findAllWithFilter(), HttpStatus.OK);
 
         } catch (Exception exception) {
 
