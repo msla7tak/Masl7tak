@@ -103,8 +103,9 @@ public class ServicesServiceImp implements ServicesService {
             if (services.getDiscountValue() < 1 && services.getBusiness().getId() != null) {
 //                businessRepository.updateStartDiscountVal(services.getBusiness().getId(), services.getDiscountValue());
                 Business business = businessRepository.findById(services.getBusiness().getId()).orElseThrow();
-                business.setStart_discount_val(business.getStart_discount_val() < services.getDiscountValue() ? services.getDiscountValue() : business.getStart_discount_val());
-                businessRepository.save(business);
+                if (business.getStart_discount_val() < services.getDiscountValue()) {
+                    businessRepository.startDiscountVal(business.getId(), services.getDiscountValue());
+                }
                 businessRepository.serviceCount(business.getId());
             }
 
@@ -185,8 +186,9 @@ public class ServicesServiceImp implements ServicesService {
             if (services.getDiscountValue() < 1 && services.getBusiness().getId() != null) {
 //                businessRepository.updateStartDiscountVal(services.getBusiness().getId(), services.getDiscountValue());
                 Business business = businessRepository.findById(services.getBusiness().getId()).orElseThrow();
-                business.setStart_discount_val(business.getStart_discount_val() < services.getDiscountValue() ? services.getDiscountValue() : business.getStart_discount_val());
-                businessRepository.save(business);
+                if (business.getStart_discount_val() < services.getDiscountValue()) {
+                    businessRepository.startDiscountVal(business.getId(), services.getDiscountValue());
+                }
             }
             services.setImages(amazonS3Controller.uploadFiles(files));
 
@@ -208,8 +210,9 @@ public class ServicesServiceImp implements ServicesService {
             Long businessId = productService.getBusiness().getId();
             if (productService.getDiscountValue() < 1 && businessId != null) {
                 Business business = businessRepository.findById(businessId).orElseThrow();
-                business.setStart_discount_val(business.getStart_discount_val() < productService.getDiscountValue() ? productService.getDiscountValue() : business.getStart_discount_val());
-                businessRepository.save(business);
+                if (business.getStart_discount_val() < productService.getDiscountValue()) {
+                    businessRepository.startDiscountVal(business.getId(), productService.getDiscountValue());
+                }
             }
             businessRepository.serviceCount(businessId);
 

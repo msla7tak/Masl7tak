@@ -65,6 +65,9 @@ public interface BusinessRepository extends JpaRepository<Business, Long> {
     @Modifying
     @Query("update Business b set b.status = :active  where b.id = :id")
     void active(Long id,String active);
+    @Modifying
+    @Query("update Business b set b.start_discount_val = :value  where b.id = :id")
+    void startDiscountVal(Long id,Double value);
 
 //    @Query("select new com.application.masl7tak.dto.AnalyticsDTO( COUNT(R.id),COUNT( DISTINCT R.user.id),B.visits_num,COUNT(S.business.id) )" +
 //            "from Business B " +
