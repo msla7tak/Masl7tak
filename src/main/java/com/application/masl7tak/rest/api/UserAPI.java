@@ -61,7 +61,7 @@ public interface UserAPI {
     @DeleteMapping("user/user/{id}")
     public ResponseEntity<SuccessDTO> deleteById(@PathVariable Long id);
     @PostMapping("user/user/invitations")
-    public ResponseEntity<String> sendInvitation(
+    public ResponseEntity<Object> sendInvitation(
             @RequestParam Long inviterId,
             @RequestParam String inviteeEmail);
 

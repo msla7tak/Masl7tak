@@ -10,6 +10,6 @@ import java.util.List;
 
 public interface PointRepository extends JpaRepository<Point, Long> {
 
-    @Query("select C from Point C where C.user_id=:userId and C.promo_code!= null ")
+    @Query("select C from Point C where C.user_id=:userId and C.promo_code!= null  ORDER BY C.id DESC")
     List<Point> findRequestsByUserId(Long userId);
 }

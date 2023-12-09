@@ -4,6 +4,8 @@ import com.application.masl7tak.Repository.InvitationRepository;
 import com.application.masl7tak.Repository.ReplacementRepository;
 import com.application.masl7tak.Repository.UserRepository;
 import com.application.masl7tak.configs.JwtAuthFilter;
+import com.application.masl7tak.constents.Constants;
+import com.application.masl7tak.dto.SuccessDTO;
 import com.application.masl7tak.model.Invitation;
 import com.application.masl7tak.model.User;
 import com.application.masl7tak.service.EmailService;
@@ -31,7 +33,7 @@ public class InvitationServiceImp implements InvitationService {
 
     @Transactional
     @Override
-    public ResponseEntity<String> sendInvitation(Long inviterId, String inviteeEmail) {
+    public ResponseEntity<Object> sendInvitation(Long inviterId, String inviteeEmail) {
         // Get the inviter user from the database based on inviterId
         try {
             User inviter = userRepository.findById(inviterId)
@@ -46,16 +48,19 @@ public class InvitationServiceImp implements InvitationService {
                 // Send the invitation email using the emailService
 //                emailService.sendInvitationEmail(inviteeEmail, invitation.getInvitationToken());
                 invitationRepository.save(invitation);
-                return    ResponseEntity.ok("Invitation sent successfully.");
+                return new ResponseEntity<>(Constants.responseMessage("Invitation sent successfully.",100), HttpStatus.OK);
+
             } else
             {
-                return new ResponseEntity<>("Please check the Email existing.", HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(Constants.responseMessage("Please check the Email existing.",100), HttpStatus.BAD_REQUEST);
+
             }
 
         } catch (Exception e) {
             e.printStackTrace();
+            return new ResponseEntity<>(Constants.responseMessage(e.getMessage(),100), HttpStatus.BAD_REQUEST);
+
         }
-        return new ResponseEntity<>("Please check the Email.", HttpStatus.BAD_REQUEST);
     }
 
     @Transactional

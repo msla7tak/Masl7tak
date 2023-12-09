@@ -146,7 +146,7 @@ public class UserController implements UserAPI {
 
 
     @Override
-    public ResponseEntity<String> sendInvitation(
+    public ResponseEntity<Object> sendInvitation(
             @PathVariable Long inviterId,
             @RequestParam String inviteeEmail) {
         return   invitationService.sendInvitation(inviterId, inviteeEmail);
