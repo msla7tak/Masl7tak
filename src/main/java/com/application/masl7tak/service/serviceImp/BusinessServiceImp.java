@@ -323,6 +323,7 @@ public class BusinessServiceImp implements BusinessService {
 
     @Override
     public void deleteById(Long id) {
+        branchesRepository.deleteByBusinessId(id);
         businessRepository.deleteById(id);
 
     }

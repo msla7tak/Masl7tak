@@ -3,6 +3,7 @@ package com.application.masl7tak.Repository;
 import com.application.masl7tak.dto.BranchesDTO;
 import com.application.masl7tak.model.Branches;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -19,4 +20,7 @@ public interface BranchesRepository extends JpaRepository<Branches, Long> {
             "WHERE B.id = :businessId")
     List<BranchesDTO> findBranchesByBusinessId(@Param("businessId") Long businessId);
 
+    @Modifying
+    @Query("DELETE FROM Branches b WHERE b.business.id = :businessId")
+    void deleteByBusinessId(@Param("businessId") Long businessId);
 }
