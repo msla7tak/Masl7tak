@@ -90,7 +90,7 @@ public class ReadmeServiceImp implements ReadmeService {
                     if (allBusinessIds.contains(servicesDTO.getBusiness().getId())) {
                         if (promoCode.getReadme_num() < promoCode.getMax_usage()) {
                             log.info(userPromoCodeRepository.findUserById(promoCode.getId(), readme.getUser().getId())+ "");
-                            if (userPromoCodeRepository.findUserById(promoCode.getId(), readme.getUser().getId()) == null) {
+                            if (userPromoCodeRepository.findUserById(promoCode.getId(), readme.getUser().getId()).isEmpty()) {
                                 promoCodeRepository.readme_num(promoCode.getId());
                                 promoCodeRepository.isAvailable(promoCode.getId());
                                 readme.setPromo_code_discount(promoCode.getDiscountValue());

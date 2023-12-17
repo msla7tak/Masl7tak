@@ -100,7 +100,7 @@ public class PromoCodeServiceImp implements PromoCodeService {
                     if (promoCode.getReadme_num() < promoCode.getMax_usage()) {
                         User user = userRepository.findUserByEmail(jwtAuthFilter.getCurrentUser()).orElseThrow();
 
-                        if (userPromoCodeRepository.findUserById(promoCode.getId(), user.getId()) == null) {
+                        if (userPromoCodeRepository.findUserById(promoCode.getId(), user.getId()).isEmpty()) {
 
                             return new ResponseEntity<>(Constants.responseMessage( promoCode.getDiscountValue(), 200), HttpStatus.OK);
                         }
