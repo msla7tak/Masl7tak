@@ -1,10 +1,14 @@
 package com.application.masl7tak.service.serviceImp;
 
 import com.application.masl7tak.Repository.PromoCodeRepository;
+import com.application.masl7tak.Repository.UserPromoCodeRepository;
+import com.application.masl7tak.Repository.UserRepository;
+import com.application.masl7tak.configs.JwtAuthFilter;
 import com.application.masl7tak.constents.Constants;
 import com.application.masl7tak.dto.PromoCodeDTO;
 import com.application.masl7tak.model.BusinessIdEntity;
 import com.application.masl7tak.model.PromoCode;
+import com.application.masl7tak.model.User;
 import com.application.masl7tak.service.PromoCodeService;
 import com.application.masl7tak.service.PromoCodeService;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +29,12 @@ import java.util.List;
 public class PromoCodeServiceImp implements PromoCodeService {
     @Autowired
     private  PromoCodeRepository  promoCodeRepository;
-
+    @Autowired
+    private UserPromoCodeRepository userPromoCodeRepository;
+    @Autowired
+    private JwtAuthFilter jwtAuthFilter;
+    @Autowired
+    private UserRepository userRepository;
     @Override
     public ResponseEntity<Object> findAll() {
         try {
@@ -89,7 +98,12 @@ public class PromoCodeServiceImp implements PromoCodeService {
                 List<Long> allBusinessIds = promoCode.getAllBusinessIds();
                 if (allBusinessIds.contains(business_id)) {
                     if (promoCode.getReadme_num() < promoCode.getMax_usage()) {
-                        return new ResponseEntity<>(Constants.responseMessage( promoCode.getDiscountValue(), 200), HttpStatus.OK);
+                        User user = userRepository.findUserByEmail(jwtAuthFilter.getCurrentUser()).orElseThrow();
+
+                        if (userPromoCodeRepository.findUserById(promoCode.getId(), user.getId()) == null) {
+
+                            return new ResponseEntity<>(Constants.responseMessage( promoCode.getDiscountValue(), 200), HttpStatus.OK);
+                        }
                     }
 
                     return new ResponseEntity<>(Constants.responseMessage("Promo code not valid ", 141), HttpStatus.BAD_REQUEST);

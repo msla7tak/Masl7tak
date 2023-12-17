@@ -5,10 +5,7 @@ import com.application.masl7tak.configs.JwtAuthFilter;
 import com.application.masl7tak.constents.Constants;
 import com.application.masl7tak.dto.ReadmeDTO;
 import com.application.masl7tak.dto.ServicesDTO;
-import com.application.masl7tak.model.Notification;
-import com.application.masl7tak.model.PromoCode;
-import com.application.masl7tak.model.Readme;
-import com.application.masl7tak.model.User;
+import com.application.masl7tak.model.*;
 import com.application.masl7tak.service.ReadmeService;
 import com.application.masl7tak.utils.FBNotificationService;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +30,8 @@ public class ReadmeServiceImp implements ReadmeService {
     @Autowired
     private NotificationRepository notificationRepository;
     @Autowired
+    private UserPromoCodeRepository userPromoCodeRepository;
+    @Autowired
     private ServicesRepository servicesRepository;
     @Autowired
     private ReplacementRepository replacementRepository;
@@ -47,6 +46,7 @@ public class ReadmeServiceImp implements ReadmeService {
 
     @Autowired
     private FBNotificationService fbNotificationService;
+
     @Override
     public ResponseEntity<List<ReadmeDTO>> findAll() {
         try {
@@ -84,14 +84,19 @@ public class ReadmeServiceImp implements ReadmeService {
                 readme.setDate(today);
                 servicesRepository.readme_num(servicesDTO.getId());
                 servicesRepository.isAvailable(servicesDTO.getId());
-                servicesRepository.reCountService(servicesDTO.getBrand_id(),servicesDTO.getId());
+                servicesRepository.reCountService(servicesDTO.getBrand_id(), servicesDTO.getId());
                 if (promoCode != null) {
                     List<Long> allBusinessIds = promoCode.getAllBusinessIds();
                     if (allBusinessIds.contains(servicesDTO.getBusiness().getId())) {
                         if (promoCode.getReadme_num() < promoCode.getMax_usage()) {
-                            promoCodeRepository.readme_num(promoCode.getId());
-                            promoCodeRepository.isAvailable(promoCode.getId());
-                            readme.setPromo_code_discount(promoCode.getDiscountValue());
+                            log.info(userPromoCodeRepository.findUserById(promoCode.getId(), readme.getUser().getId())+ "");
+                            if (userPromoCodeRepository.findUserById(promoCode.getId(), readme.getUser().getId()) == null) {
+                                promoCodeRepository.readme_num(promoCode.getId());
+                                promoCodeRepository.isAvailable(promoCode.getId());
+                                readme.setPromo_code_discount(promoCode.getDiscountValue());
+                                userPromoCodeRepository.save(new UserPromoCode( readme.getUser().getId(),promoCode.getId()));
+
+                            }
                         }
                     }
                 } else
@@ -184,20 +189,20 @@ public class ReadmeServiceImp implements ReadmeService {
             LocalDateTime now = LocalDateTime.now();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
             User user = userRepository.findUserByEmail(jwtAuthFilter.getCurrentUser()).orElseThrow();
-            Notification notification= new Notification();
+            Notification notification = new Notification();
 
             notification.setTitle("تم تحديث طلبك");
             notification.setDescription("تم تحديث حالةالطلب بنجاح");
             notification.setUser_id(user.getId());
-            notification.setStatus(confirmDate+"");
-            notification.setCreationDate(confirmDate+"");
+            notification.setStatus(confirmDate + "");
+            notification.setCreationDate(confirmDate + "");
             notification.setCreationDate(formatter.format(now));
             notification.setStatusReviewed("pending");
             notification.setType("4");
             notificationRepository.save(notification);
 
             fbNotificationService.sendNotification(user.getFirebase_token(), notification.getTitle(), notification.getDescription(),
-                    "list",notification.getCreationDate(),"4",confirmDate+"","confirmDate");
+                    "list", notification.getCreationDate(), "4", confirmDate + "", "confirmDate");
 
             return new ResponseEntity<Object>(readmeRepository.findReadmeById(readmeId), HttpStatus.OK);
 
