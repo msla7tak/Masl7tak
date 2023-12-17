@@ -84,7 +84,7 @@ public class PointServiceImp implements PointService {
     @Override
     public ResponseEntity<Object> update(Point point) {
         try {
-
+            log.info(point + "test");
              pointRepository.save(point);
 
             return new ResponseEntity<>(Constants.responseMessage("Can't exchange you point yet", 106), HttpStatus.BAD_REQUEST);
