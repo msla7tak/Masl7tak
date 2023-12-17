@@ -125,7 +125,7 @@ public class UserServiceImpl implements UserService {
                     UserDTO userDTO = userRepository.findDtoByEmail(requestMap.get("email"));
 
                     userDTO.setToken(jwtToken);
-                    if (requestMap.get("invitation_code") != null&&requestMap.get("invitation_code")!="") {
+                    if (requestMap.get("invitation_code") != null && requestMap.get("invitation_code") != "") {
                         User inviter = userRepository.findByInvitationCode(requestMap.get("invitation_code"));
                         Integer point = replacementRepository.getReferenceById(1L).getPoint_for_invitation();
                         userRepository.updatePoints(inviter.getPoints() + point, inviter.getId());
@@ -163,7 +163,7 @@ public class UserServiceImpl implements UserService {
 
                 UserDTO userDTO = userRepository.findDtoByEmail(requestMap.get("email"));
                 if (requestMap.get("firebase_token") != null || requestMap.get("firebase_token") != "") {
-                    userRepository.updateFirebase(userDTO.getId(),requestMap.get("firebase_token"));
+                    userRepository.updateFirebase(userDTO.getId(), requestMap.get("firebase_token"));
                 }
                 //          if (user.getStatus().equalsIgnoreCase("true")) {
 //                    log.info("Inside login");
@@ -249,20 +249,26 @@ public class UserServiceImpl implements UserService {
 
             if (user != null) {
 
-
-                return new ResponseEntity<>(user,
+                UserDTO userDTO = userRepository.findDtoByEmail(user.getEmail());
+                String jwtToken = jwtService.generateToken(user);
+                userDTO.setToken(jwtToken);
+                return new ResponseEntity<>(userDTO,
                         HttpStatus.OK);
 
             }
-            user= new User();
-            user.setName("");
+            user = new User();
+            String[] list = requestMap.get("email").split("@");
+            user.setName(list[0]);
+            user.setEmail(requestMap.get("email"));
             user.setCarModel(1);
             user.setCarBrand(1);
-            user.setPassword(passwordEncoder.encode("123456"));
+
+            user.setPassword(passwordEncoder.encode( requestMap.get("email")));
             user.setStatus("active");
             user.setRole("user");
             user.setInvitation_code(generateInvitationToken());
             user.setInviter_code("");
+
             LocalDate today = LocalDate.now();
             DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             String formattedDate = today.format(dateFormat);
@@ -271,7 +277,13 @@ public class UserServiceImpl implements UserService {
             user.setGmail_id(requestMap.get("facebook_id"));
             user.setGmail_id(requestMap.get("gmail_id"));
             userRepository.save(user);
-            return new ResponseEntity<>(user, HttpStatus.OK);
+            String jwtToken = jwtService.generateToken(user);
+
+
+            userRepository.updatePoints(replacementRepository.getReferenceById(1L).getPoint_for_registration(), user.getId());
+            UserDTO userDTO = userRepository.findDtoByEmail(user.getEmail());
+            userDTO.setToken(jwtToken);
+            return new ResponseEntity<>(userDTO, HttpStatus.OK);
         } catch (Exception ex) {
             log.error("{}", ex);
             return new ResponseEntity<>(Constants.responseMessage(ex.getMessage(), 105), HttpStatus.BAD_REQUEST);
