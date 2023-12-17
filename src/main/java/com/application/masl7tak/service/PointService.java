@@ -15,6 +15,6 @@ public interface PointService {
     public ResponseEntity<Object> save(Point point);
 
     public void deleteById(Long id);
-
+    ResponseEntity<Object> update(Point point);
     ResponseEntity<List<Point>> findRequestsByUserId(Long userId);
 }

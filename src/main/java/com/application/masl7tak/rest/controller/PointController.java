@@ -42,7 +42,7 @@ public class PointController implements PointAPI {
     @Override
     public ResponseEntity<Object> update(@RequestBody Point point, @PathVariable Long id) {
         point.setId(id);
-        return pointService.save(point);
+        return pointService.update(point);
     }
 
     @Override
