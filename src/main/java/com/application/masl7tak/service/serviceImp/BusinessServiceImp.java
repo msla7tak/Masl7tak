@@ -34,6 +34,8 @@ public class BusinessServiceImp implements BusinessService {
     @Autowired
     private ReadmeRepository readmeRepository;
     @Autowired
+    private ReplacementRepository replacementRepository;
+    @Autowired
     private BusinessRepository businessRepository;
     @Autowired
     private BranchesRepository branchesRepository;
@@ -86,6 +88,9 @@ public class BusinessServiceImp implements BusinessService {
                 business.setStart_discount_val(businessBranch.getStart_discount_val());
                 business.setCategory(businessBranch.getCategory());
                 business.setWorking_days(businessBranch.getWorking_days());
+                Replacement replacement = replacementRepository.getReferenceById(1L);
+
+                business.setTermsConditions(replacement.getTermsConditions());
 
                 business.setStatus("active");
                 business.setSubscriptionType("junior");
@@ -190,7 +195,11 @@ public class BusinessServiceImp implements BusinessService {
         try {
             Business businessRepositoryByEmail = businessRepository.findByEmail(business.getEmail());
             business.setRate(5);
-            if (Objects.isNull(businessRepositoryByEmail)) {
+            if (Objects.isNull(businessRepositoryByEmail))
+            {
+                Replacement replacement = replacementRepository.getReferenceById(1L);
+
+                business.setTermsConditions(replacement.getTermsConditions());
                 businessRepositoryByEmail = businessRepository.save(business);
                 userRepository.updateRoleByEmail(JwtAuthFilter.getCurrentUser(), businessRepositoryByEmail.getId());
                 return new ResponseEntity<>(new SuccessDTO(businessRepositoryByEmail.getId(), Constants.DATA_Inserted), HttpStatus.OK);
@@ -284,6 +293,9 @@ public class BusinessServiceImp implements BusinessService {
             Business businessRepositoryByEmail = businessRepository.findByEmail(business.getEmail());
 
             if (Objects.isNull(businessRepositoryByEmail)) {
+                Replacement replacement = replacementRepository.getReferenceById(1L);
+
+                business.setTermsConditions(replacement.getTermsConditions());
                 businessRepositoryByEmail = businessRepository.save(business);
                 createBranchesFromMap(business_map, businessRepositoryByEmail);
                 userRepository.updateRoleByEmail(userRepository.findById(userId).get().getEmail(), businessRepositoryByEmail.getId());
