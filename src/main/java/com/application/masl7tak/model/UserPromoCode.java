@@ -12,13 +12,12 @@ import lombok.NoArgsConstructor;
 @Table(name = "user_promo_code")
 public class UserPromoCode {
 
-
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @Column(name = "user_id")
     private Long userId;
+    @Column(name = "promo_code_Id")
     private Long promoCode_Id;
     public UserPromoCode(Long userId, Long promoCode_Id) {
         this.userId = userId;

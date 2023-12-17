@@ -1,13 +1,9 @@
 package com.application.masl7tak.Repository;
 
-import com.application.masl7tak.dto.CategoryDTO;
-import com.application.masl7tak.model.Category;
 import com.application.masl7tak.model.UserPromoCode;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
-import java.util.List;
 
 public interface UserPromoCodeRepository extends JpaRepository<UserPromoCode,Long> {
 
