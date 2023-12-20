@@ -75,7 +75,7 @@ public class CategoryServiceImp implements CategoryService {
     @Override
     public ResponseEntity<Object> UpdateCategory(Category category) {
         try {
-            categoryRepository.UpdateCategory(category.getId(),category.getName());
+            categoryRepository.UpdateCategory(category.getId(),category.getName(),category.getName_en());
             return new ResponseEntity<>(Constants.responseMessage("Category Updated",200), HttpStatus.OK);
         } catch (Exception exception) {
             exception.printStackTrace();

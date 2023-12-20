@@ -12,15 +12,15 @@ import java.util.List;
 //DAO means Data access object
 public interface CategoryRepository extends JpaRepository<Category,Long> {
 
-    @Query(value = "SELECT new com.application.masl7tak.dto.CategoryDTO(C.id, C.name, C.image) FROM Category C")
+    @Query(value = "SELECT new com.application.masl7tak.dto.CategoryDTO(C.id, C.name, C.image,C.name_en) FROM Category C")
     List<CategoryDTO>getAllCategory();
 
-    @Query("SELECT new com.application.masl7tak.dto.CategoryDTO(C.id, C.name, C.image) FROM Category C where C.id=:id")
+    @Query("SELECT new com.application.masl7tak.dto.CategoryDTO(C.id, C.name, C.image,C.name_en) FROM Category C where C.id=:id")
     Object findCategory(Long id);
     @Modifying
-    @Query("update Category c set c.name =:name  where c.id = :id")
-    void UpdateCategory(Long id,String name);
-    @Query(value = "SELECT new com.application.masl7tak.dto.CategoryDTO(C.id, C.name_en, C.image) FROM Category C")
+    @Query("update Category c set c.name =:name ,c.name_en= :name_en  where c.id = :id")
+    void UpdateCategory(Long id,String name,String name_en);
+    @Query(value = "SELECT new com.application.masl7tak.dto.CategoryDTO(C.id, C.name_en, C.image,C.name) FROM Category C")
     List<CategoryDTO> getAllCategory_en();
 
 }

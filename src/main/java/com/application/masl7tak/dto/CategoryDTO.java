@@ -11,11 +11,14 @@ public class CategoryDTO {
 
     public   String name;
 
+    public   String name_en;
+
     public  String image;
 
-    public CategoryDTO(Long id, String name, String image) {
+    public CategoryDTO(Long id, String name, String image, String name_en) {
         this.id = id;
         this.name = name;
         this.image = image;
+        this.name_en = name_en;
     }
 }
