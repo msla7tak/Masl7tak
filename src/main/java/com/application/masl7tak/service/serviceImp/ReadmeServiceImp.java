@@ -20,6 +20,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Slf4j
 @Service
@@ -290,20 +291,24 @@ public class ReadmeServiceImp implements ReadmeService {
     @Override
 
     public List<ServicesDTO> getMaxCouponUsage() {
-        List<Long> maxCouponUsage = readmeRepository.findMaxServicesUsage();
-//        log.info("test "+maxCouponUsage );
         LocalDate currentDate = LocalDate.now();
+
+        List<Long> maxCouponUsage = readmeRepository.findMaxServicesUsage(currentDate);
+//        log.info("test "+maxCouponUsage );
         List<ServicesDTO> maxCouponUsageMap = new ArrayList<>();
         for (Long couponId : maxCouponUsage) {
+            try {
 
-            ServicesDTO servicesDTO = servicesRepository.findBy_Id_date(couponId,currentDate).orElse(null);
-            log.info("test:" + servicesDTO);
-            if (servicesDTO!=null){
-            maxCouponUsageMap.add(servicesDTO);
+                ServicesDTO servicesDTO = servicesRepository.findBy_Id_date(couponId)
+                        .orElseThrow(() -> new NoSuchElementException("Coupon not found"));
+                maxCouponUsageMap.add(servicesDTO);
+            } catch (NoSuchElementException e) {
+                // Handle the exception or log a message
+                System.out.println("Coupon not found for ID: " + couponId);
             }
         }
 
-        return maxCouponUsageMap;
+        return maxCouponUsageMap.isEmpty()?new ArrayList<>():maxCouponUsageMap;
     }
 
 

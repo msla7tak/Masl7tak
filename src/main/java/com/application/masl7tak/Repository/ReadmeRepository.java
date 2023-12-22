@@ -17,8 +17,12 @@ public interface ReadmeRepository extends JpaRepository<Readme, Long> {
     @Query("SELECT c FROM Readme c WHERE c.user.id = :userId AND c.services.id = :couponsId")
     List<Readme> findByUserIdAndServicesId(@Param("userId") Long userId, @Param("couponsId") Long couponsId);
 
-    @Query("SELECT c.services.id FROM Readme c GROUP BY c.services.id ORDER BY COUNT(c) DESC")
-    List<Long> findMaxServicesUsage();
+    @Query("SELECT c.services.id FROM Readme c WHERE " +
+            "c.services.is_available = 'true' " +
+            "AND STR_TO_DATE(c.services.validUntil, '%Y-%m-%d') >= :currentDate " +
+            "GROUP BY c.services.id ORDER BY COUNT(c) DESC")
+    List<Long> findMaxServicesUsage(@Param("currentDate") LocalDate currentDate);
+
     @Query("SELECT c.services.id FROM Readme c WHERE c.business_id = :businessId GROUP BY c.services.id ORDER BY COUNT(c.services.readme_num) DESC")
     List<Long> mostRedeemed(@Param("businessId") Long businessId);
 

@@ -43,11 +43,10 @@ public interface ServicesRepository extends JpaRepository<Services, Long> {
             "JOIN S.business B " +
             "LEFT JOIN S.readme R " +
             "JOIN S.category C " +
-            "WHERE P.id = S.products.id AND " +
-            " S.is_available='true' " +
-            "AND STR_TO_DATE(S.validUntil, '%Y-%m-%d')>= :currentDate " +
-            "AND B.id = S.business.id AND C.id = S.category.id and S.id=:id")
-    Optional<ServicesDTO> findBy_Id_date(@Param("id") Long id, @Param("currentDate") LocalDate  currentDate);
+            "WHERE P.id = S.products.id  " +
+            "AND B.id = S.business.id AND C.id = S.category.id and S.id=:id "
+          )
+    Optional<ServicesDTO> findBy_Id_date(@Param("id") Long id);
     @Modifying
     @Query("update Services b set b.visit_num = (b.visit_num +1)  where b.id = :id")
     void visits_num(Long id);
