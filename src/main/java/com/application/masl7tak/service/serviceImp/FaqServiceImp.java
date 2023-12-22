@@ -119,8 +119,10 @@ public class FaqServiceImp implements FaqService {
             Notification notification = new Notification();
             LocalDateTime now = LocalDateTime.now();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-            String q=faq_tp.getQuestion_ar().substring(20);
-            notification.setTitle("بخصوص استفساركم: "+q);
+               String questionAr = faq_tp.getQuestion_ar();
+               String q = questionAr.length() > 20 ? questionAr.substring(20) : questionAr;
+
+               notification.setTitle("بخصوص استفساركم: "+q);
             notification.setDescription(faq_tp.getAnswer_ar());
             notification.setUser_id(user.getId());
             notification.setStatus(3 + "");
