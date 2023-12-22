@@ -5,6 +5,7 @@ import com.application.masl7tak.configs.JwtAuthFilter;
 import com.application.masl7tak.constents.Constants;
 import com.application.masl7tak.dto.ReadmeDTO;
 import com.application.masl7tak.dto.ServicesDTO;
+import com.application.masl7tak.dto.UserDTO;
 import com.application.masl7tak.model.*;
 import com.application.masl7tak.service.ReadmeService;
 import com.application.masl7tak.utils.FBNotificationService;
@@ -140,12 +141,31 @@ public class ReadmeServiceImp implements ReadmeService {
     @Override
     public ResponseEntity<Object> updateInvoicePath(String path, String total_invoice, Long readmeId) {
         try {
+           ReadmeDTO readme= readmeRepository.findReadmeById(readmeId);
+           Long  getBusiness  = servicesRepository.findBy_Id(readme.getServices_id()).getBusiness().getId();
+            User userBusiness = userRepository.findByBusiness(getBusiness) ;
             if (readmeRepository.findReadmeById(readmeId).getConfirm_invoice() == 2) {
                 readmeRepository.coupons_invoice(0, "", readmeId);
             }
 
             path = (path.equals("")) ? null : path;
             readmeRepository.updateInvoicePath(path, total_invoice, readmeId);
+            LocalDateTime now = LocalDateTime.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+            User user = userRepository.findUserByEmail(jwtAuthFilter.getCurrentUser()).orElseThrow();
+            Notification notification = new Notification();
+
+            notification.setTitle("تم اضافة فاتورة");
+            notification.setDescription("برجاء مراجعة الفاتوره المرفقة");
+            notification.setUser_id(userBusiness.getId());
+            notification.setStatus(7+"");
+            notification.setCreationDate(formatter.format(now));
+            notification.setStatusReviewed("pending");
+            notification.setType("7");
+            notificationRepository.save(notification);
+
+            fbNotificationService.sendNotification(userBusiness.getFirebase_token(), notification.getTitle(), notification.getDescription(),
+                    "list", notification.getCreationDate(), "4", 7 + "", "invoice");
             return new ResponseEntity<>(Constants.DATA_Inserted, HttpStatus.OK);
         } catch (Exception exception) {
 
@@ -186,10 +206,15 @@ public class ReadmeServiceImp implements ReadmeService {
     @Override
     public ResponseEntity<Object> coupons_date(String scheduleDate, String scheduleTime, int confirmDate, Long readmeId) {
         try {
+
+
             readmeRepository.coupons_date(scheduleDate, scheduleTime, confirmDate, readmeId);
             LocalDateTime now = LocalDateTime.now();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-            User user = userRepository.findUserByEmail(jwtAuthFilter.getCurrentUser()).orElseThrow();
+            ReadmeDTO readme= readmeRepository.findReadmeById(readmeId);
+
+            User user = userRepository.findById(readme.getUser_id()).get();
+
             Notification notification = new Notification();
 
             notification.setTitle("تم تحديث طلبك");

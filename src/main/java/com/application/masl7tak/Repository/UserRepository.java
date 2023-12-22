@@ -101,5 +101,6 @@ void updateProfile(@Param("id") Long id, @Param("imagePath") String imagePath, @
     @Modifying
     @Query("UPDATE User u SET u.firebase_token = :firebaseToken WHERE u.id = :id")
     void updateFirebase(Long id, String firebaseToken);
-
+    @Query("select U from User U where U.business_id= :getBusiness")
+    User findByBusiness(Long getBusiness);
 }
