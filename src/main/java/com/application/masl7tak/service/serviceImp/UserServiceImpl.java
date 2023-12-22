@@ -257,13 +257,14 @@ public class UserServiceImpl implements UserService {
 
             }
             user = new User();
-            String[] list = requestMap.get("email").split("@");
+            String email = requestMap.get("email");
+            String[] list = email.split("@");
             user.setName(list[0]);
-            user.setEmail(requestMap.get("email"));
+            user.setEmail(email);
             user.setCarModel(1);
             user.setCarBrand(1);
 
-            user.setPassword(passwordEncoder.encode( requestMap.get("email")));
+            user.setPassword(passwordEncoder.encode( email));
             user.setStatus("active");
             user.setRole("user");
             user.setInvitation_code(generateInvitationToken());
