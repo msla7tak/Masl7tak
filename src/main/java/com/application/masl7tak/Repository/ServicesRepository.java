@@ -16,6 +16,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ServicesRepository extends JpaRepository<Services, Long> {
@@ -46,7 +47,7 @@ public interface ServicesRepository extends JpaRepository<Services, Long> {
             " S.is_available='true' " +
             "AND STR_TO_DATE(S.validUntil, '%Y-%m-%d')>= :currentDate " +
             "AND B.id = S.business.id AND C.id = S.category.id and S.id=:id")
-    ServicesDTO findBy_Id_date(@Param("id") Long id,@Param("currentDate") LocalDate  currentDate);
+    Optional<ServicesDTO> findBy_Id_date(@Param("id") Long id, @Param("currentDate") LocalDate  currentDate);
     @Modifying
     @Query("update Services b set b.visit_num = (b.visit_num +1)  where b.id = :id")
     void visits_num(Long id);

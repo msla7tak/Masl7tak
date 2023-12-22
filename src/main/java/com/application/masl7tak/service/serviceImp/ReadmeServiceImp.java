@@ -296,9 +296,9 @@ public class ReadmeServiceImp implements ReadmeService {
         List<ServicesDTO> maxCouponUsageMap = new ArrayList<>();
         for (Long couponId : maxCouponUsage) {
 
-            ServicesDTO servicesDTO = servicesRepository.findBy_Id_date(couponId,currentDate);
+            ServicesDTO servicesDTO = servicesRepository.findBy_Id_date(couponId,currentDate).orElse(null);
             log.info("test:" + servicesDTO);
-            if (servicesDTO !=null){
+            if (servicesDTO!=null){
             maxCouponUsageMap.add(servicesDTO);
             }
         }
