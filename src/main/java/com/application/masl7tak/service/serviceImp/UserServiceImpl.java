@@ -257,6 +257,12 @@ public class UserServiceImpl implements UserService {
 
             }
             user = new User();
+
+            if (requestMap.containsKey("email")) {
+                String email = requestMap.get("email");
+
+            }
+            log.info(requestMap.containsKey("email")+": "+ requestMap.get("email"));
             String email = requestMap.get("email");
             String[] list = email.split("@");
             user.setName(list[0]);
