@@ -79,6 +79,7 @@ public class FaqServiceImp implements FaqService {
     @Override
     public ResponseEntity<Object> save(Faq faq) {
         try {
+            log.info(faq +"");
             return new ResponseEntity<>(faqRepository.save(faq), HttpStatus.OK);
         } catch (Exception exception) {
             exception.printStackTrace();
