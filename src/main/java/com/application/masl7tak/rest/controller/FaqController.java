@@ -50,7 +50,7 @@ import java.util.List;
     @Override
     public ResponseEntity<Object> update(@RequestBody Faq faq, @PathVariable Long id) {
         faq.setId(id);
-        return regionService.save(faq);
+        return regionService.update(faq);
     }
 
     @Override

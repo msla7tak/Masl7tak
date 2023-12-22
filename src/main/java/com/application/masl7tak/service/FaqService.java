@@ -22,4 +22,5 @@ public interface FaqService {
     ResponseEntity<Object> findAllSupport();
 
 
+    ResponseEntity<Object> update(Faq faq);
 }

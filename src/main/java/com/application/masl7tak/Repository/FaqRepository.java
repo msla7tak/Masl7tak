@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 public interface FaqRepository extends JpaRepository<Faq, Long> {
-    @Query("select f from Faq f where f.answer_ar=null ")
+    @Query("select f from Faq f where f.answer_ar=null ORDER BY f.id DESC ")
 
     List<Faq> findAllSupport();
 //    (Long id, String name, String email, String question_en, String answer_en, Long user_id, int status)

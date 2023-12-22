@@ -1,6 +1,7 @@
 package com.application.masl7tak.service.serviceImp;
 
 import com.application.masl7tak.Repository.FaqRepository;
+import com.application.masl7tak.Repository.NotificationRepository;
 import com.application.masl7tak.Repository.ReplacementRepository;
 import com.application.masl7tak.Repository.UserRepository;
 import com.application.masl7tak.configs.JwtAuthFilter;
@@ -8,9 +9,11 @@ import com.application.masl7tak.constents.Constants;
 import com.application.masl7tak.dto.CategoryDTO;
 import com.application.masl7tak.dto.SuccessDTO;
 import com.application.masl7tak.model.Faq;
+import com.application.masl7tak.model.Notification;
 import com.application.masl7tak.model.Replacement;
 import com.application.masl7tak.model.User;
 import com.application.masl7tak.service.FaqService;
+import com.application.masl7tak.utils.FBNotificationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +22,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +39,10 @@ public class FaqServiceImp implements FaqService {
     private UserRepository userRepository;
     @Autowired
     private ReplacementRepository replacementRepository;
+    @Autowired
+    private NotificationRepository notificationRepository;
+    @Autowired
+    private FBNotificationService fbNotificationService;
 
     @Override
     public ResponseEntity<Object> findAll( String lang) {
@@ -94,6 +103,34 @@ public class FaqServiceImp implements FaqService {
         } catch (Exception exception) {
             exception.printStackTrace();
             return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(),110), HttpStatus.BAD_REQUEST);
+
+        }
+    }
+    @Override
+    public ResponseEntity<Object> update(Faq faq) {
+        try {
+            User user = userRepository.findById(faq.getUser_id()).get();
+
+            Notification notification = new Notification();
+            LocalDateTime now = LocalDateTime.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+            String q=faq.getQuestion_ar().substring(0,20);
+            notification.setTitle("بخصوص استفساركم: "+q);
+            notification.setDescription(faq.getAnswer_ar());
+            notification.setUser_id(user.getId());
+            notification.setStatus(3 + "");
+
+            notification.setCreationDate(formatter.format(now));
+            notification.setStatusReviewed("pending");
+            notification.setType("3");
+            notificationRepository.save(notification);
+
+            fbNotificationService.sendNotification(user.getFirebase_token(),
+                    notification.getTitle(), notification.getDescription(),"list",notification.getCreationDate(),"3","1","from_admin");
+            return new ResponseEntity<>(faqRepository.save(faq), HttpStatus.OK);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(),109), HttpStatus.BAD_REQUEST);
 
         }
     }
