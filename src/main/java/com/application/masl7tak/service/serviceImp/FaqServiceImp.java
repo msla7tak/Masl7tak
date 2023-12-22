@@ -94,12 +94,17 @@ public class FaqServiceImp implements FaqService {
 
     @Override
     public ResponseEntity<Object> support(String name, String email, String questionEn, int status) {
-        if (!email.equals(jwtAuthFilter.getCurrentUser()))
-            email+=" - " +jwtAuthFilter.getCurrentUser();
+
+
         try {
             User user = userRepository.findUserByEmail(jwtAuthFilter.getCurrentUser()).orElseThrow();
 
-            return new ResponseEntity<>(faqRepository.save(new Faq(name,email,questionEn,status,user.getId())), HttpStatus.OK);
+            Faq faq = new Faq();
+            faq.setName( name);faq.setEmail(email);
+            faq.setQuestion_en(questionEn);faq.setStatus(status);
+            faq.setUser_id(user.getId());
+            log.info(faq +"");
+            return new ResponseEntity<>(faqRepository.save(faq), HttpStatus.OK);
         } catch (Exception exception) {
             exception.printStackTrace();
             return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(),110), HttpStatus.BAD_REQUEST);
