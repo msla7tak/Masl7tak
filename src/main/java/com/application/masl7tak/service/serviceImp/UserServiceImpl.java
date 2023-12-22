@@ -251,6 +251,10 @@ public class UserServiceImpl implements UserService {
             if (user != null) {
 
                 UserDTO userDTO = userRepository.findDtoByEmail(user.getEmail());
+                if (requestMap.get("firebase_token") != null || requestMap.get("firebase_token") != "") {
+                    userRepository.updateFirebase(userDTO.getId(), requestMap.get("firebase_token"));
+                    userDTO.setFirebase_token(requestMap.get("firebase_token"));
+                }
                 String jwtToken = jwtService.generateToken(user);
                 userDTO.setToken(jwtToken);
                 return new ResponseEntity<>(userDTO,

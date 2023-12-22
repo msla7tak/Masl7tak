@@ -200,7 +200,6 @@ public class ReadmeServiceImp implements ReadmeService {
             return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(), 106), HttpStatus.BAD_REQUEST);
         }
 
-
     }
 
     @Override
