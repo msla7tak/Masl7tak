@@ -105,7 +105,8 @@ public class FaqServiceImp implements FaqService {
 
             Faq faq = new Faq();
             faq.setName( name);faq.setEmail(email);
-            faq.setQuestion_en(questionEn);faq.setStatus(status);
+            faq.setQuestion_en(questionEn);
+            faq.setStatus(status);
             faq.setUser_id(user.getId());
             log.info(faq +"");
             return new ResponseEntity<>(faqRepository.save(faq), HttpStatus.OK);
