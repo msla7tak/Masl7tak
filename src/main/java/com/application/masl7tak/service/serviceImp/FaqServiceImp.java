@@ -80,6 +80,9 @@ public class FaqServiceImp implements FaqService {
     public ResponseEntity<Object> save(Faq faq) {
         try {
             log.info(faq +"");
+            User user = userRepository.findUserByEmail(jwtAuthFilter.getCurrentUser()).orElseThrow();
+            faq.setUser_id(user.getId());
+
             return new ResponseEntity<>(faqRepository.save(faq), HttpStatus.OK);
         } catch (Exception exception) {
             exception.printStackTrace();
