@@ -111,6 +111,8 @@ public class FaqServiceImp implements FaqService {
         try {
            Faq  faq_tp = faqRepository.findById(faq.getId()).orElse(null);
             faq.setUser_id(faq_tp.getUser_id());
+            faq.setEmail(faq_tp.getEmail());
+            faq.setName(faq_tp.getName());
             User user = userRepository.findById(faq_tp.getUser_id()).get();
             Notification notification = new Notification();
             LocalDateTime now = LocalDateTime.now();
@@ -141,7 +143,8 @@ public class FaqServiceImp implements FaqService {
         try {
             User user = userRepository.findUserByEmail(jwtAuthFilter.getCurrentUser()).orElseThrow();
             if (user.getRole().equals("admin")){
-            return new ResponseEntity<>(faqRepository.findAllSupport(), HttpStatus.OK);
+               List<Faq> faqList= faqRepository.findAllSupport();
+            return new ResponseEntity<>(faqList.isEmpty()?new ArrayList<>():faqList, HttpStatus.OK);
             }
             else {
                 return new ResponseEntity<>(faqRepository.findFaqByUser_idIs(user.getId()), HttpStatus.OK);
