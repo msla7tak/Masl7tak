@@ -109,7 +109,9 @@ public class FaqServiceImp implements FaqService {
     @Override
     public ResponseEntity<Object> update(Faq faq) {
         try {
+            log.info(faq+"");
            Faq  faq_tp = faqRepository.findById(faq.getId()).orElse(null);
+           if (faq_tp!=null){
             faq.setUser_id(faq_tp.getUser_id());
             faq.setEmail(faq_tp.getEmail());
             faq.setName(faq_tp.getName());
@@ -131,11 +133,14 @@ public class FaqServiceImp implements FaqService {
             fbNotificationService.sendNotification(user.getFirebase_token(),
                     notification.getTitle(), notification.getDescription(),"list",notification.getCreationDate(),"3","1","from_admin");
             return new ResponseEntity<>(faqRepository.save(faq), HttpStatus.OK);
+           }
         } catch (Exception exception) {
             exception.printStackTrace();
             return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(),109), HttpStatus.BAD_REQUEST);
 
         }
+        return new ResponseEntity<>(Constants.responseMessage("please check the faq id",109), HttpStatus.BAD_REQUEST);
+
     }
 
     @Override
