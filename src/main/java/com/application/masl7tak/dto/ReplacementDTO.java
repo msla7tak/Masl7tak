@@ -17,15 +17,15 @@ public class ReplacementDTO {
     private  int point_for_invitation;
     private  int min_no_of_points_to_change;
     private  int redeemed_points;
-    ;
 
+    private int point_valueLE;
     private String type;
 
     private String description;
     private String termsConditions;
 
 
-    public ReplacementDTO(Long id, String title, String sub_title, String type, String description, String termsConditions,int point_for_invitation,int min_no_of_points_to_change,int redeemed_points) {
+    public ReplacementDTO(Long id, String title, String sub_title, String type, String description, String termsConditions,int point_for_invitation,int min_no_of_points_to_change,int redeemed_points,int point_valueLE) {
         this.id = id;
         this.title = title;
         this.sub_title = sub_title;
@@ -35,5 +35,6 @@ public class ReplacementDTO {
         this.point_for_invitation = point_for_invitation;
         this.min_no_of_points_to_change = min_no_of_points_to_change;
         this.redeemed_points = redeemed_points;
+        this.point_valueLE = point_valueLE;
     }
 }

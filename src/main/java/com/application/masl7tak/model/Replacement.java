@@ -32,6 +32,8 @@ public class Replacement implements Serializable {
     private int min_no_of_points_to_change;
     @Column(name="redeemed_points")
     private int redeemed_points;
+    @Column(name="point_value_le")
+    private int point_valueLE;
 
 
     @Column(name = "terms_conditions",length = 30000)

@@ -220,8 +220,11 @@ public class ReadmeServiceImp implements ReadmeService {
             ReadmeDTO readmeDTO = readmeRepository.findReadmeById(readmeId);
             if (confirmInvoice == 1) {
                 User user = userRepository.findById(readmeDTO.getUser_id()).get();
-                Integer point = replacementRepository.getReferenceById(1L).getRedeemed_points();
-                userRepository.updatePoints(user.getPoints() + point, user.getId());
+                Replacement replacement = replacementRepository.getReferenceById(1L);
+                Integer point = replacement.getRedeemed_points();
+                Integer LE = replacement.getPoint_valueLE();
+                 Integer total_point= (Integer.parseInt(readmeDTO.getTotal_invoice() )/ LE) * point;
+                userRepository.updatePoints(user.getPoints() + total_point, user.getId());
             }
             return new ResponseEntity<ReadmeDTO>(readmeDTO, HttpStatus.OK);
 
