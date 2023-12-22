@@ -10,7 +10,8 @@ import java.util.List;
 
 @Repository
 public interface FaqRepository extends JpaRepository<Faq, Long> {
-    @Query("SELECT f FROM Faq f WHERE f.answer_ar IS NULL ORDER BY f.id DESC")
+    @Query("select f from Faq f where f.answer_ar=null ")
+
     List<Faq> findAllSupport();
 //    (Long id, String name, String email, String question_en, String answer_en, Long user_id, int status)
 @Query(value = "SELECT new com.application.masl7tak.dto.FaqDTO(f.id, f.name, f.email, f.question_en, f.answer_en, f.user_id, f.status ) " +
