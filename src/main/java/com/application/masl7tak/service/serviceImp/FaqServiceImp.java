@@ -112,16 +112,16 @@ public class FaqServiceImp implements FaqService {
             log.info(faq+"");
            Faq  faq_tp = faqRepository.findById(faq.getId()).orElse(null);
            if (faq_tp!=null){
-            faq.setUser_id(faq_tp.getUser_id());
-            faq.setEmail(faq_tp.getEmail());
-            faq.setName(faq_tp.getName());
+
+
+          faq_tp.setAnswer_ar(faq.getAnswer_ar());
             User user = userRepository.findById(faq_tp.getUser_id()).get();
             Notification notification = new Notification();
             LocalDateTime now = LocalDateTime.now();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-            String q=faq.getQuestion_ar().substring(0,20);
+            String q=faq_tp.getQuestion_ar().substring(0,20);
             notification.setTitle("بخصوص استفساركم: "+q);
-            notification.setDescription(faq.getAnswer_ar());
+            notification.setDescription(faq_tp.getAnswer_ar());
             notification.setUser_id(user.getId());
             notification.setStatus(3 + "");
 
@@ -132,7 +132,7 @@ public class FaqServiceImp implements FaqService {
 
             fbNotificationService.sendNotification(user.getFirebase_token(),
                     notification.getTitle(), notification.getDescription(),"list",notification.getCreationDate(),"3","1","from_admin");
-            return new ResponseEntity<>(faqRepository.save(faq), HttpStatus.OK);
+            return new ResponseEntity<>(faqRepository.save(faq_tp), HttpStatus.OK);
            }
         } catch (Exception exception) {
             exception.printStackTrace();
