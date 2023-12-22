@@ -239,12 +239,13 @@ public class UserServiceImpl implements UserService {
         try {
             User user = null;
 
-
             if (requestMap.containsKey("facebook_id")) {
                 user = userRepository.findByFacebookId(requestMap.get("facebook_id"));
 
             } else if (requestMap.containsKey("gmail_id")) {
-                user = userRepository.findByGmailId(requestMap.get("gmail_id"));
+                String email = requestMap.get("email");
+
+                user = userRepository.findByGmailId(email);
 
             }
 
@@ -261,6 +262,7 @@ public class UserServiceImpl implements UserService {
                         HttpStatus.OK);
 
             }
+
             user = new User();
 
             if (requestMap.containsKey("email")) {
