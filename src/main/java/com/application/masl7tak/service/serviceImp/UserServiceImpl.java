@@ -275,6 +275,7 @@ public class UserServiceImpl implements UserService {
             user.setRole("user");
             user.setInvitation_code(generateInvitationToken());
             user.setInviter_code("");
+            user.setFirebase_token(requestMap.get("firebase_token"));
 
             LocalDate today = LocalDate.now();
             DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
