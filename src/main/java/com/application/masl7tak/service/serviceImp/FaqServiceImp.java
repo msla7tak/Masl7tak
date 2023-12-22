@@ -109,8 +109,9 @@ public class FaqServiceImp implements FaqService {
     @Override
     public ResponseEntity<Object> update(Faq faq) {
         try {
-            User user = userRepository.findById(faq.getUser_id()).get();
-
+           Faq  faq_tp = faqRepository.findById(faq.getId()).orElse(null);
+            faq.setUser_id(faq_tp.getUser_id());
+            User user = userRepository.findById(faq_tp.getUser_id()).get();
             Notification notification = new Notification();
             LocalDateTime now = LocalDateTime.now();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
