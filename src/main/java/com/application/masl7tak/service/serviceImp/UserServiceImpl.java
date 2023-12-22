@@ -267,8 +267,8 @@ public class UserServiceImpl implements UserService {
             String[] list = email.split("@");
             user.setName(list[0]);
             user.setEmail(email);
-            user.setCarModel(1);
-            user.setCarBrand(1);
+            user.setCarModel(0);
+            user.setCarBrand(0);
 
             user.setPassword(passwordEncoder.encode( email));
             user.setStatus("active");
