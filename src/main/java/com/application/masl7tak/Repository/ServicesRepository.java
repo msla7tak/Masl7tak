@@ -96,6 +96,7 @@ public interface ServicesRepository extends JpaRepository<Services, Long> {
             "AND (:businessId is null OR B.id = :businessId) " +
             "AND (:categoryId is null OR C.id = :categoryId) " +
             "AND (:regionId is null OR Br.region.id = :regionId)  " +
+            "AND (:cityId is null OR Br.city_id = :cityId)  " +
             "AND (:rate is null OR S.rate >= :rate)  " +
             "AND (:carModel is null OR :carBrand is null OR (em.services.id = S.id AND em.modelId = :carModel) OR (eb.services.id = S.id AND eb.brandId = :carBrand)) " +
             "AND S.is_available='true' " +
@@ -107,6 +108,7 @@ public interface ServicesRepository extends JpaRepository<Services, Long> {
                                              @Param("businessId") Long businessId,
                                              @Param("categoryId") Long categoryId,
                                              @Param("regionId") Long regionId,
+                                             @Param("cityId") Long cityId,
                                              @Param("rate") Float rate,
                                              @Param("carModel") Long carModel,
                                              @Param("carBrand") Long carBrand,

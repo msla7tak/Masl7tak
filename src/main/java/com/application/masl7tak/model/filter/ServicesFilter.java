@@ -15,6 +15,7 @@ public class ServicesFilter {
     private Long modelId;
     private Long businessId;
     private Long regionId;
+    private Long cityId;
     private Double discountMinVal;
     private Double discountMaxVal;
     private Long productId;
