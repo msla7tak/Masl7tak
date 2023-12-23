@@ -42,7 +42,7 @@ public class FBNotificationService {
         List<UserDTO> allTokens = deviceTokenRepository.AllUsersToking();
 
         for (UserDTO deviceToken : allTokens) {
-            if (deviceToken.getFirebase_token().isEmpty()){
+            if (deviceToken==null &&deviceToken.getFirebase_token().isEmpty()){
                 continue;
             }
             Message message = Message.builder()
@@ -71,7 +71,7 @@ public class FBNotificationService {
         List<UserDTO> allTokens = deviceTokenRepository.AllBusinessToking();
 
         for (UserDTO deviceToken : allTokens) {
-            if (deviceToken.getFirebase_token().isEmpty()){
+            if (deviceToken==null &&deviceToken.getFirebase_token().isEmpty()){
                 continue;
             }
             Message message = Message.builder()
