@@ -14,7 +14,7 @@ public interface ReadmeAPI {
     public ResponseEntity <List<ReadmeDTO>> findAll();
     @GetMapping("public/readme_service/most_requested")
     public List<ServicesDTO>getMaxCouponUsage();
-    @GetMapping("public/admin/comment")
+    @GetMapping("admin/comment")
     public ResponseEntity<Object>geComment();
     @GetMapping("business/most_redeemed")
     public List<ServicesDTO>most_redeemed(@RequestParam(name = "business_id") Long business_id);
