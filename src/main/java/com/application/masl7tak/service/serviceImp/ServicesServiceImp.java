@@ -3,6 +3,7 @@ package com.application.masl7tak.service.serviceImp;
 import com.application.masl7tak.Repository.*;
 import com.application.masl7tak.configs.JwtAuthFilter;
 import com.application.masl7tak.constents.Constants;
+import com.application.masl7tak.dto.CarModelDTO;
 import com.application.masl7tak.dto.SuccessDTO;
 import com.application.masl7tak.model.*;
 import com.application.masl7tak.model.filter.ServicesFilter;
@@ -162,9 +163,9 @@ public class ServicesServiceImp implements ServicesService {
             int offset = criteria.getOffset();
             LocalDate currentDate = LocalDate.now();
 
-            List<ServicesDTO> servicesDTOS=servicesRepository.findServicesByCriteria(productId, eventOfferId, businessId, categoryId, regionId, rate,
+            List<ServicesDTO> servicesDTOS = servicesRepository.findServicesByCriteria(productId, eventOfferId, businessId, categoryId, regionId, rate,
                     carModel, carBrand, minDiscountValue, maxDiscountValue, searchKey, currentDate, PageRequest.of(offset, 100));
-            for (ServicesDTO services:servicesDTOS) {
+            for (ServicesDTO services : servicesDTOS) {
                 services.setCarBrandEntities(servicesRepository.findBrand(services.getId()));
                 services.setCarModelEntities(servicesRepository.findModel(services.getId()));
 
@@ -217,7 +218,6 @@ public class ServicesServiceImp implements ServicesService {
             businessRepository.serviceCount(businessId);
 
 
-
             Products products = new Products();
             products.setName(productService.getName());
             products.setDescription(productService.getDescription());
@@ -253,6 +253,16 @@ public class ServicesServiceImp implements ServicesService {
                 }
                 service.setCarModelEntities(productService.getCarModelEntities());
             }
+            else {
+                CarModelEntity carModel = new CarModelEntity();
+                carModel.setServices(service);
+                carModel.setModelId(0L);
+                List<CarModelEntity> carModelEntities = new ArrayList<>();
+                carModelEntities.add(carModel);
+                service.setCarBrand(0L);
+                service.setCarModelEntities(carModelEntities);
+
+            }
             service.setSchedule_mode(productService.getSchedule_mode());
             if (productService.getCarBrandEntities() != null) {
                 for (CarBrandEntity carBrandEntity : productService.getCarBrandEntities()) {
@@ -262,6 +272,15 @@ public class ServicesServiceImp implements ServicesService {
                 }
 
                 service.setCarBrandEntities(productService.getCarBrandEntities());
+            } else {
+                CarBrandEntity carBrand = new CarBrandEntity();
+                carBrand.setServices(service);
+                carBrand.setBrandId(0L);
+                List<CarBrandEntity> carBrandEntity = new ArrayList<>();
+                carBrandEntity.add(carBrand);
+                service.setCarBrand(0L);
+                service.setCarBrandEntities(carBrandEntity);
+
             }
             return new ResponseEntity<>(servicesRepository.findBy_Id(servicesRepository.save(service).getId()), HttpStatus.OK);
 
