@@ -70,6 +70,7 @@ public class NotificationServiceImp implements NotificationService {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
             notification.setCreationDate(formatter.format(now));
             notification.setType("3");
+            notification.setStatus("3");
             notification.setStatusReviewed("pending");
             User user = userRepository.findById(notification.getUser_id()).get();
             fbNotificationService.sendNotification(user.getFirebase_token(),
@@ -102,6 +103,7 @@ public class NotificationServiceImp implements NotificationService {
                 notifi.setStatusReviewed("pending");
                 notifi.setCreationDate(formatter.format(now));
                 notifi.setType("1");
+                notifi.setStatus("1");
                 notifi.setDescription(notification.getDescription());
                 notifi.setUser_id(userDTO.getId());
                 notifications.add(notifi);
