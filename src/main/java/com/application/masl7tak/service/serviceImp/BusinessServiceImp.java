@@ -346,8 +346,8 @@ public class BusinessServiceImp implements BusinessService {
     }
 
     @Override
-    public ResponseEntity<String> findBusinessTermsConditions(Long id) {
-        return new ResponseEntity<>(businessRepository.findBusinessTermsConditions(id), HttpStatus.OK);
+    public ResponseEntity<Object> findBusinessTermsConditions(Long id) {
+        return new ResponseEntity<>(Constants.responseMessage(businessRepository.findBusinessTermsConditions(id),200), HttpStatus.OK);
     }
 
     @Override

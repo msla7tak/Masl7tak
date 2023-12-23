@@ -18,7 +18,7 @@ public interface BusinessService {
     public ResponseEntity<Object> update(BusinessBranch business) ;
     public void deleteById(Long id) ;
 
-    public ResponseEntity<String> findBusinessTermsConditions(Long id);
+    public ResponseEntity<Object> findBusinessTermsConditions(Long id);
     public ResponseEntity<SuccessDTO> save(Business business);
 
     ResponseEntity<List<BusinessDTO>> findBusinessByCriteria(BusinessFilter criteria);

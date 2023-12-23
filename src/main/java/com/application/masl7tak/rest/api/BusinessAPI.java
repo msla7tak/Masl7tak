@@ -31,7 +31,7 @@ public interface BusinessAPI {
     public ResponseEntity<BusinessDTO> findById(@RequestParam("id") Long id);
 
     @GetMapping("public/business/terms_conditions")
-    public ResponseEntity<String> findBusinessTermsConditions(@RequestParam("id") Long id);
+    public ResponseEntity<Object> findBusinessTermsConditions(@RequestParam("id") Long id);
     @PutMapping("admin/business/active/{id}")
     public ResponseEntity<String> active(@PathVariable("id") String id);
     @PutMapping("admin/business/top_rate/{id}")

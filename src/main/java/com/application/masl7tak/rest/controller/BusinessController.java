@@ -58,7 +58,7 @@ public class BusinessController implements BusinessAPI {
     }
 
     @Override
-    public ResponseEntity<String> findBusinessTermsConditions(Long id) {
+    public ResponseEntity<Object> findBusinessTermsConditions(Long id) {
         return businessService.findBusinessTermsConditions(id) ;
     }
 
