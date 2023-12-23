@@ -166,7 +166,7 @@ public class ReadmeServiceImp implements ReadmeService {
             notificationRepository.save(notification);
 
             fbNotificationService.sendNotification(userBusiness.getFirebase_token(), notification.getTitle(), notification.getDescription(),
-                    "list", notification.getCreationDate(), "7", readme.getId()+"", "invoice");
+                    "list", notification.getCreationDate(), "7", getBusiness+"", "invoice");
             return new ResponseEntity<>(Constants.DATA_Inserted, HttpStatus.OK);
         } catch (Exception exception) {
 
