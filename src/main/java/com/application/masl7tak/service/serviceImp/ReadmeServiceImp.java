@@ -159,14 +159,14 @@ public class ReadmeServiceImp implements ReadmeService {
             notification.setTitle("تم اضافة فاتورة");
             notification.setDescription("برجاء مراجعة الفاتوره المرفقة");
             notification.setUser_id(userBusiness.getId());
-            notification.setStatus(getBusiness+"");
+            notification.setStatus(userBusiness.getBusiness_id()+"");
             notification.setCreationDate(formatter.format(now));
             notification.setStatusReviewed("pending");
             notification.setType("7");
             notificationRepository.save(notification);
 
             fbNotificationService.sendNotification(userBusiness.getFirebase_token(), notification.getTitle(), notification.getDescription(),
-                    "list", notification.getCreationDate(), "7", getBusiness+"", "invoice");
+                    "list", notification.getCreationDate(), "7", userBusiness.getBusiness_id()+"", "invoice");
             return new ResponseEntity<>(Constants.DATA_Inserted, HttpStatus.OK);
         } catch (Exception exception) {
 
