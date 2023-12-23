@@ -125,11 +125,12 @@ public class UserServiceImpl implements UserService {
                     UserDTO userDTO = userRepository.findDtoByEmail(requestMap.get("email"));
 
                     userDTO.setToken(jwtToken);
-                    if (requestMap.get("invitation_code") != null && requestMap.get("invitation_code") != "") {
+                    if (requestMap.containsKey("invitation_code")) {
                         User inviter = userRepository.findByInvitationCode(requestMap.get("invitation_code"));
+
                         Integer point = replacementRepository.getReferenceById(1L).getPoint_for_invitation();
-                        userRepository.updatePoints(inviter.getPoints() + point, inviter.getId());
-                        userRepository.updatePoints(replacementRepository.getReferenceById(1L).getPoint_for_registration(), userDTO.getId());
+                        userRepository.updatePoints((inviter.getPoints() + point), inviter.getId());
+                        userRepository.updatePoints((replacementRepository.getReferenceById(1L).getPoint_for_registration()), userDTO.getId());
 
                     }
 
