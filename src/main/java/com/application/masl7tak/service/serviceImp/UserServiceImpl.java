@@ -255,7 +255,7 @@ public class UserServiceImpl implements UserService {
             if (user != null) {
 
                 UserDTO userDTO = userRepository.findDtoByEmail(user.getEmail());
-                if (requestMap.get("firebase_token") != null || requestMap.get("firebase_token") != "") {
+                if (requestMap.containsKey("firebase_token") && !requestMap.get("firebase_token").equals("")) {
                     userRepository.updateFirebase(userDTO.getId(), requestMap.get("firebase_token"));
                     userDTO.setFirebase_token(requestMap.get("firebase_token"));
                 }
@@ -285,7 +285,7 @@ public class UserServiceImpl implements UserService {
             user.setRole("user");
             user.setInvitation_code(generateInvitationToken());
             user.setInviter_code("");
-            if (requestMap.containsKey("firebase_token")){
+            if (requestMap.containsKey("firebase_token")&& !requestMap.get("firebase_token").equals("")){
             user.setFirebase_token(requestMap.get("firebase_token"));
             }
 
