@@ -19,11 +19,9 @@ import java.util.List;
 
 @RestController
 public class ServicesController implements ServicesAPI {
-    private final ServicesService servicesService;
     @Autowired
-    public ServicesController(ServicesService servicesService) {
-        this.servicesService = servicesService;
-    }
+    private  ServicesService servicesService;
+
 
     @Override
     public ResponseEntity<List<ServicesDTO>> findAll(ServicesFilter criteria) {

@@ -1,5 +1,6 @@
 package com.application.masl7tak.Repository;
 
+import com.application.masl7tak.dto.CommentDTO;
 import com.application.masl7tak.dto.ReadmeDTO;
 import com.application.masl7tak.model.Readme;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -248,4 +249,8 @@ public interface ReadmeRepository extends JpaRepository<Readme, Long> {
             "GROUP BY R.id ")
     ReadmeDTO findReadme(Long readmeId);
 
+        @Query("SELECT new com.application.masl7tak.dto.CommentDTO ( R.id,R.user.name,R.user.id,R.comment ,R.services.business.name ) " +
+            "FROM Readme R " +
+            "JOIN R.user ")
+    List<CommentDTO> getComment();
 }

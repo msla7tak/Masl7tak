@@ -35,4 +35,6 @@ public interface ReadmeService {
 
 
     ResponseEntity<Object> findReadmeById(Long readmeId, Long businessId);
+
+    ResponseEntity<Object> geComment();
 }

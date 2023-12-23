@@ -63,6 +63,11 @@ public class ReadmeController implements ReadmeAPI {
     }
 
     @Override
+    public ResponseEntity<Object> geComment() {
+        return readmeService.geComment();
+    }
+
+    @Override
     public List<ServicesDTO> most_redeemed(Long business_id) {
         return readmeService.most_redeemed(business_id);
     }

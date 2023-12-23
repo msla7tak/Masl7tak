@@ -3,6 +3,7 @@ package com.application.masl7tak.service.serviceImp;
 import com.application.masl7tak.Repository.*;
 import com.application.masl7tak.configs.JwtAuthFilter;
 import com.application.masl7tak.constents.Constants;
+import com.application.masl7tak.dto.CommentDTO;
 import com.application.masl7tak.dto.ReadmeDTO;
 import com.application.masl7tak.dto.ServicesDTO;
 import com.application.masl7tak.dto.UserDTO;
@@ -306,6 +307,17 @@ public class ReadmeServiceImp implements ReadmeService {
                 return new ResponseEntity<>(Constants.responseMessage("This coupon is not available in your store", 106), HttpStatus.BAD_REQUEST);
 
 
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(), 106), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @Override
+    public ResponseEntity<Object> geComment() {
+        try {
+          List<CommentDTO>  comments = readmeRepository.getComment();
+            return new ResponseEntity<>(comments, HttpStatus.BAD_REQUEST);
         } catch (Exception exception) {
             exception.printStackTrace();
             return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(), 106), HttpStatus.BAD_REQUEST);
