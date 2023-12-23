@@ -243,12 +243,12 @@ public class UserServiceImpl implements UserService {
             if (requestMap.containsKey("facebook_id")) {
                 String email = requestMap.get("email");
 
-                user = userRepository.findUserByEmail(email).get();
+                user = userRepository.findUserByEmail(email).orElse(null);
 
             } else if (requestMap.containsKey("gmail_id")) {
                 String email = requestMap.get("email");
 
-                user = userRepository.findUserByEmail(email).get();
+                user = userRepository.findUserByEmail(email).orElse(null);
 
             }
 
