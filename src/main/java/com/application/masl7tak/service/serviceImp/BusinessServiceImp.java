@@ -215,6 +215,8 @@ public class BusinessServiceImp implements BusinessService {
     }
 
     public Business createBusinessFromMap(Map<String, String> businessMap) {
+        Replacement replacement = replacementRepository.getReferenceById(1L);
+
         Business business = new Business();
         business.setStatus("active");
         business.setSubscriptionType("junior");
@@ -244,7 +246,10 @@ public class BusinessServiceImp implements BusinessService {
             category.setId(categoryId);
             business.setCategory(category);
         }
+        business.setTermsConditions(replacement.getTermsConditions());
 
+        business.setStatus("active");
+        business.setSubscriptionType("junior");
         return business;
     }
 
