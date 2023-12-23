@@ -134,6 +134,7 @@ public class NotificationServiceImp implements NotificationService {
                 notifi.setStatusReviewed("pending");
                 notifi.setCreationDate(formatter.format(now));
                 notifi.setType("2");
+                notifi.setStatus("2");
                 notifi.setDescription(notification.getDescription());
                 notifi.setUser_id(userDTO.getId());
                 notifications.add(notifi);
