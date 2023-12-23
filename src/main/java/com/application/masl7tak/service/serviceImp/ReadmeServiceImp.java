@@ -159,7 +159,7 @@ public class ReadmeServiceImp implements ReadmeService {
             notification.setTitle("تم اضافة فاتورة");
             notification.setDescription("برجاء مراجعة الفاتوره المرفقة");
             notification.setUser_id(userBusiness.getId());
-            notification.setStatus(readme.getId()+"");
+            notification.setStatus(getBusiness+"");
             notification.setCreationDate(formatter.format(now));
             notification.setStatusReviewed("pending");
             notification.setType("7");
