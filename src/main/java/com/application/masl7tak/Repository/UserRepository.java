@@ -88,7 +88,7 @@ void updateProfile(@Param("id") Long id, @Param("imagePath") String imagePath, @
             "FROM User U " ) // Order by id in descending order to get the latest records first
     List<UserDTO> AllUsers();
     @Query("SELECT new com.application.masl7tak.dto.UserDTO(U.firebase_token,U.id) " +
-            "FROM User U " ) // Order by id in descending order to get the latest records first
+            "FROM User U where U.firebase_token!=null " ) // Order by id in descending order to get the latest records first
     List<UserDTO> AllUsersToking();
     @Query("SELECT new com.application.masl7tak.dto.UserDTO(U.id, U.name) " +
             "FROM User U " +
@@ -96,7 +96,7 @@ void updateProfile(@Param("id") Long id, @Param("imagePath") String imagePath, @
     List<UserDTO> AllBusiness();
     @Query("SELECT new com.application.masl7tak.dto.UserDTO( U.firebase_token,U.id) " +
             "FROM User U " +
-            "WHERE U.business_id IS NOT NULL")
+            "WHERE U.business_id IS NOT NULL and U.firebase_token!=null")
     List<UserDTO> AllBusinessToking();
     @Modifying
     @Query("UPDATE User u SET u.firebase_token = :firebaseToken WHERE u.id = :id")
