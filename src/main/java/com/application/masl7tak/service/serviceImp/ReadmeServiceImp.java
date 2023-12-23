@@ -317,7 +317,7 @@ public class ReadmeServiceImp implements ReadmeService {
     public ResponseEntity<Object> geComment() {
         try {
           List<CommentDTO>  comments = readmeRepository.getComment();
-            return new ResponseEntity<>(comments, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(comments, HttpStatus.OK);
         } catch (Exception exception) {
             exception.printStackTrace();
             return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(), 106), HttpStatus.BAD_REQUEST);
