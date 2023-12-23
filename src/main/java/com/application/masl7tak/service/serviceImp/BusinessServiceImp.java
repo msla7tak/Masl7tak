@@ -351,12 +351,14 @@ public class BusinessServiceImp implements BusinessService {
 
             Long categoryId = criteria.getCategoryId();
             Long regionId = criteria.getRegionId();
+            Long cityId = criteria.getCityId();
+
             Float rate = criteria.getRate();
             String searchKey = criteria.getSearchKey();
 
             int offset = criteria.getOffset();
 
-            return new ResponseEntity<>(businessRepository.findBusinessByCriteria(categoryId, regionId, rate
+            return new ResponseEntity<>(businessRepository.findBusinessByCriteria(categoryId, regionId, cityId,rate
                     , searchKey, PageRequest.of(offset, 100)), HttpStatus.OK);
 //            }
         } catch (Exception exception) {

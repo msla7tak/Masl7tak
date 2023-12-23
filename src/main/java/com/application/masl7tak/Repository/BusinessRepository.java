@@ -28,10 +28,12 @@ public interface BusinessRepository extends JpaRepository<Business, Long> {
             "WHERE (:searchKey is null OR B.name  LIKE %:searchKey%) " +
             "AND (:categoryId is null OR B.category.id = :categoryId) " +
             "AND (:regionId is null OR Br.region.id = :regionId)  " +
+            "AND (:cityId is null OR Br.city_id = :cityId)  " +
             "AND (:rate is null OR B.rate >= :rate)  " +
             "GROUP BY B.id")
     List<BusinessDTO> findBusinessByCriteria(   @Param("categoryId") Long categoryId,
                                                 @Param("regionId") Long regionId,
+                                                @Param("cityId") Long cityId,
                                                 @Param("rate") Float rate,
                                                 @Param("searchKey")  String searchKey,
                                              PageRequest of);

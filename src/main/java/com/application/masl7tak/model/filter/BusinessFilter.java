@@ -11,6 +11,7 @@ public class BusinessFilter {
     private int offset;
     private Long categoryId;
     private Long regionId;
+    private Long cityId;
     private Float rate;
     private String searchKey;
 
