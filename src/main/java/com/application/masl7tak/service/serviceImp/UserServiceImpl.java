@@ -125,8 +125,8 @@ public class UserServiceImpl implements UserService {
                     UserDTO userDTO = userRepository.findDtoByEmail(requestMap.get("email"));
 
                     userDTO.setToken(jwtToken);
-                        if (requestMap.containsKey("firebase_token")){
-                            if (!requestMap.get("firebase_token").isEmpty()){
+                        if (requestMap.containsKey("invitation_code")){
+                            if (!requestMap.get("invitation_code").isEmpty()){
 
 
                         User inviter = userRepository.findByInvitationCode(requestMap.get("invitation_code"));
