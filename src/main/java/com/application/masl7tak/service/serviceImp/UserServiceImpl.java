@@ -126,7 +126,7 @@ public class UserServiceImpl implements UserService {
 
                     userDTO.setToken(jwtToken);
                         if (requestMap.containsKey("invitation_code")){
-                            if ( requestMap.get("invitation_code")!= null || requestMap.get("invitation_code") != ""){
+                            if ( requestMap.get("invitation_code")!= null && requestMap.get("invitation_code") != ""){
 
 
                         User inviter = userRepository.findByInvitationCode(requestMap.get("invitation_code"));
@@ -170,7 +170,7 @@ public class UserServiceImpl implements UserService {
             if (auth.isAuthenticated()) {
 
                 UserDTO userDTO = userRepository.findDtoByEmail(requestMap.get("email"));
-                if (requestMap.get("firebase_token") != null || requestMap.get("firebase_token") != "") {
+                if (requestMap.get("firebase_token") != null  && requestMap.get("firebase_token") != "") {
                     userRepository.updateFirebase(userDTO.getId(), requestMap.get("firebase_token"));
                 }
                 //          if (user.getStatus().equalsIgnoreCase("true")) {
@@ -262,7 +262,7 @@ public class UserServiceImpl implements UserService {
 
                 UserDTO userDTO = userRepository.findDtoByEmail(user.getEmail());
                 if (requestMap.containsKey("firebase_token")){
-                    if ( requestMap.get("firebase_token")!= null || requestMap.get("firebase_token") != ""){
+                    if ( requestMap.get("firebase_token")!= null  && requestMap.get("firebase_token") != ""){
 
                         userRepository.updateFirebase(userDTO.getId(), requestMap.get("firebase_token"));
                         userDTO.setFirebase_token(requestMap.get("firebase_token"));
@@ -295,7 +295,7 @@ public class UserServiceImpl implements UserService {
             user.setInvitation_code(generateInvitationToken());
             user.setInviter_code("");
             if (requestMap.containsKey("firebase_token")){
-                if ( requestMap.get("firebase_token")!= null || requestMap.get("firebase_token") != ""){
+                if ( requestMap.get("firebase_token")!= null  && requestMap.get("firebase_token") != ""){
                     user.setFirebase_token(requestMap.get("firebase_token"));
 
                 }
