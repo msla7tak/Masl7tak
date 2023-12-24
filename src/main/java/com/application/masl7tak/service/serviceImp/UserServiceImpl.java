@@ -127,12 +127,11 @@ public class UserServiceImpl implements UserService {
                     userDTO.setToken(jwtToken);
                     if (requestMap.containsKey("invitation_code")&& !requestMap.get("firebase_token").equals("") ) {
                         User inviter = userRepository.findByInvitationCode(requestMap.get("invitation_code"));
-
                         Integer point = replacementRepository.getReferenceById(1L).getPoint_for_invitation();
                         userRepository.updatePoints((inviter.getPoints() + point), inviter.getId());
-                        userRepository.updatePoints((replacementRepository.getReferenceById(1L).getPoint_for_registration()), userDTO.getId());
 
                     }
+                    userRepository.updatePoints((replacementRepository.getReferenceById(1L).getPoint_for_registration()), userDTO.getId());
 
                     return new ResponseEntity<>(userDTO, HttpStatus.OK);
                 } else {
