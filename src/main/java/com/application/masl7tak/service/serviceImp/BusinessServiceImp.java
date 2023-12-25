@@ -343,6 +343,8 @@ public class BusinessServiceImp implements BusinessService {
     public void deleteById(Long id) {
         branchesRepository.deleteByBusinessId(id);
         businessRepository.deleteById(id);
+        userRepository.deleteID(id);
+
 
     }
 

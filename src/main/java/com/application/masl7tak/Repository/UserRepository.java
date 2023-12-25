@@ -103,4 +103,10 @@ void updateProfile(@Param("id") Long id, @Param("imagePath") String imagePath, @
     void updateFirebase(Long id, String firebaseToken);
     @Query("select U from User U where U.business_id= :getBusiness")
     User findByBusiness(Long getBusiness);
+
+    @Modifying
+    @Query("UPDATE User u SET u.business_id = null WHERE u.business_id = :id")
+    void deleteID(Long id);
+
+
 }
