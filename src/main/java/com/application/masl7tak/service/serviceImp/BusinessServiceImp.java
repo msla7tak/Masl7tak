@@ -72,7 +72,8 @@ public class BusinessServiceImp implements BusinessService {
     @Override
     public ResponseEntity<Object> save(BusinessBranch businessBranch) {
         try {
-            log.error(businessBranch + "");
+            log.error(  "businessBranch: "+ businessBranch);
+            log.info(  "businessBranch: "+ businessBranch);
             Business business = businessRepository.findByEmail(businessBranch.getEmail());
 
             if (Objects.isNull(business)) {
