@@ -7,6 +7,7 @@ import com.application.masl7tak.dto.AnalyticsDTO;
 import com.application.masl7tak.model.*;
 import com.application.masl7tak.service.AdminService;
 import com.application.masl7tak.service.PointService;
+import com.application.masl7tak.utils.FBNotificationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +26,10 @@ import java.util.List;
 public class PointServiceImp implements PointService {
     @Autowired
     private PointRepository pointRepository;
+    @Autowired
+    private  NotificationRepository notificationRepository;
+    @Autowired
+    private FBNotificationService fbNotificationService;
     @Autowired
     private BusinessRepository businessRepository;
     @Autowired
@@ -85,8 +92,23 @@ public class PointServiceImp implements PointService {
     public ResponseEntity<Object> update(Point point) {
         try {
 
-            return new ResponseEntity<>( pointRepository.save(point), HttpStatus.OK);
+            LocalDateTime now = LocalDateTime.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+            User user = userRepository.findById(point.getUser_id()).orElseThrow();
+            Notification notification = new Notification();
 
+            notification.setTitle("حصلت علي كود خصم "+point.getPromo_code());
+            notification.setDescription("يمكنك الذهاب لصفحة النقاط لاستخدامها");
+            notification.setUser_id(user.getId());
+            notification.setStatus(8+"");
+            notification.setCreationDate(formatter.format(now));
+            notification.setStatusReviewed("pending");
+            notification.setType("8");
+            notificationRepository.save(notification);
+
+            fbNotificationService.sendNotification(user.getFirebase_token(), notification.getTitle(), notification.getDescription(),
+                    "point", notification.getCreationDate(), "8", 8+"", "point");
+            return new ResponseEntity<>( pointRepository.save(point), HttpStatus.OK);
         } catch (Exception exception) {
             exception.printStackTrace();
 
