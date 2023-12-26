@@ -156,6 +156,23 @@ public class FaqServiceImp implements FaqService {
     }
 
     @Override
+    public ResponseEntity<Object> updateFromAdmin(Faq faq) {
+
+            try {
+                log.info(faq +"");
+                User user = userRepository.findUserByEmail(jwtAuthFilter.getCurrentUser()).orElseThrow();
+                faq.setUser_id(user.getId());
+
+                return new ResponseEntity<>(faqRepository.save(faq), HttpStatus.OK);
+            } catch (Exception exception) {
+                exception.printStackTrace();
+                return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(),109), HttpStatus.BAD_REQUEST);
+
+            }
+
+    }
+
+    @Override
     public ResponseEntity<Object> findAllSupport() {
         try {
             User user = userRepository.findUserByEmail(jwtAuthFilter.getCurrentUser()).orElseThrow();

@@ -36,6 +36,8 @@ public interface FaqAPI {
 
     @PutMapping("user/faq/{id}")
     public ResponseEntity<Object>  update(@RequestBody Faq faq, @PathVariable Long id);
+    @PutMapping("user/faq_public/{id}")
+    public ResponseEntity<Object>  updateFromAdmin(@RequestBody Faq faq, @PathVariable Long id);
 
     @DeleteMapping("admin/faq/{id}")
     public void deleteById(@PathVariable Long id);

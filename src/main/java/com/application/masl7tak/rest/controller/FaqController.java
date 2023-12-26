@@ -54,6 +54,12 @@ import java.util.List;
     }
 
     @Override
+    public ResponseEntity<Object> updateFromAdmin(Faq faq, Long id) {
+        faq.setId(id);
+        return regionService.updateFromAdmin(faq);
+    }
+
+    @Override
     public void deleteById(@PathVariable Long id) {
         regionService.deleteById(id);
     }

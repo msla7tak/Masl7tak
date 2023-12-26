@@ -23,4 +23,6 @@ public interface FaqService {
 
 
     ResponseEntity<Object> update(Faq faq);
+
+    ResponseEntity<Object> updateFromAdmin(Faq faq);
 }
