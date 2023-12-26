@@ -24,6 +24,7 @@ public class ServicesDTO {
     private String numberOfComments;
     private Long brand_id;
     private Long model_id;
+    private Long event_id;
     private int quantity;
     private String creationDate;
     private String validUntil;
@@ -124,7 +125,7 @@ public class ServicesDTO {
                        String is_available, Long id_p, String name, String description, double price, String image,
                        String email, String status, String subscriptionType,
                        String businessDescription, String logo
-            ,double start_discount_val,Long numberOfComments,double readme_num,int max_usage,String working_days, int schedule_mode,String brand_name) {
+            ,double start_discount_val,Long numberOfComments,double readme_num,int max_usage,String working_days, int schedule_mode,String brand_name,Long event_id) {
         this.id = id;
         this.discount_value = discount_value;
         this.creationDate = creationDate;
@@ -142,6 +143,7 @@ public class ServicesDTO {
         this.max_usage = max_usage;
         this.schedule_mode = schedule_mode;
         this.brand_name = brand_name;
+        this.event_id = event_id;
 
         this.business= new BusinessDTO( business_id,  business_name,    email,  status,  subscriptionType,
                 businessDescription,  logo, start_discount_val, working_days);
