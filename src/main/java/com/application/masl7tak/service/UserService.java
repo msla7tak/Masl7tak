@@ -34,6 +34,8 @@ public interface UserService {
     ResponseEntity<UserDTO> profile(Long id);
 
     ResponseEntity<List<UserDTO>> getAll();
+
+    ResponseEntity<Object> create_admin(Map<String, String> requestMap);
 }
 
 

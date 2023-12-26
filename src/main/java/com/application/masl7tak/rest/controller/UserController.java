@@ -46,6 +46,16 @@ public class UserController implements UserAPI {
     }
 
     @Override
+    public ResponseEntity<Object> create_admin(Map<String, String> requestMap) {
+        try {
+            return userService.create_admin(requestMap);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+        return new ResponseEntity<>(new UserDTO(Constants.SOMETHING_WENT_WRONG), HttpStatus.BAD_REQUEST);
+    }
+
+    @Override
     public ResponseEntity<Object> login(Map<String, String> requestMap) {
         try {
             return userService.login(requestMap);

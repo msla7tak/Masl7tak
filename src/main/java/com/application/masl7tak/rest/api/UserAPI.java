@@ -16,6 +16,8 @@ public interface UserAPI {
 
     @PostMapping(path = "public/user/signup")
     public ResponseEntity<Object> signUp(@RequestBody(required = true) Map<String, String> requestMap);
+    @PostMapping(path = "admin/user/create_admin")
+    public ResponseEntity<Object> create_admin(@RequestBody(required = true) Map<String, String> requestMap);
 
     @PostMapping(path = "public/user/login")
     public ResponseEntity<Object> login(@RequestBody(required = true) Map<String, String> requestMap);

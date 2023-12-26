@@ -444,5 +444,35 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
+    public ResponseEntity<Object> create_admin(Map<String, String> requestMap) {
+        try {
+
+            if (validateSignupMap(requestMap)) {
+
+                if (Objects.isNull(userRepository.findDtoByEmail(requestMap.get("email")))) {
+                    User user =getUserFromMap(requestMap);
+                    user.setRole("admin");
+                    String jwtToken = jwtService.generateToken(userRepository.save(user));
+                    UserDTO userDTO = userRepository.findDtoByEmail(requestMap.get("email"));
+
+                    userDTO.setToken(jwtToken);
+
+                    userRepository.updatePoints((replacementRepository.getReferenceById(1L).getPoint_for_registration()), userDTO.getId());
+
+                    return new ResponseEntity<>(userDTO, HttpStatus.OK);
+                } else {
+                    return new ResponseEntity<>(Constants.responseMessage("Email  already exits", 101), HttpStatus.BAD_REQUEST);
+                }
+            } else {
+                return new ResponseEntity<>(Constants.responseMessage(Constants.INVALID_DATA, 102), HttpStatus.BAD_REQUEST);
+            }
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(), 500), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
 }
 
