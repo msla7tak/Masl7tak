@@ -326,6 +326,17 @@ public class ServicesServiceImp implements ServicesService {
                 }
                 service.setCarModelEntities(productService.getCarModelEntities());
             }
+            else {
+                CarModelEntity carModel = new CarModelEntity();
+                carModel.setServices(service);
+                carModel.setModelId(0L);
+                List<CarModelEntity> carModelEntities = new ArrayList<>();
+                carModelEntities.add(carModel);
+                service.setCarBrand(0L);
+                service.setCarModelEntities(carModelEntities);
+
+            }
+
             if (productService.getCarBrandEntities() != null) {
 
                 for (CarBrandEntity carBrandEntity : productService.getCarBrandEntities()) {
