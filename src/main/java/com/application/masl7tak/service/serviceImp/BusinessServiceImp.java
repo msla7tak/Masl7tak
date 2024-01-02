@@ -201,6 +201,11 @@ public class BusinessServiceImp implements BusinessService {
                 Replacement replacement = replacementRepository.getReferenceById(1L);
 
                 business.setTermsConditions(replacement.getTermsConditions());
+
+
+                business.setStatus("active");
+                business.setSubscriptionType("junior");
+
                 businessRepositoryByEmail = businessRepository.save(business);
                 userRepository.updateRoleByEmail(JwtAuthFilter.getCurrentUser(), businessRepositoryByEmail.getId());
                 return new ResponseEntity<>(new SuccessDTO(businessRepositoryByEmail.getId(), Constants.DATA_Inserted), HttpStatus.OK);
@@ -302,6 +307,11 @@ public class BusinessServiceImp implements BusinessService {
                 Replacement replacement = replacementRepository.getReferenceById(1L);
 
                 business.setTermsConditions(replacement.getTermsConditions());
+
+
+                business.setStatus("active");
+                business.setSubscriptionType("junior");
+
                 businessRepositoryByEmail = businessRepository.save(business);
                 createBranchesFromMap(business_map, businessRepositoryByEmail);
                 userRepository.updateRoleByEmail(userRepository.findById(userId).get().getEmail(), businessRepositoryByEmail.getId());
