@@ -142,13 +142,7 @@ public class ServicesServiceImp implements ServicesService {
     @Override
     public ResponseEntity<Object> findServicesByCriteria(ServicesFilter criteria) {
         try {
-            int pageNumber = 0; // Page number (0-based)
             int pageSize = 10;  // Page size
-
-//            if (criteria.get("productId").equals("111")) {
-//            if (criteria.get("productId").equals("111")) {
-//                return new ResponseEntity<>(servicesRepository.getAll_Services(), HttpStatus.OK);
-//            } else {
 
             Long productId = criteria.getProductId();
             Long eventOfferId = criteria.getEventId();
@@ -476,6 +470,27 @@ public class ServicesServiceImp implements ServicesService {
         try {
 
             List<ServicesDTO> servicesDTOSPage = servicesRepository.findAllBusinessServices(id);
+
+            for (ServicesDTO services : servicesDTOSPage) {
+                services.setCarBrandEntities(servicesRepository.findBrand(services.getId()));
+                services.setCarModelEntities(servicesRepository.findModel(services.getId()));
+            }
+
+            return new ResponseEntity<>(servicesDTOSPage, HttpStatus.OK);
+
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return new ResponseEntity<>(Constants.responseMessage(exception,4101), HttpStatus.BAD_REQUEST);
+
+        }
+    }
+
+    @Override
+    public ResponseEntity<Object> findAllEventServices(Long id) {
+        try {
+
+            List<ServicesDTO> servicesDTOSPage = servicesRepository.findAllEventServices(id);
 
             for (ServicesDTO services : servicesDTOSPage) {
                 services.setCarBrandEntities(servicesRepository.findBrand(services.getId()));

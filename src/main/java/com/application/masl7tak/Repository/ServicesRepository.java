@@ -99,7 +99,11 @@ public interface ServicesRepository extends JpaRepository<Services, Long> {
             "AND (:regionId is null OR Br.region.id = :regionId)  " +
             "AND (:cityId is null OR Br.city_id = :cityId)  " +
             "AND (:rate is null OR S.rate >= :rate)  " +
-            "AND (:carModel is null OR :carBrand is null OR (em.services.id = S.id AND em.modelId = :carModel) OR (eb.services.id = S.id AND eb.brandId = :carBrand)) " +
+            "AND ( " +
+            "    :carBrand is null OR " +
+            "    (eb.services.id = S.id AND eb.brandId = :carBrand) and " +
+            "    (:carModel is null OR em.services.id = S.id AND em.modelId = :carModel OR ( em.services.id = S.id AND em.modelId = 0 ))" +
+            ") " +
             "AND S.is_available='true' " +
             "AND STR_TO_DATE(S.validUntil, '%Y-%m-%d')>= :currentDate " +
             "AND (:minDiscountValue is null OR S.discountValue >= :minDiscountValue) " +
@@ -219,18 +223,32 @@ public interface ServicesRepository extends JpaRepository<Services, Long> {
     @Query("DELETE FROM CarModelEntity c WHERE c.services.id = :id")
     void clearCarModelEntities(Long id);
 @Query("SELECT DISTINCT new com.application.masl7tak.dto.ServicesDTO(S.id, S.discountValue,S.images, S.creationDate, S.validUntil, S.rate, S.category.id, " +
-                "S.carModel, S.carBrand, S.business.id, B.name, S.quantity, S.category.name, S.is_available, S.products.id, S.products.name, S.products.description,S.products.price, S.products.image, " +
+                "S.carModel, S.carBrand, S.business.id, B.name, S.quantity, S.category.name, S.is_available, S.products.id," +
+        " S.products.name, S.products.description,S.products.price, S.products.image, " +
                 " B.email, B.status, B.subscriptionType, B.description, B.logo, " +
         "B.start_discount_val,S.comments_num,S.readme_num,S.max_usage " +
         ",B.working_days,S.schedule_mode," +
         "((SELECT C.name from CarBrand C where S.carBrand= C.id )),S.eventOffers.id) " +
                 "FROM Services S  " +
                 "JOIN S.business B on B.id = :id " +
-                "LEFT JOIN S.readme R  " +
                 "JOIN S.business.branches Br " +
                 "where  B.id = :id " +
                 " group by S.id")
     List<ServicesDTO> findAllBusinessServices(Long id);
+
+    @Query("SELECT DISTINCT new com.application.masl7tak.dto.ServicesDTO(S.id, S.discountValue,S.images, S.creationDate, S.validUntil, S.rate, S.category.id, " +
+            "S.carModel, S.carBrand, S.business.id, B.name, S.quantity, S.category.name, S.is_available, S.products.id, S.products.name, S.products.description,S.products.price, S.products.image, " +
+            " B.email, B.status, B.subscriptionType, B.description, B.logo, " +
+            "B.start_discount_val,S.comments_num,S.readme_num,S.max_usage " +
+            ",B.working_days,S.schedule_mode," +
+            "((SELECT C.name from CarBrand C where S.carBrand= C.id )),S.eventOffers.id) " +
+            "FROM Services S  " +
+            "JOIN S.business B " +
+            "JOIN S.business.branches Br " +
+            "where S.eventOffers.id = :id " +
+            " group by S.id")
+    List<ServicesDTO> findAllEventServices(Long id);
+
 
 
 //            "JOIN Branches Br " +

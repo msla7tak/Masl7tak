@@ -41,4 +41,6 @@ public interface ServicesService {
     ResponseEntity<Object> findMostVisited();
 
     ResponseEntity<Object> findAllBusinessServices(Long id);
+
+    ResponseEntity<Object> findAllEventServices(Long id);
 }

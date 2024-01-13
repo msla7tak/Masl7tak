@@ -20,6 +20,8 @@ public interface ServicesAPI {
     public ResponseEntity<Object>  findAll(@ModelAttribute ServicesFilter criteria);
     @GetMapping("public/services/business/{id}")
     public ResponseEntity<Object>  findAllBusinessServices(@PathVariable Long id);
+    @GetMapping("public/services/event/{id}")
+    public ResponseEntity<Object>  findAllEventServices(@PathVariable Long id);
     @GetMapping("public/max_amount")
     public ResponseEntity<Object>  findMaxAmount();
     @GetMapping("admin/services")

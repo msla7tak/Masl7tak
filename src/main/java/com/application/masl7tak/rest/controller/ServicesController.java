@@ -54,6 +54,11 @@ public class ServicesController implements ServicesAPI {
     }
 
     @Override
+    public ResponseEntity<Object> findAllEventServices(Long id) {
+        return servicesService.findAllEventServices(id);
+    }
+
+    @Override
     public ResponseEntity<Services> save(@RequestBody Services services) {
         return servicesService.save(services);
     }
