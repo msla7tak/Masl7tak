@@ -24,7 +24,7 @@ public class ServicesController implements ServicesAPI {
 
 
     @Override
-    public ResponseEntity<List<ServicesDTO>> findAll(ServicesFilter criteria) {
+    public ResponseEntity<Object> findAll(ServicesFilter criteria) {
 
         log.info("test : "+ criteria);
 
@@ -32,6 +32,7 @@ public class ServicesController implements ServicesAPI {
 
 
     }
+
 
     @Override
     public ResponseEntity<Object> findMaxAmount() {
@@ -46,6 +47,10 @@ public class ServicesController implements ServicesAPI {
     @Override
     public ResponseEntity<ServicesDTO> findById(@PathVariable Long id) {
         return servicesService.findById(id);
+    }
+    @Override
+    public ResponseEntity<Object> findAllBusinessServices(Long id) {
+        return servicesService.findAllBusinessServices(id);
     }
 
     @Override

@@ -3,8 +3,6 @@ package com.application.masl7tak.service.serviceImp;
 import com.application.masl7tak.Repository.*;
 import com.application.masl7tak.configs.JwtAuthFilter;
 import com.application.masl7tak.constents.Constants;
-import com.application.masl7tak.dto.CarModelDTO;
-import com.application.masl7tak.dto.SuccessDTO;
 import com.application.masl7tak.model.*;
 import com.application.masl7tak.model.filter.ServicesFilter;
 import com.application.masl7tak.rest.controller.AmazonS3Controller;
@@ -12,6 +10,7 @@ import com.application.masl7tak.service.ServicesService;
 import com.application.masl7tak.dto.ServicesDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,10 +18,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Slf4j
@@ -141,13 +140,16 @@ public class ServicesServiceImp implements ServicesService {
 
 
     @Override
-    public ResponseEntity<List<ServicesDTO>> findServicesByCriteria(ServicesFilter criteria) {
+    public ResponseEntity<Object> findServicesByCriteria(ServicesFilter criteria) {
         try {
+            int pageNumber = 0; // Page number (0-based)
+            int pageSize = 10;  // Page size
 
 //            if (criteria.get("productId").equals("111")) {
 //            if (criteria.get("productId").equals("111")) {
 //                return new ResponseEntity<>(servicesRepository.getAll_Services(), HttpStatus.OK);
 //            } else {
+
             Long productId = criteria.getProductId();
             Long eventOfferId = criteria.getEventId();
             Long businessId = criteria.getBusinessId();
@@ -158,26 +160,30 @@ public class ServicesServiceImp implements ServicesService {
             Long cityId = criteria.getCityId();
             Float rate = criteria.getRate();
             String searchKey = criteria.getSearchKey();
-//            Long regionId = criteria.getRegionId() != null ? criteria.getRegionId() : 1;
             Double minDiscountValue = criteria.getDiscountMinVal();
             Double maxDiscountValue = criteria.getDiscountMaxVal();
-            int offset = criteria.getOffset();
             LocalDate currentDate = LocalDate.now();
 
-            List<ServicesDTO> servicesDTOS = servicesRepository.findServicesByCriteria(productId, eventOfferId, businessId, categoryId, regionId,cityId, rate,
-                    carModel, carBrand, minDiscountValue, maxDiscountValue, searchKey, currentDate, PageRequest.of(offset, 100));
-            for (ServicesDTO services : servicesDTOS) {
-                services.setCarBrandEntities(servicesRepository.findBrand(services.getId()));
-                services.setCarModelEntities(servicesRepository.findModel(services.getId()));
+            Page<ServicesDTO> servicesDTOSPage = servicesRepository.findServicesByCriteria(
+                    productId, eventOfferId, businessId, categoryId, regionId, cityId, rate,
+                    carModel, carBrand, minDiscountValue, maxDiscountValue, searchKey,
+                    currentDate,  PageRequest.of(criteria.getOffset(), pageSize));
 
-            }
-            return new ResponseEntity<>(servicesDTOS, HttpStatus.OK);
-//            }
+
+                for (ServicesDTO services : servicesDTOSPage) {
+                    services.setCarBrandEntities(servicesRepository.findBrand(services.getId()));
+                    services.setCarModelEntities(servicesRepository.findModel(services.getId()));
+                }
+
+            return new ResponseEntity<>(servicesDTOSPage, HttpStatus.OK);
+
+
         } catch (Exception exception) {
             exception.printStackTrace();
+            return new ResponseEntity<>(Constants.responseMessage(exception,4101), HttpStatus.BAD_REQUEST);
+
         }
 
-        return new ResponseEntity<>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @Override
@@ -461,6 +467,27 @@ public class ServicesServiceImp implements ServicesService {
         } catch (Exception exception) {
             exception.printStackTrace();
             return new ResponseEntity<>(Constants.responseMessage(exception.getMessage(), 105), HttpStatus.BAD_REQUEST);
+
+        }
+    }
+
+    @Override
+    public ResponseEntity<Object> findAllBusinessServices(Long id) {
+        try {
+
+            List<ServicesDTO> servicesDTOSPage = servicesRepository.findAllBusinessServices(id);
+
+            for (ServicesDTO services : servicesDTOSPage) {
+                services.setCarBrandEntities(servicesRepository.findBrand(services.getId()));
+                services.setCarModelEntities(servicesRepository.findModel(services.getId()));
+            }
+
+            return new ResponseEntity<>(servicesDTOSPage, HttpStatus.OK);
+
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return new ResponseEntity<>(Constants.responseMessage(exception,4101), HttpStatus.BAD_REQUEST);
 
         }
     }

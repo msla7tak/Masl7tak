@@ -22,7 +22,7 @@ public interface ServicesService {
 
     public void deleteById(Long id);
 
-    public ResponseEntity<List<ServicesDTO>> findServicesByCriteria(ServicesFilter criteria);
+    public ResponseEntity<Object> findServicesByCriteria(ServicesFilter criteria);
 
 
     ResponseEntity<Services> save(Services services, MultipartFile[] files);
@@ -39,4 +39,6 @@ public interface ServicesService {
     ResponseEntity<Object> findMaxAmount();
 
     ResponseEntity<Object> findMostVisited();
+
+    ResponseEntity<Object> findAllBusinessServices(Long id);
 }

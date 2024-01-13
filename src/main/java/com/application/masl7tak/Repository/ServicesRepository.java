@@ -6,6 +6,7 @@ import com.application.masl7tak.model.CarModel;
 import com.application.masl7tak.model.Category;
 import com.application.masl7tak.model.Services;
 import jakarta.annotation.Nullable;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -103,7 +104,7 @@ public interface ServicesRepository extends JpaRepository<Services, Long> {
             "AND STR_TO_DATE(S.validUntil, '%Y-%m-%d')>= :currentDate " +
             "AND (:minDiscountValue is null OR S.discountValue >= :minDiscountValue) " +
             "AND (:maxDiscountValue is null OR S.discountValue <= :maxDiscountValue)group by S.id")
-    List<ServicesDTO> findServicesByCriteria(@Param("productId") Long productId,
+    Page<ServicesDTO> findServicesByCriteria(@Param("productId") Long productId,
                                              @Param("eventOfferId") Long eventOfferId,
                                              @Param("businessId") Long businessId,
                                              @Param("categoryId") Long categoryId,
@@ -217,6 +218,19 @@ public interface ServicesRepository extends JpaRepository<Services, Long> {
     @Modifying
     @Query("DELETE FROM CarModelEntity c WHERE c.services.id = :id")
     void clearCarModelEntities(Long id);
+@Query("SELECT DISTINCT new com.application.masl7tak.dto.ServicesDTO(S.id, S.discountValue,S.images, S.creationDate, S.validUntil, S.rate, S.category.id, " +
+                "S.carModel, S.carBrand, S.business.id, B.name, S.quantity, S.category.name, S.is_available, S.products.id, S.products.name, S.products.description,S.products.price, S.products.image, " +
+                " B.email, B.status, B.subscriptionType, B.description, B.logo, " +
+        "B.start_discount_val,S.comments_num,S.readme_num,S.max_usage " +
+        ",B.working_days,S.schedule_mode," +
+        "((SELECT C.name from CarBrand C where S.carBrand= C.id )),S.eventOffers.id) " +
+                "FROM Services S  " +
+                "JOIN S.business B on B.id = :id " +
+                "LEFT JOIN S.readme R  " +
+                "JOIN S.business.branches Br " +
+                "where  B.id = :id " +
+                " group by S.id")
+    List<ServicesDTO> findAllBusinessServices(Long id);
 
 
 //            "JOIN Branches Br " +
