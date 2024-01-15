@@ -144,7 +144,6 @@ public class ServicesServiceImp implements ServicesService {
         try {
             int pageSize = 10;  // Page size
 
-            Long productId = criteria.getProductId();
             Long eventOfferId = criteria.getEventId();
             Long businessId = criteria.getBusinessId();
             Long categoryId = criteria.getCategoryId();
@@ -157,24 +156,27 @@ public class ServicesServiceImp implements ServicesService {
             Double minDiscountValue = criteria.getDiscountMinVal();
             Double maxDiscountValue = criteria.getDiscountMaxVal();
             LocalDate currentDate = LocalDate.now();
+            Page<ServicesDTO> servicesDTOSPage = null;
+            if (carBrand == null) {
+                servicesDTOSPage = servicesRepository.findServicesByCriteria(
+                         eventOfferId, businessId, categoryId, regionId, cityId, rate,
+                        minDiscountValue, maxDiscountValue, searchKey,
+                        currentDate, PageRequest.of(criteria.getOffset(), pageSize));
+            }
+            if (carBrand != null) {
+                servicesDTOSPage = servicesRepository.findServicesByCriteriaModel(
+                         eventOfferId, businessId, categoryId, regionId, cityId, rate,
+                        carModel, carBrand, minDiscountValue, maxDiscountValue, searchKey,
+                        currentDate, PageRequest.of(criteria.getOffset(), pageSize));
+            }
 
-            Page<ServicesDTO> servicesDTOSPage = servicesRepository.findServicesByCriteria(
-                    productId, eventOfferId, businessId, categoryId, regionId, cityId, rate,
-                    carModel, carBrand, minDiscountValue, maxDiscountValue, searchKey,
-                    currentDate,  PageRequest.of(criteria.getOffset(), pageSize));
-
-
-                for (ServicesDTO services : servicesDTOSPage) {
-                    services.setCarBrandEntities(servicesRepository.findBrand(services.getId()));
-                    services.setCarModelEntities(servicesRepository.findModel(services.getId()));
-                }
 
             return new ResponseEntity<>(servicesDTOSPage, HttpStatus.OK);
 
 
         } catch (Exception exception) {
             exception.printStackTrace();
-            return new ResponseEntity<>(Constants.responseMessage(exception,4101), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Constants.responseMessage(exception, 4101), HttpStatus.BAD_REQUEST);
 
         }
 
@@ -253,8 +255,7 @@ public class ServicesServiceImp implements ServicesService {
                     service.setCarModel(carModelEntity.getModelId());
                 }
                 service.setCarModelEntities(productService.getCarModelEntities());
-            }
-            else {
+            } else {
                 CarModelEntity carModel = new CarModelEntity();
                 carModel.setServices(service);
                 carModel.setModelId(0L);
@@ -325,8 +326,7 @@ public class ServicesServiceImp implements ServicesService {
                     carModelEntity.setServices(service);
                 }
                 service.setCarModelEntities(productService.getCarModelEntities());
-            }
-            else {
+            } else {
                 CarModelEntity carModel = new CarModelEntity();
                 carModel.setServices(service);
                 carModel.setModelId(0L);
@@ -481,7 +481,7 @@ public class ServicesServiceImp implements ServicesService {
 
         } catch (Exception exception) {
             exception.printStackTrace();
-            return new ResponseEntity<>(Constants.responseMessage(exception,4101), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Constants.responseMessage(exception, 4101), HttpStatus.BAD_REQUEST);
 
         }
     }
@@ -502,7 +502,7 @@ public class ServicesServiceImp implements ServicesService {
 
         } catch (Exception exception) {
             exception.printStackTrace();
-            return new ResponseEntity<>(Constants.responseMessage(exception,4101), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Constants.responseMessage(exception, 4101), HttpStatus.BAD_REQUEST);
 
         }
     }
