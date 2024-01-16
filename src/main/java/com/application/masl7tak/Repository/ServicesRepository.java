@@ -99,7 +99,8 @@ public interface ServicesRepository extends JpaRepository<Services, Long> {
             "AND S.is_available='true' " +
             "AND STR_TO_DATE(S.validUntil, '%Y-%m-%d')>= :currentDate " +
             "AND (:minDiscountValue is null OR S.discountValue >= :minDiscountValue) " +
-            "AND (:maxDiscountValue is null OR S.discountValue <= :maxDiscountValue)group by S.id")
+            "AND (:maxDiscountValue is null OR S.discountValue <= :maxDiscountValue)group by S.id" +
+            " ORDER BY S.discountValue desc ")
     Page<ServicesDTO> findServicesByCriteria(
                                              @Param("eventOfferId") Long eventOfferId,
                                              @Param("businessId") Long businessId,
@@ -137,7 +138,8 @@ public interface ServicesRepository extends JpaRepository<Services, Long> {
             "AND S.is_available='true' " +
             "AND STR_TO_DATE(S.validUntil, '%Y-%m-%d')>= :currentDate " +
             "AND (:minDiscountValue is null OR S.discountValue >= :minDiscountValue) " +
-            "AND (:maxDiscountValue is null OR S.discountValue <= :maxDiscountValue)group by S.id")
+            "AND (:maxDiscountValue is null OR S.discountValue <= :maxDiscountValue)group by S.id" +
+            " ORDER BY S.discountValue desc ")
     Page<ServicesDTO> findServicesByCriteriaModel(
                                              @Param("eventOfferId") Long eventOfferId,
                                              @Param("businessId") Long businessId,
