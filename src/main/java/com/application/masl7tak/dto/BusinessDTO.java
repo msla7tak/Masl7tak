@@ -27,6 +27,8 @@ public class BusinessDTO {
     private String logo;
     private String working_days;
     private Long productCount;
+    private String termsConditions;
+
     private float rate;
     private Long branches;
     private double start_discount_val;
@@ -51,6 +53,24 @@ public class BusinessDTO {
         this.service_type_id = service_type;
         this.rate = rate;
         this.visits_num = visits_num;
+    }    public BusinessDTO(Long id, String name,  String email, String status, String subscriptionType,
+                       String description, String logo, Long productCount,
+                       double start_discount_val, float rate, Long service_type, Long branches,double visits_num,String working_days,String termsConditions) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.status = status;
+        this.subscriptionType = subscriptionType;
+        this.description = description;
+        this.logo = logo;
+        this.working_days = working_days;
+        this.start_discount_val = start_discount_val;
+        this.productCount = productCount;
+        this.branches = branches;
+        this.service_type_id = service_type;
+        this.rate = rate;
+        this.visits_num = visits_num;
+        this.termsConditions = termsConditions;
     }
 
     public BusinessDTO(Long id, String name,  String email, String status, String subscriptionType,

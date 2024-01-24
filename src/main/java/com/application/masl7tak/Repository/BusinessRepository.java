@@ -47,7 +47,7 @@ public interface BusinessRepository extends JpaRepository<Business, Long> {
 
     @Query("SELECT new com.application.masl7tak.dto.BusinessDTO(B.id, B.name,  B.email, B.status, B.subscriptionType, " +
             "B.description, B.logo, B.service_count, B.start_discount_val, B.rate, B.category.id, " +
-            "MIN(Br.id), B.visits_num ,B.working_days) " +
+            "MIN(Br.id), B.visits_num ,B.working_days,B.termsConditions) " +
             "FROM Business B " +
             "JOIN Branches Br ON B.id = Br.business.id " +
             "LEFT JOIN B.services S ON  B.id = S.business.id and S.is_available ='true' " + // Use LEFT JOIN here
