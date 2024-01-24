@@ -98,13 +98,13 @@ public class ServicesServiceImp implements ServicesService {
     @Override
     public ResponseEntity<Services> save(Services services) {
         try {
-            businessRepository.serviceCount(services.getBusiness().getId());
 
 //                businessRepository.updateStartDiscountVal(services.getBusiness().getId(), services.getDiscountValue());
                 Business business = businessRepository.findById(services.getBusiness().getId()).orElseThrow();
                 if (business.getStart_discount_val() < services.getDiscountValue()) {
                     businessRepository.startDiscountVal(business.getId(), services.getDiscountValue());
                 }
+            businessRepository.serviceCount(business.getId());
 
 
             return new ResponseEntity<>(servicesRepository.save(services), HttpStatus.OK);
@@ -183,15 +183,15 @@ public class ServicesServiceImp implements ServicesService {
     @Override
     public ResponseEntity<Services> save(Services services, MultipartFile[] files) {
         try {
-            businessRepository.serviceCount(services.getBusiness().getId());
 
-            if (services.getDiscountValue() < 1 && services.getBusiness().getId() != null) {
+
 //                businessRepository.updateStartDiscountVal(services.getBusiness().getId(), services.getDiscountValue());
                 Business business = businessRepository.findById(services.getBusiness().getId()).orElseThrow();
                 if (business.getStart_discount_val() < services.getDiscountValue()) {
                     businessRepository.startDiscountVal(business.getId(), services.getDiscountValue());
                 }
-            }
+            businessRepository.serviceCount(business.getId());
+
             services.setImages(amazonS3Controller.uploadFiles(files));
 
             return new ResponseEntity<>(servicesRepository.save(services), HttpStatus.OK);
@@ -216,7 +216,7 @@ public class ServicesServiceImp implements ServicesService {
                     businessRepository.startDiscountVal(business.getId(), productService.getDiscountValue());
                 }
 
-            businessRepository.serviceCount(businessId);
+            businessRepository.serviceCount(business.getId());
 
 
             Products products = new Products();
@@ -369,7 +369,6 @@ public class ServicesServiceImp implements ServicesService {
             products.setName(productService.getName());
             products.setDescription(productService.getDescription());
             products.setBusiness(productService.getBusiness());
-            businessRepository.serviceCount(productService.getBusiness().getId());
 
             Services service = new Services();
             service.setBusiness(productService.getBusiness());
@@ -400,6 +399,8 @@ public class ServicesServiceImp implements ServicesService {
             if (business.getStart_discount_val()< productService.getDiscountValue()) {
                 businessRepository.startDiscountVal(business.getId(), productService.getDiscountValue());
             }
+            businessRepository.serviceCount(business.getId());
+
             return new ResponseEntity<>(servicesRepository.save(service), HttpStatus.OK);
 
         } catch (Exception exception) {
