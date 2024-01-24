@@ -91,7 +91,6 @@ public class BusinessServiceImp implements BusinessService {
                 business.setWorking_days(businessBranch.getWorking_days());
                 Replacement replacement = replacementRepository.getReferenceById(1L);
 
-                business.setTermsConditions(replacement.getTermsConditions());
 
                 business.setStatus("active");
                 business.setSubscriptionType("junior");
