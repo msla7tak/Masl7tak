@@ -99,15 +99,13 @@ public class ServicesServiceImp implements ServicesService {
     public ResponseEntity<Services> save(Services services) {
         try {
             businessRepository.serviceCount(services.getBusiness().getId());
-            log.info("TEST" + services);
-            if (services.getDiscountValue() < 1 && services.getBusiness().getId() != null) {
+
 //                businessRepository.updateStartDiscountVal(services.getBusiness().getId(), services.getDiscountValue());
                 Business business = businessRepository.findById(services.getBusiness().getId()).orElseThrow();
                 if (business.getStart_discount_val() < services.getDiscountValue()) {
                     businessRepository.startDiscountVal(business.getId(), services.getDiscountValue());
                 }
-                businessRepository.serviceCount(business.getId());
-            }
+
 
             return new ResponseEntity<>(servicesRepository.save(services), HttpStatus.OK);
 
@@ -212,12 +210,12 @@ public class ServicesServiceImp implements ServicesService {
                 productService.setBusiness(new Business(productService.getBusinessId()));
 
             Long businessId = productService.getBusiness().getId();
-            if (productService.getDiscountValue() < 1 && businessId != null) {
+
                 Business business = businessRepository.findById(businessId).orElseThrow();
                 if (business.getStart_discount_val() < productService.getDiscountValue()) {
                     businessRepository.startDiscountVal(business.getId(), productService.getDiscountValue());
                 }
-            }
+
             businessRepository.serviceCount(businessId);
 
 
@@ -313,11 +311,16 @@ public class ServicesServiceImp implements ServicesService {
             log.info("Category Name: " + category.getName());
 
 
+
             servicesRepository.update(productService.getId(), image, productService.getDiscountValue(), productService.getCarBrand(),
                     productService.getCarModel(), productService.getMax_usage(),
                     productService.getValidUntil(), productService.getIs_available(), productService.schedule_mode, ID);
 
             Services service = servicesRepository.findById(productService.getId()).get();
+            Business business = businessRepository.findById(service.business.getId()).orElseThrow();
+            if (business.getStart_discount_val()< service.getDiscountValue()) {
+                businessRepository.startDiscountVal(business.getId(), service.getDiscountValue());
+            }
             servicesRepository.clearCarBrandEntities(service.getId());
             servicesRepository.clearCarModelEntities(service.getId());
             if (productService.getCarModelEntities() != null) {
@@ -391,7 +394,12 @@ public class ServicesServiceImp implements ServicesService {
             service.setMax_usage(productService.getMax_usage());
             service.setRate(5);
             service.setSchedule_mode(productService.getSchedule_mode());
+            Long businessId = productService.getBusiness().getId();
 
+            Business business = businessRepository.findById(businessId).orElseThrow();
+            if (business.getStart_discount_val()< productService.getDiscountValue()) {
+                businessRepository.startDiscountVal(business.getId(), productService.getDiscountValue());
+            }
             return new ResponseEntity<>(servicesRepository.save(service), HttpStatus.OK);
 
         } catch (Exception exception) {
