@@ -28,7 +28,7 @@ public interface InsuranceRepository extends JpaRepository<Insurance, Long> {
             "    I.insurance_price_ar,  " +
             "    I.insurance_period,  " +
             "    I.payment_status,  " +
-            "    I.user.id,I.insurance_logo, I.insurance_contact, I.insurance_type, I.status, I.invoice_id " +
+            "    I.user.id,I.insurance_logo, I.insurance_contact, I.insurance_type, I.status, I.invoice_id ,I.creation_date ,I.user.name" +
             ") " +
             "FROM Insurance I ")
     List<InsuranceDTO>findAllInsurance();
@@ -48,7 +48,7 @@ public interface InsuranceRepository extends JpaRepository<Insurance, Long> {
             "    I.insurance_price_ar,  " +
             "    I.insurance_period,  " +
             "    I.payment_status,  " +
-            "    I.user.id,I.insurance_logo, I.insurance_contact, I.insurance_type , I.status, I.invoice_id" +
+            "    I.user.id,I.insurance_logo, I.insurance_contact, I.insurance_type , I.status, I.invoice_id ,I.creation_date,I.user.name" +
             ") " +
             "FROM Insurance I where I.id=:id")
     InsuranceDTO findInsuranceById(Long id);

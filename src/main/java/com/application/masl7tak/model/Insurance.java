@@ -63,6 +63,8 @@ public class Insurance implements Serializable {
     private String insurance_period;
     @Column(name = "payment_status ")
     private String payment_status;
+    @Column(name = "creation_date")
+    private String creation_date;
     @ManyToOne(cascade = CascadeType.MERGE, fetch=FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;

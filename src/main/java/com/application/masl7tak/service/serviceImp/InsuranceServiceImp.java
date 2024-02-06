@@ -18,6 +18,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,6 +68,10 @@ public class InsuranceServiceImp implements InsuranceService {
     @Override
     public ResponseEntity<InsuranceDTO> save(Insurance insurance) {
         try {
+            LocalDate today = LocalDate.now();
+            DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            String formattedDate = today.format(dateFormat);
+            insurance.setCreation_date(formattedDate);
             Insurance row= insuranceRepository.save(insurance);
            Notification notification= new Notification(row);
             notification.setType("5");
