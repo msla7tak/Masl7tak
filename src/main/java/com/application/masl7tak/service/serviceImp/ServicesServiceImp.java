@@ -246,6 +246,7 @@ public class ServicesServiceImp implements ServicesService {
             service.setIs_available(productService.getIs_available());
             service.setMax_usage(productService.getMax_usage());
             service.setRate(5);
+            service.setIs_available("false");
             service.setSchedule_mode(productService.getSchedule_mode());
             if (productService.getCarModelEntities() != null) {
                 for (CarModelEntity carModelEntity : productService.getCarModelEntities()) {
