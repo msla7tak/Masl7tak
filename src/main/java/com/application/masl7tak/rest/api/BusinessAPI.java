@@ -20,6 +20,8 @@ public interface BusinessAPI {
     public ResponseEntity<List<BusinessDTO>> findAll(@ModelAttribute BusinessFilter criteria);
     @GetMapping("public/all_businesses")
     public ResponseEntity<List<BusinessDTO>> findAllBusinesses( BusinessFilter criteria);
+    @GetMapping("admin/all_businesses")
+    public ResponseEntity<List<BusinessDTO>> findBusinessByCriteriaAdmin( BusinessFilter criteria);
     @GetMapping("admin/businesses")
     public ResponseEntity<List<BusinessDTO>> getAll();
     @GetMapping("public/businesses_names")

@@ -22,6 +22,7 @@ public interface BusinessService {
     public ResponseEntity<SuccessDTO> save(Business business);
 
     ResponseEntity<List<BusinessDTO>> findBusinessByCriteria(BusinessFilter criteria);
+    ResponseEntity<List<BusinessDTO>> findBusinessByCriteriaAdmin(BusinessFilter criteria);
 
     ResponseEntity<AnalyticsDTO> findAnalyticsById(Long id);
 

@@ -38,6 +38,12 @@ public class BusinessController implements BusinessAPI {
     }
 
     @Override
+    public ResponseEntity<List<BusinessDTO>> findBusinessByCriteriaAdmin(BusinessFilter criteria) {
+                 return businessService.findBusinessByCriteriaAdmin(criteria);
+
+    }
+
+    @Override
     public ResponseEntity<List<BusinessDTO>> getAll() {
         return businessService.getAll();
     }

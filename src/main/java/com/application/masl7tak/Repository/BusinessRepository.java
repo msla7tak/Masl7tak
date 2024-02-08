@@ -38,6 +38,25 @@ public interface BusinessRepository extends JpaRepository<Business, Long> {
                                                 @Param("rate") Float rate,
                                                 @Param("searchKey")  String searchKey,
                                              PageRequest of);
+    @Query("SELECT DISTINCT new com.application.masl7tak.dto.BusinessDTO(B.id, B.name,  B.email, B.status, B.subscriptionType," +
+            "B.description, B.logo,B.service_count,B.start_discount_val,B.rate," +
+            "(SELECT C.id from Category C where B.category.id= C.id ), " +
+            " MIN(Br.id) ,B.visits_num ,B.working_days)" +
+            "FROM Business B " +
+            "JOIN Branches Br ON B.id = Br.business.id " +
+            "LEFT JOIN B.services S " +
+            "WHERE (:searchKey is null OR B.name  LIKE %:searchKey%) " +
+            "AND (:categoryId is null OR B.category.id = :categoryId) " +
+            "AND (:regionId is null OR Br.region.id = :regionId)  " +
+            "AND (:cityId is null OR Br.city_id = :cityId)  " +
+            "AND (:rate is null OR B.rate >= :rate)  " +
+            "GROUP BY B.id")
+    List<BusinessDTO> findBusinessByCriteriaAdmin(   @Param("categoryId") Long categoryId,
+                                                @Param("regionId") Long regionId,
+                                                @Param("cityId") Long cityId,
+                                                @Param("rate") Float rate,
+                                                @Param("searchKey")  String searchKey,
+                                             PageRequest of);
 
 
     @Query("SELECT new com.application.masl7tak.dto.BusinessDTO(B.id, B.name,B.email, B.status, B.subscriptionType," +

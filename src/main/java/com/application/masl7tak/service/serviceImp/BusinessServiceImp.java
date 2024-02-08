@@ -384,6 +384,28 @@ public class BusinessServiceImp implements BusinessService {
 
         return new ResponseEntity<>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
+    @Override
+    public ResponseEntity<List<BusinessDTO>> findBusinessByCriteriaAdmin(BusinessFilter criteria) {
+        try {
+
+            Long categoryId = criteria.getCategoryId();
+            Long regionId = criteria.getRegionId();
+            Long cityId = criteria.getCityId();
+
+            Float rate = criteria.getRate();
+            String searchKey = criteria.getSearchKey();
+
+            int offset = criteria.getOffset();
+
+            return new ResponseEntity<>(businessRepository.findBusinessByCriteriaAdmin(categoryId, regionId, cityId,rate
+                    , searchKey, PageRequest.of(offset, 100)), HttpStatus.OK);
+//            }
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+
+        return new ResponseEntity<>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
     public Map<LocalDate, Long> countReadmesForLastSixDays() {
         Map<LocalDate, Long> result = new HashMap<>();
