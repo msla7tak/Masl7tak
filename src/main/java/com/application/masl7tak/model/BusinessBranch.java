@@ -13,7 +13,7 @@ public class BusinessBranch {
     private Long id;
     private String name;
     private String email;
-    private String status;
+    private int status;
     private String subscriptionType;
     private String description;
     private String logo;

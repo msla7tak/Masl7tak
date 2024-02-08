@@ -29,6 +29,7 @@ public interface BusinessRepository extends JpaRepository<Business, Long> {
             "AND (:categoryId is null OR B.category.id = :categoryId) " +
             "AND (:regionId is null OR Br.region.id = :regionId)  " +
             "AND (:cityId is null OR Br.city_id = :cityId)  " +
+            "AND B.status=1 " +
             "AND (:rate is null OR B.rate >= :rate)  " +
             "GROUP BY B.id")
     List<BusinessDTO> findBusinessByCriteria(   @Param("categoryId") Long categoryId,
@@ -66,7 +67,7 @@ public interface BusinessRepository extends JpaRepository<Business, Long> {
     void visits_num(Long id);
     @Modifying
     @Query("update Business b set b.status = :active  where b.id = :id")
-    void active(Long id,String active);
+    void active(Long id,int active);
     @Modifying
     @Query("update Business b set b.start_discount_val = :value  where b.id = :id")
     void startDiscountVal(Long id,Double value);

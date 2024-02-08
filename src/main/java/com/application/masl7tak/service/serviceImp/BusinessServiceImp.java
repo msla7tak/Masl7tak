@@ -85,14 +85,14 @@ public class BusinessServiceImp implements BusinessService {
                 business.setTermsConditions(businessBranch.getTermsConditions());
                 business.setDescription(businessBranch.getDescription());
                 business.setSubscriptionType(businessBranch.getSubscriptionType());
-                business.setStatus(businessBranch.getStatus());
+                business.setStatus(0);
                 business.setStart_discount_val(businessBranch.getStart_discount_val());
                 business.setCategory(businessBranch.getCategory());
                 business.setWorking_days(businessBranch.getWorking_days());
                 Replacement replacement = replacementRepository.getReferenceById(1L);
 
 
-                business.setStatus("active");
+                business.setStatus(0);
                 business.setSubscriptionType("junior");
 
                 business = businessRepository.save(business);
@@ -133,7 +133,7 @@ public class BusinessServiceImp implements BusinessService {
             business.setTermsConditions(businessBranch.getTermsConditions());
             business.setDescription(businessBranch.getDescription());
             business.setSubscriptionType(businessBranch.getSubscriptionType());
-            business.setStatus(businessBranch.getStatus());
+            business.setStatus(0);
             business.setStart_discount_val(businessBranch.getStart_discount_val());
             business.setCategory(businessBranch.getCategory());
             business.setWorking_days(businessBranch.getWorking_days());
@@ -202,7 +202,7 @@ public class BusinessServiceImp implements BusinessService {
                 business.setTermsConditions(replacement.getTermsConditions());
 
 
-                business.setStatus("active");
+                business.setStatus(0);
                 business.setSubscriptionType("junior");
 
                 businessRepositoryByEmail = businessRepository.save(business);
@@ -223,7 +223,7 @@ public class BusinessServiceImp implements BusinessService {
         Replacement replacement = replacementRepository.getReferenceById(1L);
 
         Business business = new Business();
-        business.setStatus("active");
+        business.setStatus(0);
         business.setSubscriptionType("junior");
         // Check if the map contains the required keys before setting the fields
         if (businessMap.containsKey("name")) {
@@ -253,7 +253,7 @@ public class BusinessServiceImp implements BusinessService {
         }
         business.setTermsConditions(replacement.getTermsConditions());
 
-        business.setStatus("active");
+        business.setStatus(0);
         business.setSubscriptionType("junior");
         return business;
     }
@@ -308,7 +308,7 @@ public class BusinessServiceImp implements BusinessService {
                 business.setTermsConditions(replacement.getTermsConditions());
 
 
-                business.setStatus("active");
+                business.setStatus(0);
                 business.setSubscriptionType("junior");
 
                 businessRepositoryByEmail = businessRepository.save(business);
@@ -343,7 +343,7 @@ public class BusinessServiceImp implements BusinessService {
 
     @Override
     public ResponseEntity<String> active(Long id) {
-        businessRepository.active(id, "active");
+        businessRepository.active(id, 1);
         return new ResponseEntity<>("done", HttpStatus.OK);
     }
 

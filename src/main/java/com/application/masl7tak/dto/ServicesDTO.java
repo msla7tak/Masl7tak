@@ -46,7 +46,7 @@ public class ServicesDTO {
     public ServicesDTO(Long id, double discount_value,String service_images, String creationDate, String validUntil,float rate, Long category_id,Long model_id, Long brand_id,
                        Long business_id, String business_name, int quantity, String category_name,
                        String is_available, Long id_p, String name, String description, double price, String image,
-                      String email, String status, String subscriptionType,
+                      String email, int status, String subscriptionType,
                        String businessDescription, String logo
                        ,double start_discount_val,Long numberOfComments,double readme_num,int max_usage,String working_days, int schedule_mode) {
         this.id = id;
@@ -72,7 +72,7 @@ public class ServicesDTO {
  public ServicesDTO(double visit_num,Long id, double discount_value,String service_images, String creationDate, String validUntil,float rate, Long category_id,Long model_id, Long brand_id,
                        Long business_id, String business_name, int quantity, String category_name,
                        String is_available, Long id_p, String name, String description, double price, String image,
-                      String email, String status, String subscriptionType,
+                      String email, int status, String subscriptionType,
                        String businessDescription, String logo
                        ,double start_discount_val,Long numberOfComments,double readme_num,int max_usage,String working_days, int schedule_mode) {
         this.id = id;
@@ -123,7 +123,7 @@ public class ServicesDTO {
     public ServicesDTO(Long id, double discount_value,String service_images, String creationDate, String validUntil,float rate, Long category_id,Long model_id, Long brand_id,
                        Long business_id, String business_name, int quantity, String category_name,
                        String is_available, Long id_p, String name, String description, double price, String image,
-                       String email, String status, String subscriptionType,
+                       String email, int status, String subscriptionType,
                        String businessDescription, String logo
             ,double start_discount_val,Long numberOfComments,double readme_num,int max_usage,String working_days, int schedule_mode,String brand_name,Long event_id) {
         this.id = id;

@@ -20,7 +20,7 @@ public class BusinessDTO {
     private Long id;
     private String name;
     private String email;
-    private String status;
+    private int status;
     private String subscriptionType;
     private String description;
     private Long service_type_id;
@@ -36,7 +36,7 @@ public class BusinessDTO {
 
 
 
-    public BusinessDTO(Long id, String name,  String email, String status, String subscriptionType,
+    public BusinessDTO(Long id, String name,  String email, int status, String subscriptionType,
                        String description, String logo, Long productCount,
                        double start_discount_val, float rate, Long service_type, Long branches,double visits_num,String working_days) {
         this.id = id;
@@ -53,7 +53,7 @@ public class BusinessDTO {
         this.service_type_id = service_type;
         this.rate = rate;
         this.visits_num = visits_num;
-    }    public BusinessDTO(Long id, String name,  String email, String status, String subscriptionType,
+    }    public BusinessDTO(Long id, String name,  String email, int status, String subscriptionType,
                        String description, String logo, Long productCount,
                        double start_discount_val, float rate, Long service_type, Long branches,double visits_num,String working_days,String termsConditions) {
         this.id = id;
@@ -73,7 +73,7 @@ public class BusinessDTO {
         this.termsConditions = termsConditions;
     }
 
-    public BusinessDTO(Long id, String name,  String email, String status, String subscriptionType,
+    public BusinessDTO(Long id, String name,  String email, int status, String subscriptionType,
                        String description, String logo ,double start_discount_val,String working_days) {
         this.id = id;
         this.name = name;

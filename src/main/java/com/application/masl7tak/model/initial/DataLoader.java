@@ -257,7 +257,7 @@ public class DataLoader implements CommandLineRunner {
         business.setName("فيلو");
 
         business.setEmail("1newbusiness@example.com");
-        business.setStatus("active");
+        business.setStatus(0);
         business.setSubscriptionType("Premium");
         business.setDescription("خدمات غسيل السيارات");
         business.setLogo("allianz.png");
@@ -278,7 +278,7 @@ public class DataLoader implements CommandLineRunner {
 
         business = new Business();
 
-        business.setStatus("active");
+        business.setStatus(0);
         business.setSubscriptionType("Premium");
         business.setLogo("ff.png");
         //("https://maps.google.com/location_link");
@@ -306,7 +306,7 @@ public class DataLoader implements CommandLineRunner {
 
         business = new Business();
 
-        business.setStatus("active");
+        business.setStatus(0);
         business.setSubscriptionType("Premium");
         business.setLogo("Group.png");
         //("123 Main St, New York, NY");
@@ -334,7 +334,7 @@ public class DataLoader implements CommandLineRunner {
 
         business = new Business();
 
-        business.setStatus("active");
+        business.setStatus(0);
         business.setSubscriptionType("Premium");
         business.setLogo("Mask group.png");
         business.setTermsConditions("حقيقة مثبتة منذ زمن طويل وهي أن المحتوى المقروء لصفحة ما سيلهي القارئ عن التركيز على الشكل" +
@@ -362,7 +362,7 @@ public class DataLoader implements CommandLineRunner {
 
         business = new Business();
 
-        business.setStatus("active");
+        business.setStatus(0);
         business.setSubscriptionType("Premium");
         business.setLogo("ff.png");
         //("https://maps.google.com/location_link");
@@ -390,7 +390,7 @@ public class DataLoader implements CommandLineRunner {
 
         business = new Business();
 
-        business.setStatus("active");
+        business.setStatus(0);
         business.setSubscriptionType("Premium");
         business.setLogo("allianz.png");
         //("https://maps.google.com/location_link");
@@ -418,7 +418,7 @@ public class DataLoader implements CommandLineRunner {
 
         business = new Business();
 
-        business.setStatus("active");
+        business.setStatus(0);
         business.setSubscriptionType("Premium");
         //("https://maps.google.com/location_link");
         business.setLogo("Group.png");
@@ -446,7 +446,7 @@ public class DataLoader implements CommandLineRunner {
 
         business = new Business();
 
-        business.setStatus("active");
+        business.setStatus(0);
         //("https://maps.google.com/location_link");
         business.setSubscriptionType("Premium");
         business.setLogo("Mask group.png");
@@ -474,7 +474,7 @@ public class DataLoader implements CommandLineRunner {
 
         business = new Business();
 
-        business.setStatus("active");
+        business.setStatus(0);
         //("https://maps.google.com/location_link");
         business.setSubscriptionType("Premium");
         business.setLogo("Group.png");
@@ -502,7 +502,7 @@ public class DataLoader implements CommandLineRunner {
 
         business = new Business();
 
-        business.setStatus("active");
+        business.setStatus(0);
         business.setTermsConditions("حقيقة مثبتة منذ زمن طويل وهي أن المحتوى المقروء لصفحة ما سيلهي القارئ عن التركيز على الشكل" +
                 " الخارجي للنص أو شكل توضع الفقرات في الصفحة التي يقرأها.   ولذلك يتم استخدام طريقة لوريم" +
                 " إيبسوم لأنها تعطي توزيعاَ طبيعياَ -إلى حد ما- للأحرف عوضاً عن استخدام هنا يوجد محتوى نصي، هنا يوجد" +
@@ -530,7 +530,7 @@ public class DataLoader implements CommandLineRunner {
 
         business = new Business();
 
-        business.setStatus("active");
+        business.setStatus(0);
         business.setTermsConditions("حقيقة مثبتة منذ زمن طويل وهي أن المحتوى المقروء لصفحة ما سيلهي القارئ عن التركيز على الشكل" +
                 " الخارجي للنص أو شكل توضع الفقرات في الصفحة التي يقرأها.   ولذلك يتم استخدام طريقة لوريم" +
                 " إيبسوم لأنها تعطي توزيعاَ طبيعياَ -إلى حد ما- للأحرف عوضاً عن استخدام هنا يوجد محتوى نصي، هنا يوجد" +

@@ -32,7 +32,7 @@ public class Business implements Serializable {
     private String email;
 
     @Column(name = "status")
-    private String status;
+    private int status=0;
     @Column(name = "service_count")
     private Long service_count=0L;
     @Column(name = "subscriptionType")
