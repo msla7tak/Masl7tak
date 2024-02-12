@@ -29,6 +29,8 @@ public interface ServicesAPI {
 
     @GetMapping("public/services/{id}")
     public ResponseEntity<ServicesDTO> findById(@PathVariable Long id);
+    @GetMapping("admin/services/{id}")
+    public ResponseEntity<ServicesDTO> findByIdAdmin(@PathVariable Long id);
     @CrossOrigin(origins = "http://127.0.0.1:5500")
 
     @PostMapping("business/services")

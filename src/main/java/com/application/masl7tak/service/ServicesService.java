@@ -43,4 +43,6 @@ public interface ServicesService {
     ResponseEntity<Object> findAllBusinessServices(Long id);
 
     ResponseEntity<Object> findAllEventServices(Long id);
+
+    ResponseEntity<ServicesDTO> findByIdAdmin(Long id);
 }

@@ -96,14 +96,32 @@ public class ServicesServiceImp implements ServicesService {
     }
 
     @Override
+    public ResponseEntity<ServicesDTO> findByIdAdmin(Long id) {
+        try {
+//            servicesRepository.visits_num(id);
+            ServicesDTO service = servicesRepository.findByIdAdmin(id);
+
+            service.setCarBrandEntities(servicesRepository.findBrand(service.getId()));
+            service.setCarModelEntities(servicesRepository.findModel(service.getId()));
+            return new ResponseEntity<ServicesDTO>(service, HttpStatus.OK);
+
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+
+        return new ResponseEntity<>(new ServicesDTO(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @Override
     public ResponseEntity<Services> save(Services services) {
         try {
 
 //                businessRepository.updateStartDiscountVal(services.getBusiness().getId(), services.getDiscountValue());
-                Business business = businessRepository.findById(services.getBusiness().getId()).orElseThrow();
-                if (business.getStart_discount_val() < services.getDiscountValue()) {
-                    businessRepository.startDiscountVal(business.getId(), services.getDiscountValue());
-                }
+            Business business = businessRepository.findById(services.getBusiness().getId()).orElseThrow();
+            if (business.getStart_discount_val() < services.getDiscountValue()) {
+                businessRepository.startDiscountVal(business.getId(), services.getDiscountValue());
+            }
             businessRepository.serviceCount(business.getId());
 
 
@@ -157,13 +175,13 @@ public class ServicesServiceImp implements ServicesService {
             Page<ServicesDTO> servicesDTOSPage = null;
             if (carBrand == null) {
                 servicesDTOSPage = servicesRepository.findServicesByCriteria(
-                         eventOfferId, businessId, categoryId, regionId, cityId, rate,
+                        eventOfferId, businessId, categoryId, regionId, cityId, rate,
                         minDiscountValue, maxDiscountValue, searchKey,
                         currentDate, PageRequest.of(criteria.getOffset(), pageSize));
             }
             if (carBrand != null) {
                 servicesDTOSPage = servicesRepository.findServicesByCriteriaModel(
-                         eventOfferId, businessId, categoryId, regionId, cityId, rate,
+                        eventOfferId, businessId, categoryId, regionId, cityId, rate,
                         carModel, carBrand, minDiscountValue, maxDiscountValue, searchKey,
                         currentDate, PageRequest.of(criteria.getOffset(), pageSize));
             }
@@ -186,10 +204,10 @@ public class ServicesServiceImp implements ServicesService {
 
 
 //                businessRepository.updateStartDiscountVal(services.getBusiness().getId(), services.getDiscountValue());
-                Business business = businessRepository.findById(services.getBusiness().getId()).orElseThrow();
-                if (business.getStart_discount_val() < services.getDiscountValue()) {
-                    businessRepository.startDiscountVal(business.getId(), services.getDiscountValue());
-                }
+            Business business = businessRepository.findById(services.getBusiness().getId()).orElseThrow();
+            if (business.getStart_discount_val() < services.getDiscountValue()) {
+                businessRepository.startDiscountVal(business.getId(), services.getDiscountValue());
+            }
             businessRepository.serviceCount(business.getId());
 
             services.setImages(amazonS3Controller.uploadFiles(files));
@@ -211,10 +229,10 @@ public class ServicesServiceImp implements ServicesService {
 
             Long businessId = productService.getBusiness().getId();
 
-                Business business = businessRepository.findById(businessId).orElseThrow();
-                if (business.getStart_discount_val() < productService.getDiscountValue()) {
-                    businessRepository.startDiscountVal(business.getId(), productService.getDiscountValue());
-                }
+            Business business = businessRepository.findById(businessId).orElseThrow();
+            if (business.getStart_discount_val() < productService.getDiscountValue()) {
+                businessRepository.startDiscountVal(business.getId(), productService.getDiscountValue());
+            }
 
             businessRepository.serviceCount(business.getId());
 
@@ -312,14 +330,13 @@ public class ServicesServiceImp implements ServicesService {
             log.info("Category Name: " + category.getName());
 
 
-
             servicesRepository.update(productService.getId(), image, productService.getDiscountValue(), productService.getCarBrand(),
                     productService.getCarModel(), productService.getMax_usage(),
                     productService.getValidUntil(), productService.getIs_available(), productService.schedule_mode, ID);
 
             Services service = servicesRepository.findById(productService.getId()).get();
             Business business = businessRepository.findById(service.business.getId()).orElseThrow();
-            if (business.getStart_discount_val()< service.getDiscountValue()) {
+            if (business.getStart_discount_val() < service.getDiscountValue()) {
                 businessRepository.startDiscountVal(business.getId(), service.getDiscountValue());
             }
             servicesRepository.clearCarBrandEntities(service.getId());
@@ -397,7 +414,7 @@ public class ServicesServiceImp implements ServicesService {
             Long businessId = productService.getBusiness().getId();
 
             Business business = businessRepository.findById(businessId).orElseThrow();
-            if (business.getStart_discount_val()< productService.getDiscountValue()) {
+            if (business.getStart_discount_val() < productService.getDiscountValue()) {
                 businessRepository.startDiscountVal(business.getId(), productService.getDiscountValue());
             }
             businessRepository.serviceCount(business.getId());

@@ -48,6 +48,12 @@ public class ServicesController implements ServicesAPI {
     public ResponseEntity<ServicesDTO> findById(@PathVariable Long id) {
         return servicesService.findById(id);
     }
+
+    @Override
+    public ResponseEntity<ServicesDTO> findByIdAdmin(Long id) {
+        return servicesService.findByIdAdmin(id);
+    }
+
     @Override
     public ResponseEntity<Object> findAllBusinessServices(Long id) {
         return servicesService.findAllBusinessServices(id);
