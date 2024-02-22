@@ -31,6 +31,10 @@ public class Services implements Serializable {
 
     @Column(name = "creation_date")
     private String creationDate;
+    @Column(name = "vista_service_url")
+    private String vista_service_url;
+    @Column(name = "vista_service_code")
+    private String vista_service_code;
 
     @Column(name = "valid_until")
     private String validUntil;

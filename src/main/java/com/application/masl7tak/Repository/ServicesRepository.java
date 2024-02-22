@@ -28,7 +28,7 @@ public interface ServicesRepository extends JpaRepository<Services, Long> {
     Long findMaxValueField();
     @Query("SELECT  new com.application.masl7tak.dto.ServicesDTO(S.visit_num,S.id, S.discountValue,S.images, S.creationDate, S.validUntil, S.rate, S.category.id, " +
             "S.carModel, S.carBrand, S.business.id, B.name, S.quantity, C.name, S.is_available, P.id, P.name, P.description, P.price, P.image, " +
-            " B.email, B.status, B.subscriptionType, B.description, B.logo, B.start_discount_val,count(R.id),S.readme_num,S.max_usage,B.working_days,S.schedule_mode) " +
+            " B.email, B.status, B.subscriptionType, B.description, B.logo, B.start_discount_val,count(R.id),S.readme_num,S.max_usage,B.working_days,S.schedule_mode,S.vista_service_code,S.vista_service_url) " +
             " FROM Services S " +
             "JOIN S.products P " +
             "JOIN S.business B " +
@@ -38,7 +38,7 @@ public interface ServicesRepository extends JpaRepository<Services, Long> {
     ServicesDTO findBy_Id(@Param("id") Long id);
     @Query("SELECT  new com.application.masl7tak.dto.ServicesDTO(S.visit_num,S.id, S.discountValue,S.images, S.creationDate, S.validUntil, S.rate, S.category.id, " +
             "S.carModel, S.carBrand, S.business.id, B.name, S.quantity, C.name, S.is_available, P.id, P.name, P.description, P.price, P.image, " +
-            " B.email, B.status, B.subscriptionType, B.description, B.logo, B.start_discount_val,count(R.id),S.readme_num,S.max_usage,B.working_days,S.schedule_mode) " +
+            " B.email, B.status, B.subscriptionType, B.description, B.logo, B.start_discount_val,count(R.id),S.readme_num,S.max_usage,B.working_days,S.schedule_mode,S.vista_service_code,S.vista_service_url) " +
             " FROM Services S " +
             "JOIN S.products P " +
             "JOIN S.business B " +
@@ -55,7 +55,7 @@ public interface ServicesRepository extends JpaRepository<Services, Long> {
             "S.carModel, S.carBrand, S.business.id, B.name, S.quantity, " +
             " C.name, S.is_available, " +
             " P.id, P.name, P.description, P.price, P.image,  B.email, B.status, B.subscriptionType," +
-            " B.description,B.logo , B.start_discount_val,S.comments_num,S.readme_num,S.max_usage,B.working_days,S.schedule_mode)" +
+            " B.description,B.logo , B.start_discount_val,S.comments_num,S.readme_num,S.max_usage,B.working_days,S.schedule_mode,S.vista_service_code,S.vista_service_url)" +
             " FROM Services S JOIN " +
             "S.products P " +
             "JOIN S.business B " +
@@ -68,7 +68,7 @@ public interface ServicesRepository extends JpaRepository<Services, Long> {
             " S.carModel, S.carBrand,S.business.id, B.name, S.quantity, " +
             " C.name, S.is_available, " +
             " P.id, P.name, P.description, P.price, P.image,  B.email, B.status, B.subscriptionType," +
-            " B.description,  B.logo , B.start_discount_val,S.comments_num,S.readme_num,S.max_usage,B.working_days,S.schedule_mode)" +
+            " B.description,  B.logo , B.start_discount_val,S.comments_num,S.readme_num,S.max_usage,B.working_days,S.schedule_mode,S.vista_service_code,S.vista_service_url)" +
             " FROM Services S " +
             "JOIN S.products P " +
             "JOIN S.business B " +
@@ -82,7 +82,7 @@ public interface ServicesRepository extends JpaRepository<Services, Long> {
 
     @Query("SELECT DISTINCT new com.application.masl7tak.dto.ServicesDTO(S.id, S.discountValue,S.images, S.creationDate, S.validUntil, S.rate, S.category.id, " +
             "S.carModel, S.carBrand, S.business.id, B.name, S.quantity, C.name, S.is_available, P.id, P.name, P.description, P.price, P.image, " +
-            " B.email, B.status, B.subscriptionType, B.description, B.logo, B.start_discount_val,S.comments_num,S.readme_num,S.max_usage ,B.working_days,S.schedule_mode) " +
+            " B.email, B.status, B.subscriptionType, B.description, B.logo, B.start_discount_val,S.comments_num,S.readme_num,S.max_usage ,B.working_days,S.schedule_mode,S.vista_service_code,S.vista_service_url) " +
             "FROM Services S " +
             "JOIN S.products P " +
             "JOIN S.business B " +
@@ -114,7 +114,8 @@ public interface ServicesRepository extends JpaRepository<Services, Long> {
                                              PageRequest offset);
     @Query("SELECT DISTINCT new com.application.masl7tak.dto.ServicesDTO(S.id, S.discountValue,S.images, S.creationDate, S.validUntil, S.rate, S.category.id, " +
             "S.carModel, S.carBrand, S.business.id, B.name, S.quantity, C.name, S.is_available, P.id, P.name, P.description, P.price, P.image, " +
-            " B.email, B.status, B.subscriptionType, B.description, B.logo, B.start_discount_val,S.comments_num,S.readme_num,S.max_usage ,B.working_days,S.schedule_mode) " +
+            " B.email, B.status, B.subscriptionType, B.description, B.logo, B.start_discount_val,S.comments_num,S.readme_num,S.max_usage ,B.working_days" +
+            ",S.schedule_mode,S.vista_service_code,S.vista_service_url) " +
             "FROM Services S " +
             "JOIN S.products P " +
             "JOIN S.business B " +
@@ -158,7 +159,8 @@ public interface ServicesRepository extends JpaRepository<Services, Long> {
     void updateRate(Float rate, Long readmeId);
     @Query("SELECT DISTINCT new com.application.masl7tak.dto.ServicesDTO(S.id, S.discountValue,S.images, S.creationDate, S.validUntil, S.rate, S.category.id, " +
             "S.carModel, S.carBrand, S.business.id, B.name, S.quantity, C.name, S.is_available, P.id, P.name, P.description, P.price, P.image, " +
-            " B.email, B.status, B.subscriptionType, B.description, B.logo, B.start_discount_val,S.comments_num,S.readme_num,S.max_usage ,B.working_days,S.schedule_mode,((SELECT C.name from CarBrand C where S.carBrand= C.id )),S.eventOffers.id) " +
+            " B.email, B.status, B.subscriptionType, B.description, B.logo, B.start_discount_val" +
+            ",S.comments_num,S.readme_num,S.max_usage ,B.working_days,S.schedule_mode,((SELECT C.name from CarBrand C where S.carBrand= C.id )),S.eventOffers.id,S.vista_service_code,S.vista_service_url) " +
             "FROM Services S " +
             "JOIN S.products P " +
             "JOIN S.business B " +
@@ -227,7 +229,8 @@ public interface ServicesRepository extends JpaRepository<Services, Long> {
             "S.carModel, S.carBrand, S.business.id, B.name, S.quantity, " +
             "C.name, S.is_available, " +
             "P.id, P.name, P.description, P.price, P.image, B.email, B.status, B.subscriptionType, " +
-            "B.description, B.logo, B.start_discount_val, S.comments_num, S.readme_num, S.max_usage, B.working_days, S.schedule_mode) " +
+            "B.description, B.logo, B.start_discount_val, S.comments_num, S.readme_num, S.max_usage, B.working_days," +
+            " S.schedule_mode,S.vista_service_code,S.vista_service_url) " +
             "FROM Services S " +
             "JOIN S.products P " +
             "JOIN S.business B " +
@@ -260,7 +263,7 @@ public interface ServicesRepository extends JpaRepository<Services, Long> {
                 " B.email, B.status, B.subscriptionType, B.description, B.logo, " +
         "B.start_discount_val,S.comments_num,S.readme_num,S.max_usage " +
         ",B.working_days,S.schedule_mode," +
-        "((SELECT C.name from CarBrand C where S.carBrand= C.id )),S.eventOffers.id) " +
+        "((SELECT C.name from CarBrand C where S.carBrand= C.id )),S.eventOffers.id,S.vista_service_code,S.vista_service_url) " +
                 "FROM Services S  " +
                 "JOIN S.business B on B.id = :id " +
                 "JOIN S.business.branches Br " +
@@ -273,7 +276,7 @@ public interface ServicesRepository extends JpaRepository<Services, Long> {
             " B.email, B.status, B.subscriptionType, B.description, B.logo, " +
             "B.start_discount_val,S.comments_num,S.readme_num,S.max_usage " +
             ",B.working_days,S.schedule_mode," +
-            "((SELECT C.name from CarBrand C where S.carBrand= C.id )),S.eventOffers.id) " +
+            "((SELECT C.name from CarBrand C where S.carBrand= C.id )),S.eventOffers.id,S.vista_service_code,S.vista_service_url) " +
             "FROM Services S  " +
             "JOIN S.business B " +
             "JOIN S.business.branches Br " +
@@ -282,7 +285,7 @@ public interface ServicesRepository extends JpaRepository<Services, Long> {
     List<ServicesDTO> findAllEventServices(Long id);
     @Query("SELECT  new com.application.masl7tak.dto.ServicesDTO(S.visit_num,S.id, S.discountValue,S.images, S.creationDate, S.validUntil, S.rate, S.category.id, " +
             "S.carModel, S.carBrand, S.business.id, B.name, S.quantity, C.name, S.is_available, P.id, P.name, P.description, P.price, P.image, " +
-            " B.email, B.status, B.subscriptionType, B.description, B.logo, B.start_discount_val,count(R.id),S.readme_num,S.max_usage,B.working_days,S.schedule_mode) " +
+            " B.email, B.status, B.subscriptionType, B.description, B.logo, B.start_discount_val,count(R.id),S.readme_num,S.max_usage,B.working_days,S.schedule_mode,S.vista_service_code,S.vista_service_url) " +
             " FROM Services S " +
             "JOIN S.products P " +
             "JOIN S.business B " +
