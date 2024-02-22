@@ -54,6 +54,10 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
 
+            if (userDetails == null) {
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid token");
+                return;
+            }
 
             if (jwtService.isTokenValid(jwtToken, userDetails)) {
 
@@ -65,18 +69,15 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                         );
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authToken);
-            }
-            else {
+            } else {
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid token");
                 return;
             }
-
         }
 
         filterChain.doFilter(request, response);
-
-
     }
+
 
 
     public boolean isAdmin() {
