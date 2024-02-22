@@ -66,6 +66,10 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }
+            else {
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid token");
+                return;
+            }
 
         }
 
