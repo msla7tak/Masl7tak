@@ -110,7 +110,8 @@ public class ServicesDTO {
 
 
     public ServicesDTO(Long id, double discount_value,String service_images, Long brand_id, Long model_id, int quantity, String creationDate,
-                       String validUntil, String is_available, float rate, Long category_id,Long numberOfComments,double readme_num,int max_usage, int schedule_mode,   String vista_service_url,
+                       String validUntil, String is_available, float rate, Long category_id,Long numberOfComments,double readme_num,int max_usage, int schedule_mode,
+                       String vista_service_url,
                        String vista_service_code) {
         this.id = id;
         this.discount_value = discount_value;
