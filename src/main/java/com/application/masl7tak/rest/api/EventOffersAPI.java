@@ -15,6 +15,8 @@ public interface EventOffersAPI {
     public ResponseEntity<List<EventOffersDTO>>findAll();
     @GetMapping("public/event-offers/business-events")
     public ResponseEntity<List<EventOffersDTO>>findAllBusinessEvents();
+    @GetMapping("public/event-offers/services-event")
+    public ResponseEntity<List<EventOffersDTO>>findAllServicesEvents();
 
     @GetMapping("public/event-offers/{id}")
     public ResponseEntity <EventOffersDTO> findById(@PathVariable Long id);

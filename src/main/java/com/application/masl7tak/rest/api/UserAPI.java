@@ -25,7 +25,7 @@ public interface UserAPI {
     public ResponseEntity<Object> Social_login (@RequestBody(required = true) Map<String, String> requestMap);
 
     @GetMapping(path = "admin/user/alluser")
-    public ResponseEntity<List<UserDTO>> getAllUser();
+    public ResponseEntity<List<UserDTO>> getAllUser( @RequestParam(value = "offset", required = false) int offset);
     @GetMapping(path = "admin/user/all")
     public ResponseEntity<List<UserDTO>> getAll();
     @GetMapping(path = "admin/user/lastRegisteredUsers")

@@ -82,10 +82,10 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public ResponseEntity<List<UserDTO>> getAllUser() {
+    public ResponseEntity<List<UserDTO>> getAllUser(int offset) {
         try {
             if (jwtAuthFilter.isAdmin())
-                return new ResponseEntity<>(userRepository.getAllUser(), HttpStatus.OK);
+                return new ResponseEntity<>(userRepository.getAllUser(PageRequest.of(offset, 10)), HttpStatus.OK);
             else
 //                log.info(""+jwtAuthFilter.isAdmin());
                 return new ResponseEntity<>(new ArrayList<>(), HttpStatus.UNAUTHORIZED);

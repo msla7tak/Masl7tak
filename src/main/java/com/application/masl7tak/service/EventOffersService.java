@@ -18,4 +18,7 @@ public interface EventOffersService {
     public void deleteById(Long id);
 
     ResponseEntity<List<EventOffersDTO>> findAllBusinessEvents();
+
+    ResponseEntity<List<EventOffersDTO>> findAllServicesEvents();
+
 }

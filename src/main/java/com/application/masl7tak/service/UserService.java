@@ -14,7 +14,7 @@ public interface UserService {
 
     ResponseEntity<Object> login(Map<String, String> requestMap);
 
-    ResponseEntity<List<UserDTO>> getAllUser();
+    ResponseEntity<List<UserDTO>> getAllUser(int offset);
     ResponseEntity<List<UserDTO>> lastRegisteredUsers();
 
     ResponseEntity<Object> changePassword(Map<String, String> requestmap);

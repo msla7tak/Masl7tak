@@ -32,7 +32,7 @@ public interface UserRepository extends JpaRepository<User,Long> {
     @Query( "SELECT new com.application.masl7tak.dto.UserDTO(U.id, U.business_id, U.image, U.name,U.contactNumber, U.email," +
             "                   U.role, U.status, U.points, U.carBrand, U.carModel," +
             "                   U.facebook_id, U.gmail_id, U.invitation_code) FROM  User U ")
-    List<UserDTO> getAllUser();
+    List<UserDTO> getAllUser(PageRequest of);
     @Query( "select U from User U where U.facebook_id=:facebook_id")
     User findByFacebookId(@Param("facebook_id") String facebookId);
     @Query( "select U from User U where U.gmail_id=:gmail_id")

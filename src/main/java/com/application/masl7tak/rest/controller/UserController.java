@@ -75,10 +75,10 @@ public class UserController implements UserAPI {
 
 }
     @Override
-    public ResponseEntity<List<UserDTO>> getAllUser() {
+    public ResponseEntity<List<UserDTO>> getAllUser(int offset) {
         try {
 //            return  ResponseEntity.ok(userService.getAllUser());
-            return userService.getAllUser();
+            return userService.getAllUser( offset);
         } catch (Exception exception) {
             exception.printStackTrace();
         }

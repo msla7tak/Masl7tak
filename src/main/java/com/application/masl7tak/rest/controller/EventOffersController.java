@@ -32,6 +32,11 @@ public class EventOffersController implements EventOffersAPI {
     }
 
     @Override
+    public ResponseEntity<List<EventOffersDTO>> findAllServicesEvents() {
+        return productEventOffersService.findAllServicesEvents();
+    }
+
+    @Override
     public ResponseEntity <EventOffersDTO> findById(@PathVariable Long id) {
         return productEventOffersService.findById(id);
     }

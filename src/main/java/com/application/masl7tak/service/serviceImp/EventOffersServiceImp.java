@@ -34,7 +34,7 @@ public class EventOffersServiceImp implements EventOffersService {
         {
             exception.printStackTrace();
         }
-        return new ResponseEntity<>( new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>( new ArrayList<>(), HttpStatus.BAD_REQUEST);
 
     }
 
@@ -47,7 +47,7 @@ public class EventOffersServiceImp implements EventOffersService {
         {
             exception.printStackTrace();
         }
-        return new ResponseEntity<>( new EventOffersDTO(), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>( new EventOffersDTO(), HttpStatus.BAD_REQUEST);
 
     }
 
@@ -60,7 +60,7 @@ public class EventOffersServiceImp implements EventOffersService {
     {
         exception.printStackTrace();
     }
-        return new ResponseEntity<>( new EventOffers(), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>( new EventOffers(), HttpStatus.BAD_REQUEST);
 
 }
     @Override
@@ -79,5 +79,19 @@ public class EventOffersServiceImp implements EventOffersService {
         {
             exception.printStackTrace();
         }
-        return new ResponseEntity<>( new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);    }
+        return new ResponseEntity<>( new ArrayList<>(), HttpStatus.BAD_REQUEST);    }
+
+    @Override
+    public ResponseEntity<List<EventOffersDTO>> findAllServicesEvents() {
+        try {
+
+            return new ResponseEntity<>(eventOffersRepository.findAllServicesEvents(),HttpStatus.OK);
+
+        }
+        catch (Exception exception)
+        {
+            exception.printStackTrace();
+        }
+        return new ResponseEntity<>( new ArrayList<>(), HttpStatus.BAD_REQUEST);
+    }
 }

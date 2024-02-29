@@ -16,27 +16,28 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="eventOffers")
+@Table(name = "eventOffers")
 public class EventOffers implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+    @Column(name = "type")
+    private int type = 0;
 
-    @Column(name="event_title ")
+    @Column(name = "event_title ")
     private String event_title;
-    @Column(name="event_sub_title ")
+    @Column(name = "event_sub_title ")
     private String event_sub_title;
 
-    @Column(name="image")
+    @Column(name = "image")
     private String image;
     @OneToMany(mappedBy = "eventOffers", cascade = CascadeType.ALL)
     private List<Services> services;
 
-    @ManyToOne(cascade = CascadeType.MERGE, fetch=FetchType.LAZY)
-    @JoinColumn(name="business_id", referencedColumnName = "id")
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @JoinColumn(name = "business_id", referencedColumnName = "id")
     public Business business;
-
 
 
 //    @Column(name = "description")
