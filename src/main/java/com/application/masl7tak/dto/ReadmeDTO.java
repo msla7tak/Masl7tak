@@ -49,7 +49,7 @@ public class ReadmeDTO {
     private int confirm_date;
     private int confirm_invoice;
     private int schedule_mode;
-
+    private String vista_service_code;
 
 
     public ReadmeDTO(Long id, Long services_id, Long user_id, String schedule_date, String schedule_time, String service_name, Double service_discount,
@@ -57,7 +57,8 @@ public class ReadmeDTO {
                      String branch_openTime, String branch_closureTime,
                String service_expiration,
                      String readme_date, String stateName, Boolean invoiced, Boolean comment,
-                     String total_invoice,int confirm_date,int confirm_invoice ,String reason,int schedule_mode,String comment_str,Double promo_code_discount,String promo_code) {
+                     String total_invoice,int confirm_date,int confirm_invoice ,String reason,int schedule_mode,String comment_str,
+                     Double promo_code_discount,String promo_code,String vista_service_code) {
         this.id = id;
         this.services_id = services_id;
         this.user_id = user_id;
@@ -72,6 +73,7 @@ public class ReadmeDTO {
         this.branch_phone_number = branch_phone_number;
         this.branch_openTime = branch_openTime;
         this.branch_closureTime = branch_closureTime;
+        this.vista_service_code = vista_service_code;
 
         this.service_expiration = service_expiration;
         this.business_name = business_name;
@@ -96,7 +98,7 @@ public class ReadmeDTO {
                    String service_expiration,
                      String readme_date, String stateName, Boolean invoiced, Boolean comment,
                      String total_invoice,String invoiced_path, int confirm_date,int confirm_invoice,String reason,
-                     int schedule_mode,String comment_str,Double promo_code_discount, String promo_code) {
+                     int schedule_mode,String comment_str,Double promo_code_discount, String promo_code,String vista_service_code) {
         this.id = id;
         this.services_id = services_id;
         this.user_id = user_id;
@@ -111,6 +113,7 @@ public class ReadmeDTO {
         this.branch_phone_number = branch_phone_number;
         this.branch_openTime = branch_openTime;
         this.branch_closureTime = branch_closureTime;
+        this.vista_service_code = vista_service_code;
 
         this.service_expiration = service_expiration;
         this.business_name = business_name;
@@ -154,7 +157,8 @@ public class ReadmeDTO {
                      String branch_openTime, String branch_closureTime,
                      String service_expiration,
                      String readme_date, String stateName, Boolean invoiced, Boolean comment,
-                     String total_invoice,int confirm_date,int confirm_invoice ,String reason,int schedule_mode,String comment_str,Double promo_code_discount, String promo_code) {
+                     String total_invoice,int confirm_date,int confirm_invoice ,String reason,
+                     int schedule_mode,String comment_str,Double promo_code_discount, String promo_code,String vista_service_code) {
         this.id = id;
         this.services_id = services_id;
         this.user_id = user_id;
@@ -169,6 +173,7 @@ public class ReadmeDTO {
         this.branch_phone_number = branch_phone_number;
         this.branch_openTime = branch_openTime;
         this.branch_closureTime = branch_closureTime;
+        this.vista_service_code = vista_service_code;
 
         this.service_expiration = service_expiration;
         this.business_name = business_name;

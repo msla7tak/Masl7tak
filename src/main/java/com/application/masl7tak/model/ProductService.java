@@ -23,6 +23,7 @@ public class ProductService {
     private String creationDate;
     private String validUntil;
     private String is_available;
+    private String vista_service_url_ios;
     private int quantity;
     private Long carBrand;
     private Long carModel;
