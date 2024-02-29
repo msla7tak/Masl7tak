@@ -31,12 +31,12 @@ public class Services implements Serializable {
 
     @Column(name = "creation_date")
     private String creationDate;
-    @Column(name = "vista_service_url_android")
-    private String vista_service_url_android;
-    @Column(name = "vista_service_url_ios")
-    private String vista_service_url_ios;
-    @Column(name = "vista_service_code")
-    private String vista_service_code;
+    @Column(name = "business_app_url_android")
+    private String business_app_url_android;
+    @Column(name = "business_app_url_ios")
+    private String business_app_url_ios;
+    @Column(name = "business_app_promo_code")
+    private String business_app_promo_code;
 
     @Column(name = "valid_until")
     private String validUntil;

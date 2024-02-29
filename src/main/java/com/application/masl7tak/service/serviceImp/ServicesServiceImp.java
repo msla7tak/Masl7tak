@@ -263,9 +263,9 @@ public class ServicesServiceImp implements ServicesService {
             service.setValidUntil(productService.getValidUntil());
             service.setIs_available(productService.getIs_available());
             service.setMax_usage(productService.getMax_usage());
-            service.setVista_service_code(productService.getVista_service_code());
-            service.setVista_service_url_android(productService.getVista_service_url_android());
-            service.setVista_service_url_ios(productService.getVista_service_url_ios());
+            service.setBusiness_app_promo_code(productService.getBusiness_app_promo_code());
+            service.setBusiness_app_url_android(productService.getBusiness_app_url_android());
+            service.setBusiness_app_url_ios(productService.getBusiness_app_url_ios());
             service.setMax_usage(productService.getMax_usage());
             service.setRate(5);
             service.setIs_available("false");
@@ -407,9 +407,9 @@ public class ServicesServiceImp implements ServicesService {
             service.setCarModel(productService.getCarModel());
             Long ID = productService.getCategoryId();
             Category category = categoryRepository.findById(ID).orElse(null);
-            service.setVista_service_code(productService.getVista_service_code());
-            service.setVista_service_url_android(productService.getVista_service_url_android());
-            service.setVista_service_url_ios(productService.getVista_service_url_ios());
+            service.setBusiness_app_promo_code(productService.getBusiness_app_promo_code());
+            service.setBusiness_app_url_android(productService.getBusiness_app_url_android());
+            service.setBusiness_app_url_ios(productService.getBusiness_app_url_ios());
 
             service.setCategory(category);
             service.setQuantity(productService.getQuantity());

@@ -81,7 +81,7 @@ public class ReadmeServiceImp implements ReadmeService {
     public ResponseEntity<Object> save(Readme readme) {
         try {
             ServicesDTO servicesDTO = servicesRepository.findBy_Id(readme.getServices().getId());
-            readme.setVista_service_code(servicesDTO.getVista_service_code());
+            readme.setBusiness_app_promo_code(servicesDTO.getBusiness_app_promo_code());
             PromoCode promoCode = promoCodeRepository.findByCode(readme.getPromo_code()).orElse(null);
             if (servicesDTO.getReadme_num() < servicesDTO.getMax_usage()) {
                 LocalDate today = LocalDate.now();

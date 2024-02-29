@@ -23,7 +23,7 @@ public class ProductService {
     private String creationDate;
     private String validUntil;
     private String is_available;
-    private String vista_service_url_ios;
+    private String business_app_url_ios;
     private int quantity;
     private Long carBrand;
     private Long carModel;
@@ -36,8 +36,8 @@ public class ProductService {
     public Long categoryId;
     public int schedule_mode;
     private Category category;
-    private String vista_service_url_android;
-    private String vista_service_code;
+    private String business_app_url_android;
+    private String business_app_promo_code;
 
     private List<CarBrandEntity> carBrandEntities;
     public List<Long> getAllBrandIds() {
