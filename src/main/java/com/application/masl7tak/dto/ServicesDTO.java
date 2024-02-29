@@ -1,17 +1,9 @@
 package com.application.masl7tak.dto;
 
-import com.application.masl7tak.Repository.ServicesRepository;
-import com.application.masl7tak.model.CarBrandEntity;
-import com.application.masl7tak.model.CarModelEntity;
-import jakarta.persistence.Column;
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Date;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Data
 @Transactional
@@ -37,7 +29,7 @@ public class ServicesDTO {
     private BusinessDTO business;
     private double readme_num;
     private int max_usage;
-    private String vista_service_url;  
+    private String vista_service_url_android;
     private String vista_service_url_ios;
     private String vista_service_code;
     private int schedule_mode;
@@ -52,7 +44,7 @@ public class ServicesDTO {
                       String email, int status, String subscriptionType,
                        String businessDescription, String logo
                        ,double start_discount_val,Long numberOfComments,double readme_num,int max_usage,String working_days, int schedule_mode,
-                       String vista_service_url,
+                       String vista_service_url_android,
      String vista_service_code, String vista_service_url_ios) {
         this.id = id;
         this.discount_value = discount_value;
@@ -71,7 +63,7 @@ public class ServicesDTO {
         this.max_usage = max_usage;
         this.schedule_mode = schedule_mode;
         this.vista_service_code = vista_service_code;
-        this.vista_service_url = vista_service_url;
+        this.vista_service_url_android = vista_service_url_android;
         this.vista_service_url_ios = vista_service_url_ios;
         this.business= new BusinessDTO( business_id,  business_name,    email,  status,  subscriptionType,
                 businessDescription,  logo, start_discount_val, working_days);
@@ -82,7 +74,7 @@ public class ServicesDTO {
                        String is_available, Long id_p, String name, String description, double price, String image,
                       String email, int status, String subscriptionType,
                        String businessDescription, String logo
-                       ,double start_discount_val,Long numberOfComments,double readme_num,int max_usage,String working_days, int schedule_mode   ,String vista_service_url,
+                       ,double start_discount_val,Long numberOfComments,double readme_num,int max_usage,String working_days, int schedule_mode   ,String vista_service_url_android,
                     String vista_service_code,
                     String vista_service_url_ios) {
         this.id = id;
@@ -104,7 +96,7 @@ public class ServicesDTO {
         this.visit_num = visit_num;
      this.vista_service_code = vista_service_code;
      this.vista_service_url_ios = vista_service_url_ios;
-     this.vista_service_url = vista_service_url;
+     this.vista_service_url_android = vista_service_url_android;
         this.business= new BusinessDTO( business_id,  business_name,    email,  status,  subscriptionType,
                 businessDescription,  logo, start_discount_val, working_days);
         this.products = new ProductDTO( id_p,  name,  description,  price,  image);
@@ -115,7 +107,7 @@ public class ServicesDTO {
 
     public ServicesDTO(Long id, double discount_value,String service_images, Long brand_id, Long model_id, int quantity, String creationDate,
                        String validUntil, String is_available, float rate, Long category_id,Long numberOfComments,double readme_num,int max_usage, int schedule_mode,
-                       String vista_service_url,
+                       String vista_service_url_android,
                        String vista_service_code,
                        String vista_service_url_ios) {
         this.id = id;
@@ -130,7 +122,7 @@ public class ServicesDTO {
         this.rate = rate;
         this.numberOfComments = numberOfComments.toString();
         this.vista_service_code = vista_service_code;
-        this.vista_service_url = vista_service_url;
+        this.vista_service_url_android = vista_service_url_android;
         this.vista_service_url_ios = vista_service_url_ios;
         this.category_id = category_id;
         this.readme_num = readme_num;
@@ -143,7 +135,7 @@ public class ServicesDTO {
                        String email, int status, String subscriptionType,
                        String businessDescription, String logo
             ,double start_discount_val,Long numberOfComments,double readme_num,int max_usage,String working_days, int schedule_mode,String brand_name,Long event_id 
-            , String vista_service_url,
+            , String vista_service_url_android,
                        String vista_service_code,
                        String vista_service_url_ios) {
         this.id = id;
@@ -165,7 +157,7 @@ public class ServicesDTO {
         this.brand_name = brand_name;
         this.event_id = event_id;
         this.vista_service_code = vista_service_code;
-        this.vista_service_url = vista_service_url;
+        this.vista_service_url_android = vista_service_url_android;
         this.vista_service_url_ios = vista_service_url_ios;
         this.business= new BusinessDTO( business_id,  business_name,    email,  status,  subscriptionType,
                 businessDescription,  logo, start_discount_val, working_days);

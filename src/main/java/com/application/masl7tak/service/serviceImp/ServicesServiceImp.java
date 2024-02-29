@@ -264,7 +264,7 @@ public class ServicesServiceImp implements ServicesService {
             service.setIs_available(productService.getIs_available());
             service.setMax_usage(productService.getMax_usage());
             service.setVista_service_code(productService.getVista_service_code());
-            service.setVista_service_url(productService.getVista_service_url());
+            service.setVista_service_url_android(productService.getVista_service_url_android());
             service.setVista_service_url_ios(productService.getVista_service_url_ios());
             service.setMax_usage(productService.getMax_usage());
             service.setRate(5);
@@ -408,7 +408,7 @@ public class ServicesServiceImp implements ServicesService {
             Long ID = productService.getCategoryId();
             Category category = categoryRepository.findById(ID).orElse(null);
             service.setVista_service_code(productService.getVista_service_code());
-            service.setVista_service_url(productService.getVista_service_url());
+            service.setVista_service_url_android(productService.getVista_service_url_android());
             service.setVista_service_url_ios(productService.getVista_service_url_ios());
 
             service.setCategory(category);

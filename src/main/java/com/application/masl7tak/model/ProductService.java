@@ -36,7 +36,7 @@ public class ProductService {
     public Long categoryId;
     public int schedule_mode;
     private Category category;
-    private String vista_service_url;
+    private String vista_service_url_android;
     private String vista_service_code;
 
     private List<CarBrandEntity> carBrandEntities;
