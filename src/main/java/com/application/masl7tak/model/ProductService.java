@@ -19,6 +19,8 @@ public class ProductService {
     private String name;
     private String description;
     private double discountValue;
+    private double price;
+    private Boolean has_price;
     private String images;
     private String creationDate;
     private String validUntil;
