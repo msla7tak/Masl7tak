@@ -10,7 +10,7 @@ import java.util.List;
 @Transactional
 public class ServicesDTO {
 
-    private  double visit_num;
+    private double visit_num;
     private Long id;
     private double discount_value;
     private String service_images;
@@ -41,14 +41,14 @@ public class ServicesDTO {
 
     private List<String> carModelEntities;
 
-    public ServicesDTO(Long id, double discount_value,String service_images, String creationDate, String validUntil,float rate, Long category_id,Long model_id, Long brand_id,
+    public ServicesDTO(Long id, double discount_value, String service_images, String creationDate, String validUntil, float rate, Long category_id, Long model_id, Long brand_id,
                        Long business_id, String business_name, int quantity, String category_name,
                        String is_available, Long id_p, String name, String description, double price, String image,
-                      String email, int status, String subscriptionType,
+                       String email, int status, String subscriptionType,
                        String businessDescription, String logo
-                       ,double start_discount_val,Long numberOfComments,double readme_num,int max_usage,String working_days, int schedule_mode,
+            , double start_discount_val, Long numberOfComments, double readme_num, int max_usage, String working_days, int schedule_mode,
                        String business_app_url_android,
-     String business_app_promo_code, String business_app_url_ios) {
+                       String business_app_promo_code, String business_app_url_ios) {
         this.id = id;
         this.discount_value = discount_value;
         this.creationDate = creationDate;
@@ -61,6 +61,7 @@ public class ServicesDTO {
         this.category_name = category_name;
         this.is_available = is_available;
         this.quantity = quantity;
+        this.price = price;
         this.numberOfComments = numberOfComments.toString();
         this.readme_num = readme_num;
         this.max_usage = max_usage;
@@ -68,18 +69,19 @@ public class ServicesDTO {
         this.business_app_promo_code = business_app_promo_code;
         this.business_app_url_android = business_app_url_android;
         this.business_app_url_ios = business_app_url_ios;
-        this.business= new BusinessDTO( business_id,  business_name,    email,  status,  subscriptionType,
-                businessDescription,  logo, start_discount_val, working_days);
-        this.products = new ProductDTO( id_p,  name,  description,  price,  image);
+        this.business = new BusinessDTO(business_id, business_name, email, status, subscriptionType,
+                businessDescription, logo, start_discount_val, working_days);
+        this.products = new ProductDTO(id_p, name, description, price, image);
     }
- public ServicesDTO(double visit_num,Long id, double discount_value,String service_images, String creationDate, String validUntil,float rate, Long category_id,Long model_id, Long brand_id,
+
+    public ServicesDTO(double visit_num, Long id, double discount_value, String service_images, String creationDate, String validUntil, float rate, Long category_id, Long model_id, Long brand_id,
                        Long business_id, String business_name, int quantity, String category_name,
                        String is_available, Long id_p, String name, String description, double price, String image,
-                      String email, int status, String subscriptionType,
+                       String email, int status, String subscriptionType,
                        String businessDescription, String logo
-                       ,double start_discount_val,Long numberOfComments,double readme_num,int max_usage,String working_days, int schedule_mode   ,String business_app_url_android,
-                    String business_app_promo_code,
-                    String business_app_url_ios) {
+            , double start_discount_val, Long numberOfComments, double readme_num, int max_usage, String working_days, int schedule_mode, String business_app_url_android,
+                       String business_app_promo_code,
+                       String business_app_url_ios) {
         this.id = id;
         this.discount_value = discount_value;
         this.creationDate = creationDate;
@@ -97,19 +99,20 @@ public class ServicesDTO {
         this.max_usage = max_usage;
         this.schedule_mode = schedule_mode;
         this.visit_num = visit_num;
-     this.business_app_promo_code = business_app_promo_code;
-     this.business_app_url_ios = business_app_url_ios;
-     this.business_app_url_android = business_app_url_android;
-        this.business= new BusinessDTO( business_id,  business_name,    email,  status,  subscriptionType,
-                businessDescription,  logo, start_discount_val, working_days);
-        this.products = new ProductDTO( id_p,  name,  description,  price,  image);
+        this.price = price;
+        this.business_app_promo_code = business_app_promo_code;
+        this.business_app_url_ios = business_app_url_ios;
+        this.business_app_url_android = business_app_url_android;
+        this.business = new BusinessDTO(business_id, business_name, email, status, subscriptionType,
+                businessDescription, logo, start_discount_val, working_days);
+        this.products = new ProductDTO(id_p, name, description, price, image);
     }
 
 //
 
 
-    public ServicesDTO(Long id, double discount_value,String service_images, Long brand_id, Long model_id, int quantity, String creationDate,
-                       String validUntil, String is_available, float rate, Long category_id,Long numberOfComments,double readme_num,int max_usage, int schedule_mode,
+    public ServicesDTO(Long id, double discount_value, String service_images, Long brand_id, Long model_id, int quantity, String creationDate,
+                       String validUntil, String is_available, float rate, Long category_id, Long numberOfComments, double readme_num, int max_usage, int schedule_mode,
                        String business_app_url_android,
                        String business_app_promo_code,
                        String business_app_url_ios) {
@@ -123,6 +126,7 @@ public class ServicesDTO {
         this.validUntil = validUntil;
         this.is_available = is_available;
         this.rate = rate;
+        this.price = price;
         this.numberOfComments = numberOfComments.toString();
         this.business_app_promo_code = business_app_promo_code;
         this.business_app_url_android = business_app_url_android;
@@ -132,12 +136,13 @@ public class ServicesDTO {
         this.max_usage = max_usage;
         this.schedule_mode = schedule_mode;
     }
-    public ServicesDTO(Long id, double discount_value,String service_images, String creationDate, String validUntil,float rate, Long category_id,Long model_id, Long brand_id,
+
+    public ServicesDTO(Long id, double discount_value, String service_images, String creationDate, String validUntil, float rate, Long category_id, Long model_id, Long brand_id,
                        Long business_id, String business_name, int quantity, String category_name,
                        String is_available, Long id_p, String name, String description, double price, String image,
                        String email, int status, String subscriptionType,
                        String businessDescription, String logo
-            ,double start_discount_val,Long numberOfComments,double readme_num,int max_usage,String working_days, int schedule_mode,String brand_name,Long event_id 
+            , double start_discount_val, Long numberOfComments, double readme_num, int max_usage, String working_days, int schedule_mode, String brand_name, Long event_id
             , String business_app_url_android,
                        String business_app_promo_code,
                        String business_app_url_ios) {
@@ -159,12 +164,13 @@ public class ServicesDTO {
         this.schedule_mode = schedule_mode;
         this.brand_name = brand_name;
         this.event_id = event_id;
+        this.price = price;
         this.business_app_promo_code = business_app_promo_code;
         this.business_app_url_android = business_app_url_android;
         this.business_app_url_ios = business_app_url_ios;
-        this.business= new BusinessDTO( business_id,  business_name,    email,  status,  subscriptionType,
-                businessDescription,  logo, start_discount_val, working_days);
-        this.products = new ProductDTO( id_p,  name,  description,  price,  image);
+        this.business = new BusinessDTO(business_id, business_name, email, status, subscriptionType,
+                businessDescription, logo, start_discount_val, working_days);
+        this.products = new ProductDTO(id_p, name, description, price, image);
     }
 
     public ServicesDTO() {
