@@ -1,5 +1,6 @@
 package com.application.masl7tak.dto;
 
+import jakarta.persistence.Column;
 import lombok.Data;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +17,8 @@ public class ServicesDTO {
     private String numberOfComments;
     private Long brand_id;
     private Long model_id;
+    private double price;
+    private Boolean has_price;
     private Long event_id;
     private int quantity;
     private String creationDate;

@@ -1,4 +1,5 @@
 package com.application.masl7tak.model;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -15,15 +16,18 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="services")
+@Table(name = "services")
 public class Services implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
     @Column(name = "comments_num")
-    private Long comments_num=0L;
-
+    private Long comments_num = 0L;
+    @Column(name="price")
+    private double price=0;
+    @Column(name="has_price")
+    private Boolean has_price=false;
     @Column(name = "discount_value")
     private double discountValue;
     @Column(name = "images")
@@ -48,20 +52,21 @@ public class Services implements Serializable {
     private Long carBrand;
     @Column(name = "car_model")
     private Long carModel;
-    @Column(name="rate")
-    private float rate=5;
-    @Column(name="readme_num")
-    private double readme_num=0;
-    @Column(name=" visit_num")
-    private double  visit_num =0;
-    @Column(name=" max_usage")
-    private int  max_usage=0;
-    @Column(name="schedule_mode")
-    private int  schedule_mode;
+    @Column(name = "rate")
+    private float rate = 5;
+    @Column(name = "readme_num")
+    private double readme_num = 0;
+    @Column(name = " visit_num")
+    private double visit_num = 0;
+    @Column(name = " max_usage")
+    private int max_usage = 0;
+    @Column(name = "schedule_mode")
+    private int schedule_mode;
 
 
     @OneToMany(mappedBy = "services", cascade = CascadeType.ALL)
     private List<CarBrandEntity> carBrandEntities;
+
     public List<Long> getAllBrandIds() {
         if (carBrandEntities == null) {
             return Collections.emptyList();
@@ -71,8 +76,10 @@ public class Services implements Serializable {
                 .map(CarBrandEntity::aLongcarBrandId)
                 .collect(Collectors.toList());
     }
+
     @OneToMany(mappedBy = "services", cascade = CascadeType.ALL)
     private List<CarModelEntity> carModelEntities;
+
     public List<Long> getAllModelIds() {
         if (carModelEntities == null) {
             return Collections.emptyList();
@@ -83,21 +90,21 @@ public class Services implements Serializable {
                 .collect(Collectors.toList());
     }
 
-//    @ManyToOne(cascade = CascadeType.MERGE, fetch=FetchType.LAZY)
+    //    @ManyToOne(cascade = CascadeType.MERGE, fetch=FetchType.LAZY)
 //    @JoinColumn(name = "user_id", referencedColumnName = "id")
 //    private User user;
-    @ManyToOne(cascade = CascadeType.MERGE, fetch=FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinColumn(name = "products_id", referencedColumnName = "id")
     private Products products;
 
-    @ManyToOne(cascade = CascadeType.MERGE, fetch=FetchType.LAZY)
-    @JoinColumn(name="business_id", referencedColumnName = "id")
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @JoinColumn(name = "business_id", referencedColumnName = "id")
     public Business business;
     @OneToMany(mappedBy = "services", cascade = CascadeType.ALL)
     List<Readme> readme;
 
-    @ManyToOne(cascade = CascadeType.MERGE, fetch=FetchType.LAZY)
-    @JoinColumn(name="eventOffers_id", referencedColumnName = "id")
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @JoinColumn(name = "eventOffers_id", referencedColumnName = "id")
     public EventOffers eventOffers;
 
     @ManyToOne
