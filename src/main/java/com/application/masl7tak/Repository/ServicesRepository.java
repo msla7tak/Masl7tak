@@ -210,10 +210,12 @@ public interface ServicesRepository extends JpaRepository<Services, Long> {
             "s.category_id = COALESCE(:category, s.category_id), " +
             "s.max_usage = COALESCE(:maxUsage, s.max_usage), " +
             "s.valid_until = COALESCE(:validUntil, s.valid_until), " +
+            "s.has_price = COALESCE(:has_price, s.has_price), " +
+            "s.price = COALESCE(:price, s.price), " +
             "s.is_available = COALESCE(:is_available, s.is_available) " +
             "WHERE s.id = :id", nativeQuery = true)
     void update(Long id, String images, double discountValue, Long carBrand, Long carModel,
-                int maxUsage, String validUntil, String is_available, int schedule_mode, Long category);
+                int maxUsage, String validUntil, String is_available, int schedule_mode, Long category,double price,boolean has_price);
 
     @Modifying
     @Query("update Services s set s.readme_num = (s.readme_num +1)  where s.id = :id")

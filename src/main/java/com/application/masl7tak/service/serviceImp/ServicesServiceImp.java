@@ -249,7 +249,7 @@ public class ServicesServiceImp implements ServicesService {
             String formattedDate = today.format(dateFormat);
             service.setCreationDate(formattedDate);
             service.setDiscountValue(productService.getDiscountValue());
-            service.setHas_price(productService.getHas_price());
+            service.setHas_price(productService.isHas_price());
             service.setPrice(productService.getPrice());
             service.setProducts(productRepository.save(products));
             service.setBusiness(productService.getBusiness());
@@ -332,22 +332,18 @@ public class ServicesServiceImp implements ServicesService {
             Long ID = productService.getCategoryId();
             Category category = new Category();
             category.setId(ID);
-            log.info("Category ID: " + ID);
-            log.info("Category Name: " + category.getName());
+
 
 
             servicesRepository.update(productService.getId(), image, productService.getDiscountValue(), productService.getCarBrand(),
                     productService.getCarModel(), productService.getMax_usage(),
-                    productService.getValidUntil(), productService.getIs_available(), productService.schedule_mode, ID);
+                    productService.getValidUntil(), productService.getIs_available(), productService.schedule_mode,
+                    ID,productService.getPrice(),productService.isHas_price());
+
+
 
             Services service = servicesRepository.findById(productService.getId()).get();
-            service.setPrice(productService.getPrice());
-            if (productService.getHas_price() && Boolean.TRUE.equals( productService.getPrice() != 0)) {
-                service.setPrice(productService.getPrice());
-                service.setHas_price(productService.getHas_price());
-                servicesRepository.save(service);
 
-            }
             Business business = businessRepository.findById(service.business.getId()).orElseThrow();
             if (business.getStart_discount_val() < service.getDiscountValue()) {
                 businessRepository.startDiscountVal(business.getId(), service.getDiscountValue());
@@ -403,7 +399,7 @@ public class ServicesServiceImp implements ServicesService {
 
             Services service = new Services();
             service.setBusiness(productService.getBusiness());
-            service.setHas_price(productService.getHas_price());
+            service.setHas_price(productService.isHas_price());
             service.setPrice(productService.getPrice());
             service.setEventOffers(new EventOffers(productService.getEventId()));
             LocalDate today = LocalDate.now();
