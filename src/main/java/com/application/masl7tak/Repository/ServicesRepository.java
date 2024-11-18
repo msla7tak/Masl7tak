@@ -287,7 +287,8 @@ public interface ServicesRepository extends JpaRepository<Services, Long> {
             " B.email, B.status, B.subscriptionType, B.description, B.logo, " +
             "B.start_discount_val,S.comments_num,S.readme_num,S.max_usage " +
             ",B.working_days,S.schedule_mode," +
-            "((SELECT C.name from CarBrand C where S.carBrand= C.id )),S.eventOffers.id,S.business_app_url_android,S.business_app_promo_code,S.business_app_url_ios,S.has_price) " +
+            "((SELECT C.name from CarBrand C where S.carBrand= C.id )),S.eventOffers.id,S.business_app_url_android," +
+            "S.business_app_promo_code,S.business_app_url_ios,S.has_price) " +
             "FROM Services S  " +
             "JOIN S.business B " +
             "JOIN S.business.branches Br " +
@@ -296,7 +297,8 @@ public interface ServicesRepository extends JpaRepository<Services, Long> {
     List<ServicesDTO> findAllEventServices(Long id);
     @Query("SELECT  new com.application.masl7tak.dto.ServicesDTO(S.visit_num,S.id, S.discountValue,S.images, S.creationDate, S.validUntil, S.rate, S.category.id, " +
             "S.carModel, S.carBrand, S.business.id, B.name, S.quantity, C.name, S.is_available, P.id, P.name, P.description, S.price, P.image, " +
-            " B.email, B.status, B.subscriptionType, B.description, B.logo, B.start_discount_val,count(R.id),S.readme_num,S.max_usage,B.working_days,S.schedule_mode," +
+            " B.email, B.status, B.subscriptionType, B.description, B.logo, B.start_discount_val,count(R.id)," +
+            "S.readme_num,S.max_usage,B.working_days,S.schedule_mode," +
             "S.business_app_url_android,S.business_app_promo_code,S.business_app_url_ios,S.has_price) " +
             " FROM Services S " +
             "JOIN S.products P " +

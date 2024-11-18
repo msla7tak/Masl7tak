@@ -521,7 +521,6 @@ public class ServicesServiceImp implements ServicesService {
 
 
         } catch (Exception exception) {
-            exception.printStackTrace();
             return new ResponseEntity<>(Constants.responseMessage(exception, 4101), HttpStatus.BAD_REQUEST);
 
         }
@@ -542,7 +541,6 @@ public class ServicesServiceImp implements ServicesService {
 
 
         } catch (Exception exception) {
-            exception.printStackTrace();
             return new ResponseEntity<>(Constants.responseMessage(exception, 4101), HttpStatus.BAD_REQUEST);
 
         }
