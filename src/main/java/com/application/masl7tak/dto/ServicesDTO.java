@@ -41,7 +41,8 @@ public class ServicesDTO {
 
     private List<String> carModelEntities;
 
-    public ServicesDTO(Long id, double discount_value,String service_images, String creationDate, String validUntil,float rate, Long category_id,Long model_id, Long brand_id,
+    public ServicesDTO(Long id, double discount_value,String service_images, String creationDate, String validUntil,
+                       float rate, Long category_id,Long model_id, Long brand_id,
                        Long business_id, String business_name, int quantity, String category_name,
                        String is_available, Long id_p, String name, String description, double price, String image,
                       String email, int status, String subscriptionType,
@@ -79,7 +80,8 @@ public class ServicesDTO {
                        String is_available, Long id_p, String name, String description, double price, String image,
                       String email, int status, String subscriptionType,
                        String businessDescription, String logo
-                       ,double start_discount_val,Long numberOfComments,double readme_num,int max_usage,String working_days, int schedule_mode   ,String business_app_url_android,
+                       ,double start_discount_val,Long numberOfComments,double readme_num,
+                    int max_usage,String working_days, int schedule_mode   ,String business_app_url_android,
                     String business_app_promo_code,
                     String business_app_url_ios,int has_price) {
         this.id = id;
@@ -114,10 +116,11 @@ public class ServicesDTO {
 
 
     public ServicesDTO(Long id, double discount_value,String service_images, Long brand_id, Long model_id, int quantity, String creationDate,
-                       String validUntil, String is_available, float rate, Long category_id,Long numberOfComments,double readme_num,int max_usage, int schedule_mode,
+                       String validUntil, String is_available,
+                       float rate, Long category_id,Long numberOfComments,double readme_num,int max_usage, int schedule_mode,
                        String business_app_url_android,
                        String business_app_promo_code,
-                       String business_app_url_ios) {
+                       String business_app_url_ios,int has_price) {
         this.id = id;
         this.discount_value = discount_value;
         this.brand_id = brand_id;
@@ -127,6 +130,7 @@ public class ServicesDTO {
         this.creationDate = creationDate;
         this.validUntil = validUntil;
         this.is_available = is_available;
+        this.has_price = has_price;
         this.rate = rate;
 
         this.numberOfComments = numberOfComments.toString();
