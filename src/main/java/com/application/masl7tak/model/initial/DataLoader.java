@@ -962,7 +962,6 @@ public class DataLoader implements CommandLineRunner {
         product.setName("صيانة 10 الاف");
         product.setDescription("A sample product for testing.");
         product.setImage("new_product_image.png");
-        product.setPrice(10);
         product.setBusiness(businessRepository.findById(1L).orElseThrow());
         productsRepository.save(product);
 
@@ -971,7 +970,6 @@ public class DataLoader implements CommandLineRunner {
         product.setDescription("A sample product for testing.");
         product.setImage("new_product_image.png");
         product.setBusiness(businessRepository.findById(1L).orElseThrow());
-        product.setPrice(10);
         productsRepository.save(product);
         Business business = new Business();
 
@@ -980,7 +978,6 @@ public class DataLoader implements CommandLineRunner {
         product = new Products();
         product.setName("غسيل بره و جوا");
         product.setDescription("A sample product for testing.");
-        product.setPrice(10);
         product.setImage("new_product_image.png");
         product.setBusiness(business);
         productsRepository.save(product);
@@ -988,7 +985,6 @@ public class DataLoader implements CommandLineRunner {
         product = new Products();
         product.setName("غسيل بره و جوا");
         product.setDescription("A sample product for testing.");
-        product.setPrice(10);
         product.setImage("new_product_image.png");
         product.setBusiness(businessRepository.findById(2L).orElseThrow());
         productsRepository.save(product);
@@ -996,7 +992,6 @@ public class DataLoader implements CommandLineRunner {
 
         product.setName("غسل ماطور");
         product.setDescription("A sample product for testing.");
-        product.setPrice(10);
         product.setImage("new_product_image.png");
         product.setBusiness(businessRepository.findById(3L).orElseThrow());
         productsRepository.save(product);
@@ -1005,7 +1000,6 @@ public class DataLoader implements CommandLineRunner {
 
         product.setName("المجموعه كامله");
         product.setDescription("A sample product for testing.");
-        product.setPrice(10);
         product.setImage("new_product_image.png");
         product.setBusiness(business);
         productsRepository.save(product);
@@ -1015,7 +1009,6 @@ public class DataLoader implements CommandLineRunner {
 
         product.setName("صيانة 40 الاف ");
         product.setDescription("A sample product for testing.");
-        product.setPrice(10);
         product.setImage("new_product_image.png");
         product.setBusiness(business);
         productsRepository.save(product);
@@ -1024,7 +1017,6 @@ public class DataLoader implements CommandLineRunner {
 
         product.setName("صيانة 80 الاف ");
         product.setDescription("A sample product for testing.");
-        product.setPrice(10);
         product.setImage("new_product_image.png");
         product.setBusiness(business);
         productsRepository.save(product);
@@ -1033,7 +1025,6 @@ public class DataLoader implements CommandLineRunner {
 
         product.setName("صيانة 10 الاف ");
         product.setDescription("A sample product for testing.");
-        product.setPrice(10);
         product.setImage("new_product_image.png");
         product.setBusiness(business);
         productsRepository.save(product);
@@ -1042,7 +1033,6 @@ public class DataLoader implements CommandLineRunner {
 
         product.setName("افلام حمايه");
         product.setDescription("A sample product for testing.");
-        product.setPrice(10);
         product.setImage("new_product_image.png");
         product.setBusiness(business);
         productsRepository.save(product);
@@ -1051,7 +1041,6 @@ public class DataLoader implements CommandLineRunner {
 
         product.setName("دهان سياره");
         product.setDescription("A sample product for testing.");
-        product.setPrice(10);
         product.setImage("new_product_image.png");
         product.setBusiness(business);
         productsRepository.save(product);
@@ -1060,16 +1049,6 @@ public class DataLoader implements CommandLineRunner {
 
         product.setName("قطع غيار MH");
         product.setDescription("A sample product for testing.");
-        product.setPrice(10);
-        product.setImage("new_product_image.png");
-        product.setBusiness(business);
-        productsRepository.save(product);
-        business = businessRepository.findById(6L).orElseThrow();
-        product = new Products();
-
-        product.setName("صيانة 10 الاف ");
-        product.setDescription("A sample product for testing.");
-        product.setPrice(10);
         product.setImage("new_product_image.png");
         product.setBusiness(business);
         productsRepository.save(product);
@@ -1079,7 +1058,14 @@ public class DataLoader implements CommandLineRunner {
         product.setName("صيانة 10 الاف ");
         product.setDescription("A sample product for testing.");
         product.setImage("new_product_image.png");
-        product.setPrice(10);
+        product.setBusiness(business);
+        productsRepository.save(product);
+        business = businessRepository.findById(6L).orElseThrow();
+        product = new Products();
+
+        product.setName("صيانة 10 الاف ");
+        product.setDescription("A sample product for testing.");
+        product.setImage("new_product_image.png");
         product.setBusiness(business);
         productsRepository.save(product);
         business = businessRepository.findById(6L).orElseThrow();
@@ -1087,10 +1073,8 @@ public class DataLoader implements CommandLineRunner {
 
         product.setName("غسيل بره و جو");
         product.setDescription("A sample product for testing.");
-        product.setPrice(10);
         product.setImage("new_product_image.png");
         product.setBusiness(business);
-        product.setPrice(10);
         productsRepository.save(product);
         business = businessRepository.findById(7L).orElseThrow();
         product = new Products();
@@ -1100,7 +1084,6 @@ public class DataLoader implements CommandLineRunner {
         product.setBusiness(business);
         product.setImage("new_product_image.png");
         productsRepository.save(product);
-        product.setPrice(10);
         business = businessRepository.findById(7L).orElseThrow();
         product = new Products();
 
@@ -1109,13 +1092,11 @@ public class DataLoader implements CommandLineRunner {
         product.setBusiness(business);
         product.setImage("new_product_image.png");
         productsRepository.save(product);
-        product.setPrice(10);
         business = businessRepository.findById(8L).orElseThrow();
         product = new Products();
 
         product.setName("افلام حماية");
         product.setDescription("A sample product for testing.");
-        product.setPrice(10);
         product.setImage("new_product_image.png");
         product.setBusiness(business);
         productsRepository.save(product);
@@ -1124,7 +1105,6 @@ public class DataLoader implements CommandLineRunner {
 
         product.setName("الزيت");
         product.setDescription("A sample product for testing.");
-        product.setPrice(10);
         product.setImage("new_product_image.png");
         product.setBusiness(business);
         productsRepository.save(product);
@@ -1133,7 +1113,6 @@ public class DataLoader implements CommandLineRunner {
 
         product.setName("قطع غيار MG");
         product.setDescription("A sample product for testing.");
-        product.setPrice(10);
         product.setImage("new_product_image.png");
         product.setBusiness(business);
         productsRepository.save(product);
