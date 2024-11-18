@@ -53,6 +53,7 @@ public class ServicesDTO {
         this.discount_value = discount_value;
         this.creationDate = creationDate;
         this.price = price;
+        this.has_price = has_price;
         this.model_id = model_id;
         this.brand_id = brand_id;
         this.validUntil = validUntil;
@@ -96,6 +97,7 @@ public class ServicesDTO {
         this.numberOfComments = numberOfComments.toString();
         this.readme_num = readme_num;
      this.price = price;
+     this.has_price = has_price;
 
      this.max_usage = max_usage;
         this.schedule_mode = schedule_mode;
@@ -153,6 +155,7 @@ public class ServicesDTO {
         this.validUntil = validUntil;
         this.category_id = category_id;
         this.rate = rate;
+        this.has_price = has_price;
         this.service_images = service_images;
         this.category_name = category_name;
         this.is_available = is_available;
