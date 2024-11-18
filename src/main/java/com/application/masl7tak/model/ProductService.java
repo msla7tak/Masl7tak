@@ -20,7 +20,7 @@ public class ProductService {
     private String description;
     private double discountValue;
     private double price =0.0;
-    private boolean has_price =false;
+    private int has_price =0;
     private String images;
     private String creationDate;
     private String validUntil;

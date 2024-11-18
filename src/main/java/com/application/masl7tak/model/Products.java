@@ -26,9 +26,6 @@ public class Products implements Serializable {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "price")
-    private double price;
-
 
     @Column(name = "image") // table
     private String image;

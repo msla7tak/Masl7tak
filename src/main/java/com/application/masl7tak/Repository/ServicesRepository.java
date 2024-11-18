@@ -27,9 +27,9 @@ public interface ServicesRepository extends JpaRepository<Services, Long> {
     @Query("SELECT MAX(s.discountValue) FROM Services s")
     Long findMaxValueField();
     @Query("SELECT  new com.application.masl7tak.dto.ServicesDTO(S.visit_num,S.id, S.discountValue,S.images, S.creationDate, S.validUntil, S.rate, S.category.id, " +
-            "S.carModel, S.carBrand, S.business.id, B.name, S.quantity, C.name, S.is_available, P.id, P.name, P.description, P.price, P.image, " +
+            "S.carModel, S.carBrand, S.business.id, B.name, S.quantity, C.name, S.is_available, P.id, P.name, P.description, S.price, P.image, " +
             " B.email, B.status, B.subscriptionType, B.description, B.logo, B.start_discount_val,count(R.id),S.readme_num,S.max_usage,B.working_days,S.schedule_mode" +
-            ",S.business_app_url_android,S.business_app_promo_code,S.business_app_url_ios) " +
+            ",S.business_app_url_android,S.business_app_promo_code,S.business_app_url_ios,S.has_price) " +
             " FROM Services S " +
             "JOIN S.products P " +
             "JOIN S.business B " +
@@ -38,9 +38,9 @@ public interface ServicesRepository extends JpaRepository<Services, Long> {
             "WHERE P.id = S.products.id AND B.id = S.business.id AND C.id = S.category.id and S.id=:id")
     ServicesDTO findBy_Id(@Param("id") Long id);
     @Query("SELECT  new com.application.masl7tak.dto.ServicesDTO(S.visit_num,S.id, S.discountValue,S.images, S.creationDate, S.validUntil, S.rate, S.category.id, " +
-            "S.carModel, S.carBrand, S.business.id, B.name, S.quantity, C.name, S.is_available, P.id, P.name, P.description, P.price, P.image, " +
+            "S.carModel, S.carBrand, S.business.id, B.name, S.quantity, C.name, S.is_available, P.id, P.name, P.description, S.price, P.image, " +
             " B.email, B.status, B.subscriptionType, B.description, B.logo, B.start_discount_val,count(R.id),S.readme_num,S.max_usage,B.working_days,S.schedule_mode" +
-            ",S.business_app_url_android,S.business_app_promo_code,S.business_app_url_ios) " +
+            ",S.business_app_url_android,S.business_app_promo_code,S.business_app_url_ios,S.has_price) " +
             " FROM Services S " +
             "JOIN S.products P " +
             "JOIN S.business B " +
@@ -56,8 +56,8 @@ public interface ServicesRepository extends JpaRepository<Services, Long> {
     @Query("SELECT new com.application.masl7tak.dto.ServicesDTO(S.id, S.discountValue,S.images, S.creationDate, S.validUntil,S.rate, S.category.id," +
             "S.carModel, S.carBrand, S.business.id, B.name, S.quantity, " +
             " C.name, S.is_available, " +
-            " P.id, P.name, P.description, P.price, P.image,  B.email, B.status, B.subscriptionType," +
-            " B.description,B.logo , B.start_discount_val,S.comments_num,S.readme_num,S.max_usage,B.working_days,S.schedule_mode,S.business_app_url_android,S.business_app_promo_code,S.business_app_url_ios)" +
+            " P.id, P.name, P.description, S.price, P.image,  B.email, B.status, B.subscriptionType," +
+            " B.description,B.logo , B.start_discount_val,S.comments_num,S.readme_num,S.max_usage,B.working_days,S.schedule_mode,S.business_app_url_android,S.business_app_promo_code,S.business_app_url_ios,S.has_price)" +
             " FROM Services S JOIN " +
             "S.products P " +
             "JOIN S.business B " +
@@ -69,8 +69,9 @@ public interface ServicesRepository extends JpaRepository<Services, Long> {
     @Query("SELECT new com.application.masl7tak.dto.ServicesDTO(S.id, S.discountValue,S.images, S.creationDate, S.validUntil, S.rate,S.category.id," +
             " S.carModel, S.carBrand,S.business.id, B.name, S.quantity, " +
             " C.name, S.is_available, " +
-            " P.id, P.name, P.description, P.price, P.image,  B.email, B.status, B.subscriptionType," +
-            " B.description,  B.logo , B.start_discount_val,S.comments_num,S.readme_num,S.max_usage,B.working_days,S.schedule_mode,S.business_app_url_android,S.business_app_promo_code,S.business_app_url_ios)" +
+            " P.id, P.name, P.description, S.price, P.image,  B.email, B.status, B.subscriptionType," +
+            " B.description,  B.logo , B.start_discount_val,S.comments_num,S.readme_num,S.max_usage," +
+            "B.working_days,S.schedule_mode,S.business_app_url_android,S.business_app_promo_code,S.business_app_url_ios,S.has_price)" +
             " FROM Services S " +
             "JOIN S.products P " +
             "JOIN S.business B " +
@@ -83,9 +84,9 @@ public interface ServicesRepository extends JpaRepository<Services, Long> {
 
 
     @Query("SELECT DISTINCT new com.application.masl7tak.dto.ServicesDTO(S.id, S.discountValue,S.images, S.creationDate, S.validUntil, S.rate, S.category.id, " +
-            "S.carModel, S.carBrand, S.business.id, B.name, S.quantity, C.name, S.is_available, P.id, P.name, P.description, P.price, P.image, " +
+            "S.carModel, S.carBrand, S.business.id, B.name, S.quantity, C.name, S.is_available, P.id, P.name, P.description, S.price, P.image, " +
             " B.email, B.status, B.subscriptionType, B.description, B.logo, B.start_discount_val,S.comments_num,S.readme_num,S.max_usage ,B.working_days,S.schedule_mode" +
-            ",S.business_app_url_android,S.business_app_promo_code,S.business_app_url_ios) " +
+            ",S.business_app_url_android,S.business_app_promo_code,S.business_app_url_ios,S.has_price) " +
             "FROM Services S " +
             "JOIN S.products P " +
             "JOIN S.business B " +
@@ -116,9 +117,9 @@ public interface ServicesRepository extends JpaRepository<Services, Long> {
                                              @Param("searchKey") String searchKey, LocalDate currentDate,
                                              PageRequest offset);
     @Query("SELECT DISTINCT new com.application.masl7tak.dto.ServicesDTO(S.id, S.discountValue,S.images, S.creationDate, S.validUntil, S.rate, S.category.id, " +
-            "S.carModel, S.carBrand, S.business.id, B.name, S.quantity, C.name, S.is_available, P.id, P.name, P.description, P.price, P.image, " +
+            "S.carModel, S.carBrand, S.business.id, B.name, S.quantity, C.name, S.is_available, P.id, P.name, P.description, S.price, P.image, " +
             " B.email, B.status, B.subscriptionType, B.description, B.logo, B.start_discount_val,S.comments_num,S.readme_num,S.max_usage ,B.working_days" +
-            ",S.schedule_mode,S.business_app_url_android,S.business_app_promo_code,S.business_app_url_ios) " +
+            ",S.schedule_mode,S.business_app_url_android,S.business_app_promo_code,S.business_app_url_ios,S.has_price) " +
             "FROM Services S " +
             "JOIN S.products P " +
             "JOIN S.business B " +
@@ -161,7 +162,7 @@ public interface ServicesRepository extends JpaRepository<Services, Long> {
     @Query("update Services b set b.rate = ((b.rate+ :rate)/2)  where b.id = :readmeId")
     void updateRate(Float rate, Long readmeId);
     @Query("SELECT DISTINCT new com.application.masl7tak.dto.ServicesDTO(S.id, S.discountValue,S.images, S.creationDate, S.validUntil, S.rate, S.category.id, " +
-            "S.carModel, S.carBrand, S.business.id, B.name, S.quantity, C.name, S.is_available, P.id, P.name, P.description, P.price, P.image, " +
+            "S.carModel, S.carBrand, S.business.id, B.name, S.quantity, C.name, S.is_available, P.id, P.name, P.description, S.price, P.image, " +
             " B.email, B.status, B.subscriptionType, B.description, B.logo, B.start_discount_val" +
             ",S.comments_num,S.readme_num,S.max_usage ,B.working_days,S.schedule_mode," +
             "((SELECT C.name from CarBrand C where S.carBrand= C.id )),S.eventOffers.id,S.business_app_url_android,S.business_app_promo_code,S.business_app_url_ios) " +
@@ -215,7 +216,7 @@ public interface ServicesRepository extends JpaRepository<Services, Long> {
             "s.is_available = COALESCE(:is_available, s.is_available) " +
             "WHERE s.id = :id", nativeQuery = true)
     void update(Long id, String images, double discountValue, Long carBrand, Long carModel,
-                int maxUsage, String validUntil, String is_available, int schedule_mode, Long category,double price,boolean has_price);
+                int maxUsage, String validUntil, String is_available, int schedule_mode, Long category,double price,int has_price);
 
     @Modifying
     @Query("update Services s set s.readme_num = (s.readme_num +1)  where s.id = :id")
@@ -234,9 +235,9 @@ public interface ServicesRepository extends JpaRepository<Services, Long> {
     @Query("SELECT NEW com.application.masl7tak.dto.ServicesDTO(S.visit_num,S.id, S.discountValue, S.images, S.creationDate, S.validUntil, S.rate, S.category.id, " +
             "S.carModel, S.carBrand, S.business.id, B.name, S.quantity, " +
             "C.name, S.is_available, " +
-            "P.id, P.name, P.description, P.price, P.image, B.email, B.status, B.subscriptionType, " +
+            "P.id, P.name, P.description, S.price, P.image, B.email, B.status, B.subscriptionType, " +
             "B.description, B.logo, B.start_discount_val, S.comments_num, S.readme_num, S.max_usage, B.working_days," +
-            " S.schedule_mode,S.business_app_url_android,S.business_app_promo_code,S.business_app_url_ios) " +
+            " S.schedule_mode,S.business_app_url_android,S.business_app_promo_code,S.business_app_url_ios,S.has_price) " +
             "FROM Services S " +
             "JOIN S.products P " +
             "JOIN S.business B " +
@@ -265,11 +266,11 @@ public interface ServicesRepository extends JpaRepository<Services, Long> {
     void clearCarModelEntities(Long id);
 @Query("SELECT DISTINCT new com.application.masl7tak.dto.ServicesDTO(S.id, S.discountValue,S.images, S.creationDate, S.validUntil, S.rate, S.category.id, " +
                 "S.carModel, S.carBrand, S.business.id, B.name, S.quantity, S.category.name, S.is_available, S.products.id," +
-        " S.products.name, S.products.description,S.products.price, S.products.image, " +
+        " S.products.name, S.products.description,S.price, S.products.image, " +
                 " B.email, B.status, B.subscriptionType, B.description, B.logo, " +
         "B.start_discount_val,S.comments_num,S.readme_num,S.max_usage " +
         ",B.working_days,S.schedule_mode," +
-        "((SELECT C.name from CarBrand C where S.carBrand= C.id )),S.eventOffers.id,S.business_app_url_android,S.business_app_promo_code,S.business_app_url_ios) " +
+        "((SELECT C.name from CarBrand C where S.carBrand= C.id )),S.eventOffers.id,S.business_app_url_android,S.business_app_promo_code,S.business_app_url_ios,S.has_price) " +
                 "FROM Services S  " +
                 "JOIN S.business B on B.id = :id " +
                 "JOIN S.business.branches Br " +
@@ -278,7 +279,8 @@ public interface ServicesRepository extends JpaRepository<Services, Long> {
     List<ServicesDTO> findAllBusinessServices(Long id);
 
     @Query("SELECT DISTINCT new com.application.masl7tak.dto.ServicesDTO(S.id, S.discountValue,S.images, S.creationDate, S.validUntil, S.rate, S.category.id, " +
-            "S.carModel, S.carBrand, S.business.id, B.name, S.quantity, S.category.name, S.is_available, S.products.id, S.products.name, S.products.description,S.products.price, S.products.image, " +
+            "S.carModel, S.carBrand, S.business.id, B.name, S.quantity, S.category.name, S.is_available, S.products.id, S.products.name," +
+            " S.products.description,S.price, S.products.image, " +
             " B.email, B.status, B.subscriptionType, B.description, B.logo, " +
             "B.start_discount_val,S.comments_num,S.readme_num,S.max_usage " +
             ",B.working_days,S.schedule_mode," +
@@ -290,9 +292,9 @@ public interface ServicesRepository extends JpaRepository<Services, Long> {
             " group by S.id")
     List<ServicesDTO> findAllEventServices(Long id);
     @Query("SELECT  new com.application.masl7tak.dto.ServicesDTO(S.visit_num,S.id, S.discountValue,S.images, S.creationDate, S.validUntil, S.rate, S.category.id, " +
-            "S.carModel, S.carBrand, S.business.id, B.name, S.quantity, C.name, S.is_available, P.id, P.name, P.description, P.price, P.image, " +
+            "S.carModel, S.carBrand, S.business.id, B.name, S.quantity, C.name, S.is_available, P.id, P.name, P.description, S.price, P.image, " +
             " B.email, B.status, B.subscriptionType, B.description, B.logo, B.start_discount_val,count(R.id),S.readme_num,S.max_usage,B.working_days,S.schedule_mode," +
-            "S.business_app_url_android,S.business_app_promo_code,S.business_app_url_ios) " +
+            "S.business_app_url_android,S.business_app_promo_code,S.business_app_url_ios,S.has_price) " +
             " FROM Services S " +
             "JOIN S.products P " +
             "JOIN S.business B " +

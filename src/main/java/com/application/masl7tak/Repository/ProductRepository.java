@@ -17,13 +17,13 @@ public interface ProductRepository extends JpaRepository<Products, Long> {
 
     @Query("select P from Products P where P.id=:id")
     Products findBy_Id(@Param("id") Long id);
-    @Query(value = "SELECT new com.application.masl7tak.dto.ProductDTO(P.id, P.name, P.description, P.price," +
+    @Query(value = "SELECT new com.application.masl7tak.dto.ProductDTO(P.id, P.name, P.description," +
             " P.image, P.business.id)  " +
             " FROM  Products P  where P.id=:id")
     ProductDTO find_ById(@Param("id") Long id);
 
     //Long id, String name, String description, double price, int quantity, String image, Long category, Long business
-    @Query(value = "SELECT new com.application.masl7tak.dto.ProductDTO(P.id, P.name, P.description, P.price," +
+    @Query(value = "SELECT new com.application.masl7tak.dto.ProductDTO(P.id, P.name, P.description," +
             " P.image, P.business.id) " +
             " FROM  Products P")
     List<ProductDTO> getAllProduct();

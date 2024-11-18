@@ -27,7 +27,7 @@ public class Services implements Serializable {
     @Column(name="price")
     private double price=0;
     @Column(name="has_price")
-    private Boolean has_price=false;
+    private int has_price=0;
     @Column(name = "discount_value")
     private double discountValue;
     @Column(name = "images")
