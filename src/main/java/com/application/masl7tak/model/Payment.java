@@ -28,7 +28,13 @@ public class Payment implements Serializable  {
     private Integer readme_id;
 
     @Column(name = "service_name")
-    private Integer service_name;
+    private String service_name;
+
+    @Column(name = "user_name")
+    private String user_name;
+
+    @Column(name = "business_name")
+    private String business_name;
 
     @Column(name = "service_id")
     private Integer service_id;
@@ -39,11 +45,17 @@ public class Payment implements Serializable  {
     @Column(name = "business_id")
     private Integer business_id;
 
+    @Column(name = "promo_code")
+    private String promo_code;
+
     @Column(name = "amount")
-    private String amount;
+    private Double amount;
 
     @Column(name = "promo_code_discount")
     private Double promo_code_discount;
+
+    @Column(name = "readme_discount")
+    private Double readme_discount;
 
     @Column(name = "paid_amount")
     private Double paid_amount;
